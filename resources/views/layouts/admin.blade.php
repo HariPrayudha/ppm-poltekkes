@@ -51,14 +51,14 @@
 
         <!-- Main Scrollable Body -->
         <main class="flex-1 overflow-y-auto w-full">
-            <div class="max-w-7xl w-full mx-auto px-4 py-8 sm:px-6 lg:px-8">
+            <div class="max-w-7xl w-full mx-auto px-4 py-6 sm:px-6 sm:py-7 lg:px-8 lg:py-8">
                 @yield('content')
                 {{ $slot ?? '' }}
             </div>
         </main>
 
         <!-- Admin Footer (Pinned at Bottom, Non-scrolling) -->
-        <footer class="shrink-0 border-t border-slate-200/80 bg-white py-3.5 px-6 text-center text-xs text-slate-400 z-20">
+        <footer class="shrink-0 border-t border-slate-200/80 bg-white py-3 px-4 sm:px-6 text-center text-[11px] sm:text-xs text-slate-400 z-20">
             &copy; {{ date('Y') }} Pusat Penjaminan Mutu (PPM) Poltekkes Kemenkes Medan. Seluruh hak cipta dilindungi.
         </footer>
     </div>

@@ -2,7 +2,7 @@
     $user = auth()->user();
 @endphp
 
-<header class="sticky top-0 z-30 flex h-18 w-full items-center justify-between border-b border-slate-200/80 bg-white/95 px-4 sm:px-6 lg:px-8 backdrop-blur-md shadow-2xs">
+<header class="sticky top-0 z-30 flex h-18 w-full items-center justify-between border-b border-slate-200/80 bg-white/95 px-3.5 sm:px-6 lg:px-8 backdrop-blur-md shadow-2xs">
     <!-- Left: Hamburger Toggle, Mobile Brand Context & Desktop Breadcrumb -->
     <div class="flex items-center gap-3 sm:gap-4 min-w-0">
         <!-- Mobile Sidebar Toggle Button -->

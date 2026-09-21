@@ -7,7 +7,7 @@
 <div id="sidebar-overlay" class="fixed inset-0 z-40 bg-slate-950/40 backdrop-blur-sm hidden lg:hidden"></div>
 
 <!-- Sidebar Container -->
-<aside id="admin-sidebar" class="fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-slate-200/80 bg-white shadow-xl lg:shadow-none transition-transform duration-300 -translate-x-full lg:translate-x-0">
+<aside id="admin-sidebar" class="fixed inset-y-0 left-0 z-50 flex w-64 max-w-[85vw] flex-col border-r border-slate-200/80 bg-white shadow-xl lg:shadow-none transition-transform duration-300 -translate-x-full lg:translate-x-0">
     <!-- Fixed Sidebar Header / Brand Logo (Non-scrolling) -->
     <div class="shrink-0 h-18 flex items-center justify-between px-5 border-b border-slate-200/80 bg-white">
         <a href="{{ route('admin.dashboard') }}" class="flex items-center">
