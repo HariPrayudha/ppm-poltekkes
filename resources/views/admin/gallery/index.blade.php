@@ -25,9 +25,15 @@
             @foreach($galleries as $item)
                 <div class="group flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-all hover:shadow-md hover:border-slate-300">
                     <!-- Photo Image -->
-                    <div class="relative aspect-video w-full overflow-hidden bg-slate-100">
-                        <img src="{{ $item->image_url }}" alt="{{ $item->title }}" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105">
-                        <div class="absolute bottom-2 left-2 rounded-lg bg-black/60 backdrop-blur-xs px-2.5 py-1 text-[11px] font-semibold text-white">
+                    <div class="relative aspect-video w-full overflow-hidden bg-slate-100 cursor-pointer group/photo"
+                         data-preview-image="{{ $item->image_url }}"
+                         data-preview-title="{{ $item->title }}"
+                         title="Klik untuk memperbesar foto">
+                        <img src="{{ $item->image_url }}" alt="{{ $item->title }}" class="h-full w-full object-cover transition-transform duration-300 group-hover/photo:scale-105">
+                        <div class="absolute inset-0 bg-slate-950/20 opacity-0 group-hover/photo:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
+                            <i data-feather="zoom-in" class="h-6 w-6 text-white drop-shadow-md"></i>
+                        </div>
+                        <div class="absolute bottom-2 left-2 rounded-lg bg-black/60 backdrop-blur-xs px-2.5 py-1 text-[11px] font-semibold text-white pointer-events-none">
                             {{ $item->event_date ? $item->event_date->isoFormat('D MMMM Y') : '' }}
                         </div>
                     </div>
@@ -44,10 +50,10 @@
                         @endif
 
                         <!-- Action Buttons -->
-                        <div class="mt-4 flex items-center justify-end gap-2 border-t border-slate-100 pt-3">
+                        <div class="mt-4 flex items-center justify-end gap-1.5 border-t border-slate-100 pt-3">
                             <button
                                 type="button"
-                                class="btn-icon btn-edit-gallery text-amber-600 hover:bg-amber-50"
+                                class="btn-icon btn-icon-lime btn-edit-gallery rounded-xl p-2 transition-all duration-200 shadow-2xs hover:shadow-xs active:scale-95 cursor-pointer"
                                 title="Edit Foto"
                                 data-action="{{ route('admin.gallery.update', $item) }}"
                                 data-gallery="{{ json_encode([
@@ -63,7 +69,7 @@
 
                             <button
                                 type="button"
-                                class="btn-icon text-rose-600 hover:bg-rose-50"
+                                class="btn-icon btn-icon-danger rounded-xl p-2 transition-all duration-200 shadow-2xs hover:shadow-xs active:scale-95 cursor-pointer"
                                 title="Hapus Foto"
                                 onclick="confirmDelete('delete-gallery-{{ $item->id }}', 'kegiatan {{ addslashes($item->title) }}')"
                             >

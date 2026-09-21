@@ -92,24 +92,12 @@
 
             <!-- Remember Me -->
             <div class="flex items-center justify-between">
-                <label for="remember" class="group flex items-center gap-2.5 cursor-pointer select-none py-1">
-                    <div class="relative flex items-center justify-center">
-                        <input
-                            type="checkbox"
-                            name="remember"
-                            id="remember"
-                            value="1"
-                            {{ old('remember') ? 'checked' : '' }}
-                            class="peer sr-only"
-                        >
-                        <div class="h-4.5 w-4.5 rounded-md border border-slate-300 bg-white shadow-2xs transition-all duration-200 peer-hover:border-[#0BB5CB] peer-focus-visible:ring-4 peer-focus-visible:ring-[#0BB5CB]/20 peer-checked:border-[#00A99D] peer-checked:bg-linear-to-r peer-checked:from-[#00A99D] peer-checked:to-[#0BB5CB] flex items-center justify-center cursor-pointer">
-                            <svg class="h-3 w-3 text-white opacity-0 transition-opacity duration-200 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                            </svg>
-                        </div>
-                    </div>
-                    <span class="text-xs font-medium text-slate-600 transition-colors duration-200 group-hover:text-slate-900">Ingat saya</span>
-                </label>
+                <x-admin.form-checkbox
+                    name="remember"
+                    id="remember"
+                    label="Ingat saya"
+                    :checked="old('remember') ? true : false"
+                />
             </div>
 
             <!-- Submit Button with Silky Smooth Hover Gradient & Micro-Animation -->

@@ -66,6 +66,9 @@
     <!-- Modals Outlet -->
     @yield('modals')
 
+    <!-- Global Image Preview Lightbox Modal -->
+    <x-admin.image-modal />
+
     <!-- Dashboard Core JS -->
     <script src="{{ asset('dashboard/assets/js/dashboard.js') }}"></script>
 

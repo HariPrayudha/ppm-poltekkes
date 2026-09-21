@@ -122,9 +122,15 @@
 
                 <div class="grid grid-cols-2 gap-2.5 sm:gap-3">
                     @forelse($latestGallery as $item)
-                        <div class="group relative overflow-hidden rounded-xl border border-slate-200 bg-slate-100 aspect-video">
-                            <img src="{{ $item->image_url }}" alt="{{ $item->title }}" class="h-full w-full object-cover transition-transform group-hover:scale-105">
-                            <div class="absolute inset-0 bg-linear-to-t from-black/70 via-transparent to-transparent flex items-end p-2">
+                        <div class="group relative overflow-hidden rounded-xl border border-slate-200 bg-slate-100 aspect-video cursor-pointer"
+                             data-preview-image="{{ $item->image_url }}"
+                             data-preview-title="{{ $item->title }}"
+                             title="Klik untuk memperbesar foto">
+                            <img src="{{ $item->image_url }}" alt="{{ $item->title }}" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105">
+                            <div class="absolute inset-0 bg-slate-950/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
+                                <i data-feather="zoom-in" class="h-5 w-5 text-white drop-shadow-md"></i>
+                            </div>
+                            <div class="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/70 via-transparent to-transparent flex items-end p-2 pointer-events-none">
                                 <p class="text-[11px] font-semibold text-white line-clamp-1 leading-tight">{{ $item->title }}</p>
                             </div>
                         </div>

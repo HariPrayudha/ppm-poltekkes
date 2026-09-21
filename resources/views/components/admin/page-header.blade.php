@@ -12,7 +12,7 @@
     </div>
 
     @isset($actions)
-        <div class="flex flex-wrap items-center gap-2.5 w-full sm:w-auto">
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 w-full sm:w-auto [&>*]:w-full sm:[&>*]:w-auto [&>*]:justify-center">
             {{ $actions }}
         </div>
     @endisset

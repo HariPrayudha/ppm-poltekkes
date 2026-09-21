@@ -23,6 +23,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 6. User Profile Dropdown
   initUserProfileDropdown();
+
+  // 7. Global Image Lightbox Preview Modal
+  initImagePreviewModal();
 });
 
 /* ==========================================================================
@@ -95,7 +98,7 @@ function initModals() {
   // ESC key listener
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
-      const activeModal = document.querySelector('.dashboard-modal:not(.hidden)');
+      const activeModal = document.querySelector('.dashboard-modal.modal-open');
       if (activeModal) {
         closeModal(activeModal);
       }
@@ -132,6 +135,13 @@ function openModal(modalId, triggerBtn = null) {
   modal.classList.remove('hidden');
   document.body.classList.add('overflow-hidden');
 
+  // Trigger smooth entrance animation in next animation frames
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      modal.classList.add('modal-open');
+    });
+  });
+
   if (typeof feather !== 'undefined') {
     feather.replace();
   }
@@ -139,19 +149,28 @@ function openModal(modalId, triggerBtn = null) {
   // Focus first input
   const firstInput = modal.querySelector('input:not([type="hidden"]), select, textarea');
   if (firstInput) {
-    setTimeout(() => firstInput.focus(), 50);
+    setTimeout(() => firstInput.focus(), 150);
   }
 }
 
 function closeModal(modal) {
   if (!modal) return;
-  modal.classList.add('hidden');
+  if (modal.classList.contains('is-closing')) return;
 
-  // If no other modals are open, restore body scroll
-  const hasOpenModals = document.querySelector('.dashboard-modal:not(.hidden)');
-  if (!hasOpenModals) {
-    document.body.classList.remove('overflow-hidden');
-  }
+  modal.classList.add('is-closing');
+  modal.classList.remove('modal-open');
+
+  // Wait for transition before hiding
+  setTimeout(() => {
+    modal.classList.add('hidden');
+    modal.classList.remove('is-closing');
+
+    // If no other modals are open, restore body scroll
+    const hasOpenModals = document.querySelector('.dashboard-modal.modal-open');
+    if (!hasOpenModals) {
+      document.body.classList.remove('overflow-hidden');
+    }
+  }, 220);
 }
 
 window.openDashboardModal = openModal;
@@ -388,3 +407,41 @@ function initUserProfileDropdown() {
     }
   });
 }
+
+/* ==========================================================================
+   Global Image Lightbox Preview Modal
+   ========================================================================== */
+function initImagePreviewModal() {
+  document.addEventListener('click', (e) => {
+    const trigger = e.target.closest('[data-preview-image]');
+    if (trigger) {
+      e.preventDefault();
+      const imageUrl = trigger.getAttribute('data-preview-image');
+      const imageTitle = trigger.getAttribute('data-preview-title') || 'Pratinjau Gambar';
+      openImagePreviewModal(imageUrl, imageTitle);
+    }
+  });
+}
+
+function openImagePreviewModal(imageUrl, title = 'Pratinjau Gambar') {
+  if (!imageUrl) return;
+
+  const imgElem = document.getElementById('global-image-modal-img');
+  const titleElem = document.getElementById('global-image-modal-title');
+  const linkElem = document.getElementById('global-image-modal-link');
+
+  if (imgElem) {
+    imgElem.src = imageUrl;
+    imgElem.alt = title;
+  }
+  if (titleElem) {
+    titleElem.textContent = title;
+  }
+  if (linkElem) {
+    linkElem.href = imageUrl;
+  }
+
+  openModal('modal-global-image-preview');
+}
+
+window.openImagePreviewModal = openImagePreviewModal;
