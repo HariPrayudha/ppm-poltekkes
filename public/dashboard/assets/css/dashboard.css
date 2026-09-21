@@ -208,3 +208,14 @@ input[type="checkbox"]:checked + div svg {
   opacity: 1 !important;
 }
 
+/* User Profile Dropdown Open state */
+#user-profile-menu.open #user-profile-dropdown {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  transform: translateY(0) !important;
+}
+#user-profile-menu.open #user-profile-btn i[data-feather="chevron-down"],
+#user-profile-menu.open #user-profile-btn svg.feather-chevron-down {
+  transform: rotate(180deg) !important;
+}
+

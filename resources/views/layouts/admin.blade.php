@@ -26,7 +26,7 @@
 
     @stack('styles')
 </head>
-<body class="min-h-screen bg-[#f8fafc] text-slate-900 antialiased flex">
+<body class="h-screen overflow-hidden bg-[#f8fafc] text-slate-900 antialiased flex">
 
     <!-- Floating Toast Notification Container (Fixed Top-Right) -->
     <div id="toast-container"
@@ -44,19 +44,21 @@
     <!-- Admin Sidebar -->
     <x-layouts.admin-sidebar />
 
-    <!-- Main Content Wrapper -->
-    <div class="flex flex-1 flex-col lg:pl-64 min-w-0 transition-all">
+    <!-- Main Content Wrapper (Fixed Height Viewport) -->
+    <div class="flex flex-1 flex-col lg:pl-64 min-w-0 h-screen overflow-hidden transition-all">
         <!-- Admin Header -->
         <x-layouts.admin-header />
 
-        <!-- Main Body -->
-        <main class="flex-1 px-4 py-8 sm:px-6 lg:px-8 max-w-7xl w-full mx-auto">
-            @yield('content')
-            {{ $slot ?? '' }}
+        <!-- Main Scrollable Body -->
+        <main class="flex-1 overflow-y-auto w-full">
+            <div class="max-w-7xl w-full mx-auto px-4 py-8 sm:px-6 lg:px-8">
+                @yield('content')
+                {{ $slot ?? '' }}
+            </div>
         </main>
 
-        <!-- Admin Footer -->
-        <footer class="border-t border-slate-200/80 bg-white py-4 px-6 text-center text-xs text-slate-400">
+        <!-- Admin Footer (Pinned at Bottom, Non-scrolling) -->
+        <footer class="shrink-0 border-t border-slate-200/80 bg-white py-3.5 px-6 text-center text-xs text-slate-400 z-20">
             &copy; {{ date('Y') }} Pusat Penjaminan Mutu (PPM) Poltekkes Kemenkes Medan. Seluruh hak cipta dilindungi.
         </footer>
     </div>

@@ -1,6 +1,6 @@
 /**
- * Dashboard JavaScript — PPM Poltekkes Kemenkes Medan
- * Handles Sidebar, Modal System, Floating Toast Notifications, and Global Utilities
+ * Dashboard JavaScript | PPM Poltekkes Kemenkes Medan
+ * Handles Sidebar, Modal System, Floating Toast Notifications, User Profile Dropdown, and Global Utilities
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -20,6 +20,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 5. Form Submitting State Helper
   initFormSubmits();
+
+  // 6. User Profile Dropdown
+  initUserProfileDropdown();
 });
 
 /* ==========================================================================
@@ -353,3 +356,35 @@ window.confirmDelete = function(formId, itemName = 'data ini') {
     }
   });
 };
+
+/* ==========================================================================
+   Header User Profile Dropdown (Mobile Click Toggle & Outside Click)
+   ========================================================================== */
+function initUserProfileDropdown() {
+  const profileMenu = document.getElementById('user-profile-menu');
+  const profileBtn = document.getElementById('user-profile-btn');
+
+  if (!profileMenu || !profileBtn) return;
+
+  profileBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isOpen = profileMenu.classList.toggle('open');
+    profileBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+
+  // Close dropdown on click outside
+  document.addEventListener('click', (e) => {
+    if (!profileMenu.contains(e.target)) {
+      profileMenu.classList.remove('open');
+      profileBtn.setAttribute('aria-expanded', 'false');
+    }
+  });
+
+  // Close on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && profileMenu.classList.contains('open')) {
+      profileMenu.classList.remove('open');
+      profileBtn.setAttribute('aria-expanded', 'false');
+    }
+  });
+}

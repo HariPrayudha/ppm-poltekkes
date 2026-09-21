@@ -7,29 +7,27 @@
 <div id="sidebar-overlay" class="fixed inset-0 z-40 bg-slate-950/40 backdrop-blur-sm hidden lg:hidden"></div>
 
 <!-- Sidebar Container -->
-<aside id="admin-sidebar" class="fixed inset-y-0 left-0 z-50 flex w-64 flex-col justify-between border-r border-slate-200/80 bg-white shadow-xl lg:shadow-none transition-transform duration-300 -translate-x-full lg:translate-x-0">
-    <div class="flex flex-col flex-1 overflow-y-auto">
-        <!-- Logo / Brand -->
-        <div class="flex h-16 items-center justify-between px-6 border-b border-slate-100">
-            <a href="{{ route('admin.dashboard') }}" class="flex items-center">
-                <img src="{{ asset('dashboard/assets/image/logo-text-kemnaker.png') }}" alt="PPM Poltekkes Kemenkes Medan" class="h-9 w-auto max-w-45 object-contain">
-            </a>
-            <button type="button" id="btn-sidebar-close" class="lg:hidden rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-600">
-                <i data-feather="x" class="h-5 w-5"></i>
-            </button>
-        </div>
+<aside id="admin-sidebar" class="fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-slate-200/80 bg-white shadow-xl lg:shadow-none transition-transform duration-300 -translate-x-full lg:translate-x-0">
+    <!-- Fixed Sidebar Header / Brand Logo (Non-scrolling) -->
+    <div class="shrink-0 h-18 flex items-center justify-between px-5 border-b border-slate-200/80 bg-white">
+        <a href="{{ route('admin.dashboard') }}" class="flex items-center">
+            <img src="{{ asset('dashboard/assets/image/logo-text-kemnaker.png') }}" alt="PPM Poltekkes Kemenkes Medan" class="h-11 sm:h-12 w-auto max-w-[195px] object-contain">
+        </a>
+        <button type="button" id="btn-sidebar-close" class="lg:hidden rounded-xl p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition-colors cursor-pointer">
+            <i data-feather="x" class="h-5 w-5"></i>
+        </button>
+    </div>
 
-        <!-- Navigation Menu Items -->
-        <nav class="flex-1 space-y-6 px-3 py-5">
+    <!-- Navigation Menu Items (Scrollable Body) -->
+    <div class="flex-1 overflow-y-auto">
+        <nav class="space-y-6 px-3 py-5 pb-8">
             <!-- Group: Utama -->
             <div>
                 <p class="px-3 text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-2">Utama</p>
                 <div class="space-y-1">
-                    <a href="{{ route('admin.dashboard') }}"
-                       class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-all {{ request()->routeIs('admin.dashboard') ? 'bg-[rgba(11,181,203,0.08)] text-[#028DA9] font-bold shadow-xs' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900 font-medium' }}">
-                        <i data-feather="home" class="h-4 w-4 shrink-0 {{ request()->routeIs('admin.dashboard') ? 'text-[#028DA9]' : 'text-slate-400' }}"></i>
-                        <span>Dashboard</span>
-                    </a>
+                    <x-layouts.sidebar-link :href="route('admin.dashboard')" icon="home" :active="request()->routeIs('admin.dashboard')">
+                        Dashboard
+                    </x-layouts.sidebar-link>
                 </div>
             </div>
 
@@ -37,26 +35,18 @@
             <div>
                 <p class="px-3 text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-2">Konten Beranda</p>
                 <div class="space-y-1">
-                    <a href="{{ route('admin.banners.index') }}"
-                       class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-all {{ request()->routeIs('admin.banners.*') ? 'bg-[rgba(11,181,203,0.08)] text-[#028DA9] font-bold shadow-xs' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900 font-medium' }}">
-                        <i data-feather="image" class="h-4 w-4 shrink-0 {{ request()->routeIs('admin.banners.*') ? 'text-[#028DA9]' : 'text-slate-400' }}"></i>
-                        <span>Hero Banner</span>
-                    </a>
-                    <a href="{{ route('admin.greeting.index') }}"
-                       class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-all {{ request()->routeIs('admin.greeting.*') ? 'bg-[rgba(11,181,203,0.08)] text-[#028DA9] font-bold shadow-xs' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900 font-medium' }}">
-                        <i data-feather="user" class="h-4 w-4 shrink-0 {{ request()->routeIs('admin.greeting.*') ? 'text-[#028DA9]' : 'text-slate-400' }}"></i>
-                        <span>Sambutan Pimpinan</span>
-                    </a>
-                    <a href="{{ route('admin.services.index') }}"
-                       class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-all {{ request()->routeIs('admin.services.*') ? 'bg-[rgba(11,181,203,0.08)] text-[#028DA9] font-bold shadow-xs' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900 font-medium' }}">
-                        <i data-feather="grid" class="h-4 w-4 shrink-0 {{ request()->routeIs('admin.services.*') ? 'text-[#028DA9]' : 'text-slate-400' }}"></i>
-                        <span>Layanan Mutu</span>
-                    </a>
-                    <a href="{{ route('admin.related-links.index') }}"
-                       class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-all {{ request()->routeIs('admin.related-links.*') ? 'bg-[rgba(11,181,203,0.08)] text-[#028DA9] font-bold shadow-xs' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900 font-medium' }}">
-                        <i data-feather="link-2" class="h-4 w-4 shrink-0 {{ request()->routeIs('admin.related-links.*') ? 'text-[#028DA9]' : 'text-slate-400' }}"></i>
-                        <span>Link Terkait</span>
-                    </a>
+                    <x-layouts.sidebar-link :href="route('admin.banners.index')" icon="image" :active="request()->routeIs('admin.banners.*')">
+                        Hero Banner
+                    </x-layouts.sidebar-link>
+                    <x-layouts.sidebar-link :href="route('admin.greeting.index')" icon="user" :active="request()->routeIs('admin.greeting.*')">
+                        Sambutan Pimpinan
+                    </x-layouts.sidebar-link>
+                    <x-layouts.sidebar-link :href="route('admin.services.index')" icon="grid" :active="request()->routeIs('admin.services.*')">
+                        Layanan Mutu
+                    </x-layouts.sidebar-link>
+                    <x-layouts.sidebar-link :href="route('admin.related-links.index')" icon="link-2" :active="request()->routeIs('admin.related-links.*')">
+                        Link Terkait
+                    </x-layouts.sidebar-link>
                 </div>
             </div>
 
@@ -64,21 +54,15 @@
             <div>
                 <p class="px-3 text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-2">Dokumen & SPMI</p>
                 <div class="space-y-1">
-                    <a href="{{ route('admin.profile.index') }}"
-                       class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-all {{ request()->routeIs('admin.profile.*') ? 'bg-[rgba(11,181,203,0.08)] text-[#028DA9] font-bold shadow-xs' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900 font-medium' }}">
-                        <i data-feather="users" class="h-4 w-4 shrink-0 {{ request()->routeIs('admin.profile.*') ? 'text-[#028DA9]' : 'text-slate-400' }}"></i>
-                        <span>Struktur & Tupoksi</span>
-                    </a>
-                    <a href="{{ route('admin.document-categories.index') }}"
-                       class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-all {{ request()->routeIs('admin.document-categories.*') ? 'bg-[rgba(11,181,203,0.08)] text-[#028DA9] font-bold shadow-xs' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900 font-medium' }}">
-                        <i data-feather="folder" class="h-4 w-4 shrink-0 {{ request()->routeIs('admin.document-categories.*') ? 'text-[#028DA9]' : 'text-slate-400' }}"></i>
-                        <span>Kategori Dokumen</span>
-                    </a>
-                    <a href="{{ route('admin.documents.index') }}"
-                       class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-all {{ request()->routeIs('admin.documents.*') ? 'bg-[rgba(11,181,203,0.08)] text-[#028DA9] font-bold shadow-xs' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900 font-medium' }}">
-                        <i data-feather="file-text" class="h-4 w-4 shrink-0 {{ request()->routeIs('admin.documents.*') ? 'text-[#028DA9]' : 'text-slate-400' }}"></i>
-                        <span>Dokumen & SOP</span>
-                    </a>
+                    <x-layouts.sidebar-link :href="route('admin.profile.index')" icon="users" :active="request()->routeIs('admin.profile.*')">
+                        Struktur & Tupoksi
+                    </x-layouts.sidebar-link>
+                    <x-layouts.sidebar-link :href="route('admin.document-categories.index')" icon="folder" :active="request()->routeIs('admin.document-categories.*')">
+                        Kategori Dokumen
+                    </x-layouts.sidebar-link>
+                    <x-layouts.sidebar-link :href="route('admin.documents.index')" icon="file-text" :active="request()->routeIs('admin.documents.*')">
+                        Dokumen & SOP
+                    </x-layouts.sidebar-link>
                 </div>
             </div>
 
@@ -86,16 +70,12 @@
             <div>
                 <p class="px-3 text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-2">Media & Informasi</p>
                 <div class="space-y-1">
-                    <a href="{{ route('admin.gallery.index') }}"
-                       class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-all {{ request()->routeIs('admin.gallery.*') ? 'bg-[rgba(11,181,203,0.08)] text-[#028DA9] font-bold shadow-xs' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900 font-medium' }}">
-                        <i data-feather="camera" class="h-4 w-4 shrink-0 {{ request()->routeIs('admin.gallery.*') ? 'text-[#028DA9]' : 'text-slate-400' }}"></i>
-                        <span>Galeri Kegiatan</span>
-                    </a>
-                    <a href="{{ route('admin.contact.index') }}"
-                       class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-all {{ request()->routeIs('admin.contact.*') ? 'bg-[rgba(11,181,203,0.08)] text-[#028DA9] font-bold shadow-xs' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900 font-medium' }}">
-                        <i data-feather="phone" class="h-4 w-4 shrink-0 {{ request()->routeIs('admin.contact.*') ? 'text-[#028DA9]' : 'text-slate-400' }}"></i>
-                        <span>Kontak & Footer</span>
-                    </a>
+                    <x-layouts.sidebar-link :href="route('admin.gallery.index')" icon="camera" :active="request()->routeIs('admin.gallery.*')">
+                        Galeri Kegiatan
+                    </x-layouts.sidebar-link>
+                    <x-layouts.sidebar-link :href="route('admin.contact.index')" icon="phone" :active="request()->routeIs('admin.contact.*')">
+                        Kontak & Footer
+                    </x-layouts.sidebar-link>
                 </div>
             </div>
 
@@ -104,39 +84,12 @@
                 <div>
                     <p class="px-3 text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-2">Pengaturan</p>
                     <div class="space-y-1">
-                        <a href="{{ route('admin.users.index') }}"
-                           class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-all {{ request()->routeIs('admin.users.*') ? 'bg-[rgba(11,181,203,0.08)] text-[#028DA9] font-bold shadow-xs' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900 font-medium' }}">
-                            <i data-feather="user-check" class="h-4 w-4 shrink-0 {{ request()->routeIs('admin.users.*') ? 'text-[#028DA9]' : 'text-slate-400' }}"></i>
-                            <span>Kelola Pengguna</span>
-                        </a>
+                        <x-layouts.sidebar-link :href="route('admin.users.index')" icon="user-check" :active="request()->routeIs('admin.users.*')">
+                            Kelola Pengguna
+                        </x-layouts.sidebar-link>
                     </div>
                 </div>
             @endif
         </nav>
-    </div>
-
-    <!-- User Profile Footer & Logout -->
-    <div class="border-t border-slate-100 p-4 bg-slate-50/50">
-        <div class="flex items-center justify-between">
-            <div class="flex items-center gap-3 min-w-0">
-                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-linear-to-tr from-[#00A99D] to-[#0BB5CB] text-white font-bold text-xs shadow-sm">
-                    {{ strtoupper(substr($user->name ?? 'A', 0, 2)) }}
-                </div>
-                <div class="min-w-0 flex-1">
-                    <p class="truncate text-xs font-bold text-slate-900">{{ $user->name ?? 'Pengguna' }}</p>
-                    <span class="inline-block rounded-md px-1.5 py-0.5 text-[10px] font-semibold {{ $user?->role?->badgeClass() ?? 'bg-slate-100 text-slate-700' }}">
-                        {{ $user?->role?->label() ?? 'Admin' }}
-                    </span>
-                </div>
-            </div>
-
-            <!-- Logout Form -->
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit" title="Keluar" class="rounded-xl p-2 text-slate-400 hover:bg-rose-50 hover:text-rose-600 transition-colors">
-                    <i data-feather="log-out" class="h-4 w-4"></i>
-                </button>
-            </form>
-        </div>
     </div>
 </aside>
