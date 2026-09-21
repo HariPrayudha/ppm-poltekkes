@@ -12,11 +12,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // Helper to render preview HTML with click-to-popup lightbox
   const renderPreviewHtml = (url, title, label = 'Pratinjau Gambar (Klik untuk memperbesar):') => `
     <p class="text-xs font-semibold text-slate-500 mb-1.5">${label}</p>
-    <div class="relative inline-block overflow-hidden rounded-xl border border-slate-200 bg-slate-50 p-1 group cursor-pointer"
+    <div class="relative inline-block overflow-hidden rounded-xl border border-slate-200 bg-slate-100 group cursor-pointer"
          data-preview-image="${url}"
          data-preview-title="${title}"
          title="Klik untuk memperbesar gambar">
-      <img src="${url}" alt="${title}" class="h-28 w-auto object-cover rounded-lg transition-transform duration-300 group-hover:scale-105">
+      <img src="${url}" alt="${title}" class="h-28 w-auto object-cover rounded-xl transition-transform duration-300 group-hover:scale-105">
       <div class="absolute inset-0 bg-slate-950/20 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl flex items-center justify-center pointer-events-none">
         <i data-feather="zoom-in" class="h-5 w-5 text-white drop-shadow-md"></i>
       </div>

@@ -21,20 +21,28 @@
                         <th class="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">Ikon</th>
                         <th class="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">Nama Layanan & Deskripsi</th>
                         <th class="px-6 py-3.5 text-center text-xs font-semibold uppercase tracking-wider text-slate-500">Status</th>
-                        <th class="px-6 py-3.5 text-right text-xs font-semibold uppercase tracking-wider text-slate-500">Aksi</th>
+                        <th class="px-6 py-3.5 text-center text-xs font-semibold uppercase tracking-wider text-slate-500">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100 bg-white">
                     @forelse($services as $service)
                         <tr class="hover:bg-slate-50/60 transition-colors">
                             <td class="px-6 py-4">
-                                <div class="flex h-12 w-12 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 shadow-xs">
-                                    @if($service->icon_url)
-                                        <img src="{{ $service->icon_url }}" alt="{{ $service->name }}" class="h-8 w-8 object-contain">
-                                    @else
-                                        <i data-feather="grid" class="h-5 w-5 text-slate-400"></i>
-                                    @endif
-                                </div>
+                                @if($service->icon_url)
+                                    <div class="group relative h-12 w-12 overflow-hidden rounded-xl border border-slate-200 bg-slate-100 shadow-xs cursor-pointer"
+                                         data-preview-image="{{ $service->icon_url }}"
+                                         data-preview-title="Ikon {{ $service->name }}"
+                                         title="Klik untuk memperbesar ikon">
+                                        <img src="{{ $service->icon_url }}" alt="{{ $service->name }}" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105">
+                                        <div class="absolute inset-0 bg-slate-950/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
+                                            <i data-feather="zoom-in" class="h-4 w-4 text-white drop-shadow-md"></i>
+                                        </div>
+                                    </div>
+                                @else
+                                    <div class="flex h-12 w-12 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 shadow-xs text-slate-400">
+                                        <i data-feather="grid" class="h-5 w-5"></i>
+                                    </div>
+                                @endif
                             </td>
                             <td class="px-6 py-4">
                                 <p class="text-sm font-bold text-slate-900">{{ $service->name }}</p>
@@ -51,11 +59,11 @@
                                     </button>
                                 </form>
                             </td>
-                            <td class="px-6 py-4 text-right">
-                                <div class="flex items-center justify-end gap-1.5">
+                            <td class="px-6 py-4 text-center">
+                                <div class="flex items-center justify-center gap-2">
                                     <button
                                         type="button"
-                                        class="btn-icon btn-edit-service text-amber-600 hover:bg-amber-50"
+                                        class="btn-icon btn-icon-lime btn-edit-service rounded-xl p-2 transition-all duration-200 shadow-2xs hover:shadow-xs active:scale-95 cursor-pointer"
                                         title="Edit Layanan"
                                         data-action="{{ route('admin.services.update', $service) }}"
                                         data-service="{{ json_encode([
@@ -71,7 +79,7 @@
 
                                     <button
                                         type="button"
-                                        class="btn-icon text-rose-600 hover:bg-rose-50"
+                                        class="btn-icon btn-icon-danger rounded-xl p-2 transition-all duration-200 shadow-2xs hover:shadow-xs active:scale-95 cursor-pointer"
                                         title="Hapus Layanan"
                                         onclick="confirmDelete('delete-service-{{ $service->id }}', 'layanan {{ addslashes($service->name) }}')"
                                     >
@@ -122,6 +130,7 @@
                     class="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-[rgba(11,181,203,0.1)] file:text-[#028DA9] hover:file:bg-[rgba(11,181,203,0.2)] file:cursor-pointer"
                 >
                 <p class="mt-1 text-[11px] text-slate-400">Format: PNG, SVG, WEBP, atau JPG. Maks 2MB.</p>
+                <div id="create-service-preview" class="hidden mt-2"></div>
             </div>
 
             <x-admin.form-input
@@ -138,14 +147,17 @@
                 placeholder="Penjelasan ringkas mengenai lingkup layanan..."
             />
 
-            <div class="pt-2">
-                <label class="flex items-center gap-2.5 cursor-pointer">
-                    <input type="checkbox" name="is_active" value="1" checked class="h-4 w-4 rounded border-slate-300 text-[#0BB5CB] focus:ring-[#0BB5CB]">
-                    <span class="text-sm font-semibold text-slate-700">Status Aktif</span>
-                </label>
+            <div class="pt-1">
+                <x-admin.form-checkbox
+                    name="is_active"
+                    id="create_is_active"
+                    label="Status Aktif"
+                    description="Layanan akan langsung ditampilkan pada daftar layanan publik di website."
+                    :checked="true"
+                />
             </div>
 
-            <div class="flex items-center justify-end gap-2.5 pt-4 border-t border-slate-100">
+            <div class="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-2.5 pt-4 border-t border-slate-100 [&>*]:w-full sm:[&>*]:w-auto">
                 <x-admin.btn-secondary data-modal-close>Batal</x-admin.btn-secondary>
                 <x-admin.btn-primary type="submit">Simpan Layanan</x-admin.btn-primary>
             </div>
@@ -185,14 +197,16 @@
                 rows="3"
             />
 
-            <div class="pt-2">
-                <label class="flex items-center gap-2.5 cursor-pointer">
-                    <input type="checkbox" name="is_active" value="1" class="h-4 w-4 rounded border-slate-300 text-[#0BB5CB] focus:ring-[#0BB5CB]">
-                    <span class="text-sm font-semibold text-slate-700">Status Aktif</span>
-                </label>
+            <div class="pt-1">
+                <x-admin.form-checkbox
+                    name="is_active"
+                    id="edit_is_active"
+                    label="Status Aktif"
+                    description="Aktifkan agar layanan tetap dapat diakses publik di website."
+                />
             </div>
 
-            <div class="flex items-center justify-end gap-2.5 pt-4 border-t border-slate-100">
+            <div class="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-2.5 pt-4 border-t border-slate-100 [&>*]:w-full sm:[&>*]:w-auto">
                 <x-admin.btn-secondary data-modal-close>Batal</x-admin.btn-secondary>
                 <x-admin.btn-primary type="submit">Perbarui Layanan</x-admin.btn-primary>
             </div>
