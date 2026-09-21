@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
       toolbar: 'undo redo | blocks | bold italic underline | bullist numlist | alignleft aligncenter alignright | link table | code preview',
       menubar: false,
       height: 420,
+      elementpath: false,
       content_style: 'body { font-family: Inter, sans-serif; font-size: 14px; line-height: 1.6; color: #334155; }',
       branding: false,
       promotion: false,

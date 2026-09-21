@@ -409,9 +409,48 @@ function initUserProfileDropdown() {
 }
 
 /* ==========================================================================
-   Global Image Lightbox Preview Modal
+   Global Image Lightbox Preview Modal with Gesture Zoom & Pan Engine
+   (Desktop: Mouse Wheel / Ctrl+Wheel + Click & Drag | Mobile: 2-Finger Pinch + Drag)
    ========================================================================== */
+let zoomScale = 1;
+let panX = 0;
+let panY = 0;
+let isDragging = false;
+let startDragX = 0;
+let startDragY = 0;
+
+function applyImageTransform(animated = false) {
+  const wrapper = document.getElementById('img-zoom-wrapper');
+  const container = document.getElementById('img-zoom-container');
+  if (!wrapper) return;
+
+  if (animated) {
+    wrapper.style.transition = 'transform 0.2s cubic-bezier(0.16, 1, 0.3, 1)';
+  } else {
+    wrapper.style.transition = 'none';
+  }
+
+  wrapper.style.transform = `translate3d(${panX}px, ${panY}px, 0) scale(${zoomScale})`;
+
+  if (container) {
+    if (zoomScale > 1.05) {
+      container.style.cursor = isDragging ? 'grabbing' : 'grab';
+    } else {
+      container.style.cursor = 'default';
+    }
+  }
+}
+
+function resetImageZoomAndPan(animated = false) {
+  zoomScale = 1;
+  panX = 0;
+  panY = 0;
+  isDragging = false;
+  applyImageTransform(animated);
+}
+
 function initImagePreviewModal() {
+  // Trigger from any [data-preview-image]
   document.addEventListener('click', (e) => {
     const trigger = e.target.closest('[data-preview-image]');
     if (trigger) {
@@ -419,6 +458,139 @@ function initImagePreviewModal() {
       const imageUrl = trigger.getAttribute('data-preview-image');
       const imageTitle = trigger.getAttribute('data-preview-title') || 'Pratinjau Gambar';
       openImagePreviewModal(imageUrl, imageTitle);
+    }
+  });
+
+  const container = document.getElementById('img-zoom-container');
+  if (!container) return;
+
+  // 1. Desktop: Mouse Wheel (with or without Ctrl) to Zoom In/Out
+  container.addEventListener(
+    'wheel',
+    (e) => {
+      e.preventDefault();
+      const zoomFactor = e.deltaY < 0 ? 1.15 : 0.87;
+      const newZoom = Math.min(Math.max(zoomScale * zoomFactor, 1), 4);
+
+      if (newZoom === 1) {
+        panX = 0;
+        panY = 0;
+      } else if (newZoom !== zoomScale) {
+        const rect = container.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left - rect.width / 2;
+        const mouseY = e.clientY - rect.top - rect.height / 2;
+        const scaleRatio = newZoom / zoomScale;
+        panX = mouseX - (mouseX - panX) * scaleRatio;
+        panY = mouseY - (mouseY - panY) * scaleRatio;
+      }
+
+      zoomScale = newZoom;
+      applyImageTransform(true);
+    },
+    { passive: false }
+  );
+
+  // 2. Desktop: Mouse Drag (Pan) when Zoomed In
+  container.addEventListener('mousedown', (e) => {
+    if (e.button !== 0) return; // Left click only
+    if (zoomScale <= 1.05) return; // Only drag when zoomed in
+
+    isDragging = true;
+    startDragX = e.clientX - panX;
+    startDragY = e.clientY - panY;
+    applyImageTransform(false);
+  });
+
+  window.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    panX = e.clientX - startDragX;
+    panY = e.clientY - startDragY;
+    applyImageTransform(false);
+  });
+
+  window.addEventListener('mouseup', () => {
+    if (isDragging) {
+      isDragging = false;
+      applyImageTransform(true);
+    }
+  });
+
+  // 3. Desktop: Double-Click to Toggle Zoom (1x <-> 2x)
+  container.addEventListener('dblclick', (e) => {
+    e.preventDefault();
+    if (zoomScale > 1.2) {
+      resetImageZoomAndPan(true);
+    } else {
+      zoomScale = 2;
+      panX = 0;
+      panY = 0;
+      applyImageTransform(true);
+    }
+  });
+
+  // 4. Mobile: Touch Events (2-Finger Pinch Zoom & 1-Finger Pan)
+  let initialTouchDist = 0;
+  let initialTouchZoom = 1;
+  let touchStartX = 0;
+  let touchStartY = 0;
+
+  container.addEventListener(
+    'touchstart',
+    (e) => {
+      if (e.touches.length === 2) {
+        e.preventDefault();
+        isDragging = false;
+        initialTouchDist = Math.hypot(
+          e.touches[0].clientX - e.touches[1].clientX,
+          e.touches[0].clientY - e.touches[1].clientY
+        );
+        initialTouchZoom = zoomScale;
+      } else if (e.touches.length === 1 && zoomScale > 1.05) {
+        isDragging = true;
+        touchStartX = e.touches[0].clientX - panX;
+        touchStartY = e.touches[0].clientY - panY;
+      }
+    },
+    { passive: false }
+  );
+
+  container.addEventListener(
+    'touchmove',
+    (e) => {
+      if (e.touches.length === 2) {
+        e.preventDefault();
+        const currentDist = Math.hypot(
+          e.touches[0].clientX - e.touches[1].clientX,
+          e.touches[0].clientY - e.touches[1].clientY
+        );
+        if (initialTouchDist > 0) {
+          const factor = currentDist / initialTouchDist;
+          zoomScale = Math.min(Math.max(initialTouchZoom * factor, 1), 4);
+          if (zoomScale === 1) {
+            panX = 0;
+            panY = 0;
+          }
+          applyImageTransform(false);
+        }
+      } else if (e.touches.length === 1 && isDragging) {
+        e.preventDefault();
+        panX = e.touches[0].clientX - touchStartX;
+        panY = e.touches[0].clientY - touchStartY;
+        applyImageTransform(false);
+      }
+    },
+    { passive: false }
+  );
+
+  container.addEventListener('touchend', (e) => {
+    if (e.touches.length === 0) {
+      isDragging = false;
+      if (zoomScale <= 1.05) {
+        resetImageZoomAndPan(true);
+      } else {
+        applyImageTransform(true);
+      }
     }
   });
 }
@@ -429,6 +601,9 @@ function openImagePreviewModal(imageUrl, title = 'Pratinjau Gambar') {
   const imgElem = document.getElementById('global-image-modal-img');
   const titleElem = document.getElementById('global-image-modal-title');
   const linkElem = document.getElementById('global-image-modal-link');
+
+  // Reset zoom & pan on each new open
+  resetImageZoomAndPan(false);
 
   if (imgElem) {
     imgElem.src = imageUrl;
@@ -445,3 +620,4 @@ function openImagePreviewModal(imageUrl, title = 'Pratinjau Gambar') {
 }
 
 window.openImagePreviewModal = openImagePreviewModal;
+window.resetImageZoomAndPan = resetImageZoomAndPan;
