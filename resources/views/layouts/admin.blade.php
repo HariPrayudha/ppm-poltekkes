@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ $title ?? 'Admin Panel' }} — PPM Poltekkes Kemenkes Medan</title>
+    <title>{{ $title ?? 'Admin Panel' }} | PPM Poltekkes Kemenkes Medan</title>
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="{{ asset('dashboard/assets/image/favicon-kemnaker.png') }}">
@@ -57,7 +57,7 @@
 
         <!-- Admin Footer -->
         <footer class="border-t border-slate-200/80 bg-white py-4 px-6 text-center text-xs text-slate-400">
-            &copy; {{ date('Y') }} Pusat Penjaminan Mutu (PPM) — Poltekkes Kemenkes Medan. Seluruh hak cipta dilindungi.
+            &copy; {{ date('Y') }} Pusat Penjaminan Mutu (PPM) Poltekkes Kemenkes Medan. Seluruh hak cipta dilindungi.
         </footer>
     </div>
 

@@ -6,7 +6,7 @@
                 <img src="{{ asset('dashboard/assets/image/logo-text-kemnaker.png') }}" alt="PPM Poltekkes Medan" class="h-14 w-auto max-w-65 object-contain">
             </div>
             <h1 class="text-2xl font-bold text-slate-900 tracking-tight">PPM Poltekkes Medan</h1>
-            <p class="mt-1 text-sm text-slate-500">Pusat Penjaminan Mutu — Portal Masuk Admin</p>
+            <p class="mt-1 text-sm text-slate-500">Pusat Penjaminan Mutu | Portal Masuk Admin</p>
         </div>
 
         <!-- Login Form -->
