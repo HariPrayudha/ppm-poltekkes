@@ -16,17 +16,17 @@
             <!-- Email Field -->
             @php
                 $emailError = $errors->has('email');
-                $emailClasses = 'w-full rounded-xl border pl-10 pr-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 transition-all focus:outline-none';
+                $emailClasses = 'w-full rounded-xl border pl-10 pr-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 transition-all duration-200 ease-in-out focus:outline-none';
                 $emailClasses .= $emailError
                     ? ' border-red-500 ring-4 ring-red-500/10 bg-white focus:border-red-500'
-                    : ' border-slate-200 bg-slate-50/50 focus:bg-white focus:border-[#0BB5CB] focus:ring-4 focus:ring-[#0BB5CB]/10';
+                    : ' border-slate-200 bg-slate-50/50 hover:bg-slate-50 hover:border-slate-300 focus:bg-white focus:border-[#0BB5CB] focus:ring-4 focus:ring-[#0BB5CB]/15';
             @endphp
             <div>
                 <label for="email" class="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-2">
                     Alamat Email
                 </label>
-                <div class="relative">
-                    <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
+                <div class="relative group">
+                    <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400 transition-colors duration-200 group-focus-within:text-[#0BB5CB]">
                         <i data-feather="mail" class="h-4 w-4"></i>
                     </div>
                     <input
@@ -51,17 +51,17 @@
             <!-- Password Field -->
             @php
                 $passwordError = $errors->has('password');
-                $passwordClasses = 'w-full rounded-xl border pl-10 pr-10 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 transition-all focus:outline-none';
+                $passwordClasses = 'w-full rounded-xl border pl-10 pr-10 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 transition-all duration-200 ease-in-out focus:outline-none';
                 $passwordClasses .= $passwordError
                     ? ' border-red-500 ring-4 ring-red-500/10 bg-white focus:border-red-500'
-                    : ' border-slate-200 bg-slate-50/50 focus:bg-white focus:border-[#0BB5CB] focus:ring-4 focus:ring-[#0BB5CB]/10';
+                    : ' border-slate-200 bg-slate-50/50 hover:bg-slate-50 hover:border-slate-300 focus:bg-white focus:border-[#0BB5CB] focus:ring-4 focus:ring-[#0BB5CB]/15';
             @endphp
             <div>
                 <label for="password" class="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-2">
                     Kata Sandi
                 </label>
-                <div class="relative">
-                    <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
+                <div class="relative group">
+                    <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400 transition-colors duration-200 group-focus-within:text-[#0BB5CB]">
                         <i data-feather="lock" class="h-4 w-4"></i>
                     </div>
                     <input
@@ -75,8 +75,9 @@
                     <button
                         type="button"
                         id="toggle-password-btn"
-                        class="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-slate-600"
+                        class="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-[#00A99D] transition-colors duration-200 focus:outline-none cursor-pointer"
                         tabindex="-1"
+                        aria-label="Tampilkan atau sembunyikan kata sandi"
                     >
                         <i data-feather="eye" class="h-4 w-4" id="toggle-password-icon"></i>
                     </button>
@@ -91,26 +92,41 @@
 
             <!-- Remember Me -->
             <div class="flex items-center justify-between">
-                <label class="flex items-center gap-2 cursor-pointer">
-                    <input
-                        type="checkbox"
-                        name="remember"
-                        id="remember"
-                        value="1"
-                        {{ old('remember') ? 'checked' : '' }}
-                        class="h-4 w-4 rounded border-slate-300 text-[#0BB5CB] focus:ring-[#0BB5CB]"
-                    >
-                    <span class="text-xs font-medium text-slate-600">Ingat saya</span>
+                <label for="remember" class="group flex items-center gap-2.5 cursor-pointer select-none py-1">
+                    <div class="relative flex items-center justify-center">
+                        <input
+                            type="checkbox"
+                            name="remember"
+                            id="remember"
+                            value="1"
+                            {{ old('remember') ? 'checked' : '' }}
+                            class="peer sr-only"
+                        >
+                        <div class="h-4.5 w-4.5 rounded-md border border-slate-300 bg-white shadow-2xs transition-all duration-200 peer-hover:border-[#0BB5CB] peer-focus-visible:ring-4 peer-focus-visible:ring-[#0BB5CB]/20 peer-checked:border-[#00A99D] peer-checked:bg-linear-to-r peer-checked:from-[#00A99D] peer-checked:to-[#0BB5CB] flex items-center justify-center cursor-pointer">
+                            <svg class="h-3 w-3 text-white opacity-0 transition-opacity duration-200 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                            </svg>
+                        </div>
+                    </div>
+                    <span class="text-xs font-medium text-slate-600 transition-colors duration-200 group-hover:text-slate-900">Ingat saya</span>
                 </label>
             </div>
 
-            <!-- Submit Button -->
+            <!-- Submit Button with Silky Smooth Hover Gradient & Micro-Animation -->
             <button
                 type="submit"
-                class="w-full flex items-center justify-center gap-2 rounded-xl bg-linear-to-r from-[#00A99D] to-[#0BB5CB] py-3 text-sm font-semibold text-white shadow-lg shadow-[#0BB5CB]/25 hover:from-[#028DA9] hover:to-[#028DA9] transition-all focus:outline-none focus:ring-4 focus:ring-[#0BB5CB]/20"
+                id="btn-login-submit"
+                data-loading-text="Memproses masuk..."
+                class="group relative w-full overflow-hidden rounded-xl bg-linear-to-r from-[#00A99D] to-[#0BB5CB] py-3 text-sm font-semibold text-white shadow-lg shadow-[#0BB5CB]/25 hover:shadow-xl hover:shadow-[#0BB5CB]/35 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] transition-all duration-300 ease-out focus:outline-none focus:ring-4 focus:ring-[#0BB5CB]/20 cursor-pointer"
             >
-                <i data-feather="log-in" class="h-4 w-4"></i>
-                Masuk ke Dashboard
+                <!-- Smooth Hover Gradient Overlay -->
+                <span class="absolute inset-0 bg-linear-to-r from-[#028DA9] to-[#00A99D] opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100"></span>
+
+                <!-- Content with Micro-movement -->
+                <span class="relative z-10 flex items-center justify-center gap-2">
+                    <i data-feather="log-in" class="h-4 w-4 transition-transform duration-300 ease-out group-hover:translate-x-1"></i>
+                    <span>Masuk ke Dashboard</span>
+                </span>
             </button>
         </form>
 
@@ -119,20 +135,6 @@
         </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const toggleBtn = document.getElementById('toggle-password-btn');
-            const passwordInput = document.getElementById('password');
-            const icon = document.getElementById('toggle-password-icon');
-
-            if (toggleBtn && passwordInput) {
-                toggleBtn.addEventListener('click', () => {
-                    const isPassword = passwordInput.type === 'password';
-                    passwordInput.type = isPassword ? 'text' : 'password';
-                    icon.setAttribute('data-feather', isPassword ? 'eye-off' : 'eye');
-                    if (typeof feather !== 'undefined') feather.replace();
-                });
-            }
-        });
-    </script>
+    <!-- External Script (Rule 1: No inline JS in Blade) -->
+    <script src="{{ asset('dashboard/assets/js/login.js') }}"></script>
 </x-layouts.auth>

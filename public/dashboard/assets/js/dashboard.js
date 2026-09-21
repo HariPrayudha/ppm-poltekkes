@@ -287,12 +287,35 @@ function initFormSubmits() {
       submitBtn.setAttribute('data-original-html', originalHtml);
       submitBtn.disabled = true;
       submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
+
+      // Conditional loading label
+      let loadingText = submitBtn.getAttribute('data-loading-text') || form.getAttribute('data-loading-text');
+
+      if (!loadingText) {
+        const text = (submitBtn.innerText || submitBtn.textContent || '').trim().toLowerCase();
+        if (text.includes('masuk') || text.includes('login')) {
+          loadingText = 'Memproses masuk...';
+        } else if (text.includes('perbarui') || text.includes('update') || text.includes('ubah')) {
+          loadingText = 'Memperbarui...';
+        } else if (text.includes('hapus') || text.includes('delete')) {
+          loadingText = 'Menghapus...';
+        } else if (text.includes('unggah') || text.includes('upload')) {
+          loadingText = 'Mengunggah...';
+        } else if (text.includes('keluar') || text.includes('logout')) {
+          loadingText = 'Keluar...';
+        } else if (text.includes('simpan') || text.includes('tambah')) {
+          loadingText = 'Menyimpan...';
+        } else {
+          loadingText = 'Memproses...';
+        }
+      }
+
       submitBtn.innerHTML = `
         <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-current inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
           <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
           <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
         </svg>
-        Menyimpan...
+        <span>${loadingText}</span>
       `;
     }
   });

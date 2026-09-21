@@ -181,3 +181,30 @@ body {
 .toast-item.toast-leave {
   animation: toastSlideOut 0.3s ease-in forwards;
 }
+
+/* ====== Form & Input Interactions ====== */
+/* Hide native browser password reveal and clear buttons (Edge, IE, Chrome) */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Smooth Focus & Transition Defaults */
+input,
+select,
+textarea,
+button {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 200ms;
+}
+
+/* Custom Checkbox SVG checkmark reveal */
+.peer:checked + div svg,
+input[type="checkbox"]:checked + div svg {
+  opacity: 1 !important;
+}
+
