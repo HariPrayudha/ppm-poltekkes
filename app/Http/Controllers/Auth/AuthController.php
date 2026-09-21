@@ -1,0 +1,73 @@
+<?php
+
+namespace App\Http\Controllers\Auth;
+
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\LoginRequest;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
+
+class AuthController extends Controller
+{
+    /**
+     * Show the login form.
+     */
+    public function showLogin(): View|RedirectResponse
+    {
+        if (Auth::check()) {
+            return redirect()->route('admin.dashboard');
+        }
+
+        return view('auth.login');
+    }
+
+    /**
+     * Handle an authentication attempt.
+     */
+    public function login(LoginRequest $request): RedirectResponse
+    {
+        $credentials = $request->safe()->only(['email', 'password']);
+        $remember = $request->boolean('remember');
+
+        if (Auth::attempt($credentials, $remember)) {
+            $user = Auth::user();
+
+            if (! $user->is_active) {
+                Auth::logout();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+
+                return back()->withErrors([
+                    'email' => 'Akun Anda dinonaktifkan. Silakan hubungi Super Admin.',
+                ]);
+            }
+
+            $request->session()->regenerate();
+
+            return redirect()->intended(route('admin.dashboard'))
+                ->with('toast_success', 'Selamat datang kembali, '.$user->name.'!');
+        }
+
+        return back()
+            ->withInput($request->only('email', 'remember'))
+            ->withErrors([
+                'email' => 'Email atau kata sandi yang Anda masukkan salah.',
+            ]);
+    }
+
+    /**
+     * Log the user out of the application.
+     */
+    public function logout(Request $request): RedirectResponse
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('login')
+            ->with('toast_info', 'Anda telah berhasil keluar.');
+    }
+}

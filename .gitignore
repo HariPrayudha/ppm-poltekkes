@@ -6,8 +6,10 @@
 .phpactor.json
 .phpunit.result.cache
 /.agents
+/AGENTS.md
 /.ai
 /.claude
+/CLAUDE.md
 /.codex
 /.cursor/
 /.idea

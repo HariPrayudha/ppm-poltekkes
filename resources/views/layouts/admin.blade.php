@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>{{ $title ?? 'Admin Panel' }} — PPM Poltekkes Kemenkes Medan</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ asset('dashboard/assets/image/favicon-kemnaker.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('dashboard/assets/image/favicon-kemnaker.png') }}">
+
+    <!-- Google Fonts Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Feather Icons CDN -->
+    <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+
+    <!-- SweetAlert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="stylesheet" href="{{ asset('dashboard/assets/css/dashboard.css') }}">
+
+    @stack('styles')
+</head>
+<body class="min-h-screen bg-[#f8fafc] text-slate-900 antialiased flex">
+
+    <!-- Floating Toast Notification Container (Fixed Top-Right) -->
+    <div id="toast-container"
+         class="fixed right-4 top-4 z-9999 flex flex-col gap-2 pointer-events-none"
+         @if(session('success')) data-toast-success="{{ session('success') }}" @endif
+         @if(session('error')) data-toast-error="{{ session('error') }}" @endif
+         @if(session('warning')) data-toast-warning="{{ session('warning') }}" @endif
+         @if(session('info')) data-toast-info="{{ session('info') }}" @endif
+         @if(session('toast_success')) data-toast-success="{{ session('toast_success') }}" @endif
+         @if(session('toast_error')) data-toast-error="{{ session('toast_error') }}" @endif
+         @if(session('toast_warning')) data-toast-warning="{{ session('toast_warning') }}" @endif
+         @if(session('toast_info')) data-toast-info="{{ session('toast_info') }}" @endif>
+    </div>
+
+    <!-- Admin Sidebar -->
+    <x-layouts.admin-sidebar />
+
+    <!-- Main Content Wrapper -->
+    <div class="flex flex-1 flex-col lg:pl-64 min-w-0 transition-all">
+        <!-- Admin Header -->
+        <x-layouts.admin-header />
+
+        <!-- Main Body -->
+        <main class="flex-1 px-4 py-8 sm:px-6 lg:px-8 max-w-7xl w-full mx-auto">
+            @yield('content')
+            {{ $slot ?? '' }}
+        </main>
+
+        <!-- Admin Footer -->
+        <footer class="border-t border-slate-200/80 bg-white py-4 px-6 text-center text-xs text-slate-400">
+            &copy; {{ date('Y') }} Pusat Penjaminan Mutu (PPM) — Poltekkes Kemenkes Medan. Seluruh hak cipta dilindungi.
+        </footer>
+    </div>
+
+    <!-- Modals Outlet -->
+    @yield('modals')
+
+    <!-- Dashboard Core JS -->
+    <script src="{{ asset('dashboard/assets/js/dashboard.js') }}"></script>
+
+    @stack('scripts')
+</body>
+</html>
