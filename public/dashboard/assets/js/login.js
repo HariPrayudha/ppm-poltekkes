@@ -114,9 +114,21 @@ document.addEventListener('DOMContentLoaded', () => {
             clearPasswordError();
         }
 
+        const submitBtn = document.getElementById('btn-login-submit');
+
         if (hasError) {
             e.preventDefault();
             e.stopPropagation();
+
+            // Ensure submit button is NOT in loading state and is fully interactive
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');
+                const originalHtml = submitBtn.getAttribute('data-original-html');
+                if (originalHtml) {
+                    submitBtn.innerHTML = originalHtml;
+                }
+            }
 
             if (typeof feather !== 'undefined') {
                 feather.replace();
@@ -125,6 +137,23 @@ document.addEventListener('DOMContentLoaded', () => {
             if (firstInvalidField) {
                 firstInvalidField.focus();
             }
+        } else {
+            // ONLY enter loading state if all validation passed and form is actually submitting!
+            if (submitBtn) {
+                if (!submitBtn.hasAttribute('data-original-html')) {
+                    submitBtn.setAttribute('data-original-html', submitBtn.innerHTML);
+                }
+                submitBtn.disabled = true;
+                submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
+                submitBtn.innerHTML = `
+                    <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-current inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                    </svg>
+                    <span>Memproses masuk...</span>
+                `;
+            }
         }
     });
 });
+

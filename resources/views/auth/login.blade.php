@@ -10,7 +10,7 @@
         </div>
 
         <!-- Login Form -->
-        <form method="POST" action="{{ route('login') }}" class="space-y-5" novalidate id="login-form">
+        <form method="POST" action="{{ route('login') }}" class="space-y-5" novalidate id="login-form" data-no-loading data-no-validate>
             @csrf
 
             <!-- Email Field -->
@@ -34,6 +34,7 @@
                         name="email"
                         id="email"
                         value="{{ old('email') }}"
+                        required
                         autofocus
                         class="{{ $emailClasses }}"
                         placeholder="contoh@ppm.ac.id"
@@ -69,6 +70,7 @@
                         type="password"
                         name="password"
                         id="password"
+                        required
                         class="{{ $passwordClasses }}"
                         placeholder="••••••••"
                     >
