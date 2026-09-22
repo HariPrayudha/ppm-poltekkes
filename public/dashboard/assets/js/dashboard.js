@@ -39,13 +39,29 @@ function initSidebar() {
   const overlay = document.getElementById('sidebar-overlay');
   const toggleBtn = document.getElementById('btn-sidebar-toggle');
   const closeBtn = document.getElementById('btn-sidebar-close');
+  const scrollContainer = document.getElementById('admin-sidebar-scroll') || (sidebar ? sidebar.querySelector('.overflow-y-auto') : null);
 
   if (!sidebar) return;
+
+  const ensureActiveItemVisible = () => {
+    if (!scrollContainer) return;
+    const activeItem = sidebar.querySelector('[data-sidebar-active="true"], [aria-current="page"]');
+    if (activeItem) {
+      requestAnimationFrame(() => {
+        const containerRect = scrollContainer.getBoundingClientRect();
+        const itemRect = activeItem.getBoundingClientRect();
+        if (itemRect.top < containerRect.top || itemRect.bottom > containerRect.bottom) {
+          activeItem.scrollIntoView({ block: 'nearest', behavior: 'instant' });
+        }
+      });
+    }
+  };
 
   const openSidebar = () => {
     sidebar.classList.remove('-translate-x-full');
     if (overlay) overlay.classList.remove('hidden');
     document.body.classList.add('overflow-hidden', 'lg:overflow-auto');
+    ensureActiveItemVisible();
   };
 
   const closeSidebar = () => {
@@ -64,6 +80,30 @@ function initSidebar() {
 
   if (overlay) {
     overlay.addEventListener('click', closeSidebar);
+  }
+
+  // Sidebar Scroll Position Persistence & Active Item Visibility
+  if (scrollContainer) {
+    // 1. Restore scroll position from session storage
+    const savedScroll = sessionStorage.getItem('sidebar_scroll_top');
+    if (savedScroll !== null) {
+      scrollContainer.scrollTop = parseInt(savedScroll, 10);
+    }
+
+    // 2. Ensure active menu item is always visible
+    ensureActiveItemVisible();
+
+    // 3. Save scroll position on scroll
+    scrollContainer.addEventListener('scroll', () => {
+      sessionStorage.setItem('sidebar_scroll_top', scrollContainer.scrollTop);
+    }, { passive: true });
+
+    // 4. Persist scroll position before navigation
+    sidebar.querySelectorAll('a[href]').forEach((link) => {
+      link.addEventListener('click', () => {
+        sessionStorage.setItem('sidebar_scroll_top', scrollContainer.scrollTop);
+      });
+    });
   }
 }
 

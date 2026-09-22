@@ -19,7 +19,7 @@
     </div>
 
     <!-- Navigation Menu Items (Scrollable Body) -->
-    <div class="flex-1 overflow-y-auto">
+    <div id="admin-sidebar-scroll" class="flex-1 overflow-y-auto">
         <nav class="space-y-6 px-3 py-5 pb-8">
             <!-- Group: Utama -->
             <div>

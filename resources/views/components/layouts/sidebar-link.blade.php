@@ -5,6 +5,7 @@
 ])
 
 <a href="{{ $href }}"
+   @if($active) aria-current="page" data-sidebar-active="true" @endif
    {{ $attributes->merge([
        'class' => 'group flex items-center gap-3 rounded-2xl px-3 py-2 text-sm transition-all duration-200 ' . (
            $active
