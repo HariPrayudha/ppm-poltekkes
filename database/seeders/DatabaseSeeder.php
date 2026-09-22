@@ -13,10 +13,15 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             UserSeeder::class,
-            DocumentCategorySeeder::class,
+            ContactSeeder::class,
             GreetingSeeder::class,
             OrganizationProfileSeeder::class,
-            ContactSeeder::class,
+            ServiceSeeder::class,
+            RelatedLinkSeeder::class,
+            BannerSeeder::class,
+            DocumentCategorySeeder::class,
+            DocumentSeeder::class,
+            GallerySeeder::class,
         ]);
     }
 }
