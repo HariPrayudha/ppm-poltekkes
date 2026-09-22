@@ -294,4 +294,49 @@ class PublicPagesTest extends TestCase
         $response->assertSee('Struktur Organisasi');
         $response->assertSee('Tugas & Fungsi', false);
     }
+
+    public function test_navbar_logo_has_no_hover_zoom_effect(): void
+    {
+        $response = $this->get(route('frontend.home'));
+
+        $response->assertStatus(200);
+        $response->assertDontSee('group-hover:scale-105');
+    }
+
+    public function test_navbar_active_item_uses_cyan_teal_gradient(): void
+    {
+        $response = $this->get(route('frontend.home'));
+
+        $response->assertStatus(200);
+        $response->assertSee('bg-linear-to-r from-[#00A99D] to-[#0BB5CB]');
+    }
+
+    public function test_navbar_has_mobile_floating_menu_and_animated_hamburger(): void
+    {
+        $response = $this->get(route('frontend.home'));
+
+        $response->assertStatus(200);
+        $response->assertSee('hamburger-bar');
+        $response->assertSee('mobile-menu-backdrop');
+        $response->assertSee('id="mobile-menu"', false);
+    }
+
+    public function test_footer_does_not_contain_admin_login_link(): void
+    {
+        $response = $this->get(route('frontend.home'));
+
+        $response->assertStatus(200);
+        $response->assertDontSee('Login Admin');
+    }
+
+    public function test_footer_uses_font_awesome_social_media_icons(): void
+    {
+        $response = $this->get(route('frontend.home'));
+
+        $response->assertStatus(200);
+        $response->assertSee('fa-brands fa-instagram');
+        $response->assertSee('fa-brands fa-youtube');
+        $response->assertSee('fa-brands fa-facebook-f');
+        $response->assertSee('fa-brands fa-whatsapp');
+    }
 }

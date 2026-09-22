@@ -30,6 +30,9 @@
     <!-- Feather Icons CDN -->
     <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
 
+    <!-- Font Awesome 6 (Brands & Icons) CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <!-- Tailwind CSS v4 & Assets -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/frontend.css') }}">
@@ -54,7 +57,7 @@
     <button id="back-to-top"
         type="button"
         aria-label="Kembali ke atas"
-        class="fixed bottom-6 right-6 z-40 p-3 rounded-full bg-linear-to-r from-[#0BB5CB] to-[#028DA9] text-white shadow-lg opacity-0 translate-y-4 pointer-events-none transition-all duration-300 hover:shadow-xl hover:-translate-y-1 active:scale-95 cursor-pointer">
+        class="fixed bottom-6 right-6 z-40 p-3.5 rounded-2xl bg-linear-to-r from-[#00A99D] to-[#0BB5CB] text-white shadow-lg shadow-[#0BB5CB]/30 opacity-0 translate-y-4 pointer-events-none transition-all duration-300 hover:shadow-xl hover:shadow-[#0BB5CB]/40 hover:-translate-y-1 active:scale-95 cursor-pointer">
         <i data-feather="arrow-up" class="w-5 h-5"></i>
     </button>
 
