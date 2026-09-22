@@ -100,6 +100,8 @@
         <form method="POST" action="{{ route('admin.gallery.store') }}" enctype="multipart/form-data" class="space-y-4">
             @csrf
 
+            <div id="create-gallery-preview" class="hidden"></div>
+
             <div>
                 <label for="create-gallery-img" class="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1.5">
                     File Foto Kegiatan <span class="text-rose-500">*</span>
@@ -122,10 +124,9 @@
                 required
             />
 
-            <x-admin.form-input
+            <x-admin.form-date
                 name="event_date"
                 label="Tanggal Pelaksanaan"
-                type="date"
                 value="{{ date('Y-m-d') }}"
                 required
             />
@@ -171,10 +172,9 @@
                 required
             />
 
-            <x-admin.form-input
+            <x-admin.form-date
                 name="event_date"
                 label="Tanggal Pelaksanaan"
-                type="date"
                 required
             />
 

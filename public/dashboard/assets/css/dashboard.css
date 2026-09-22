@@ -309,3 +309,9 @@ input[type="checkbox"]:checked + div {
   transform: rotate(180deg) !important;
 }
 
+/* Global Custom Date Picker Modal */
+#global-date-modal {
+  z-index: 70 !important;
+}
+
+

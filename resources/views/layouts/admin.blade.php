@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,19 +27,20 @@
 
     @stack('styles')
 </head>
+
 <body class="h-screen overflow-hidden bg-[#f8fafc] text-slate-900 antialiased flex">
 
     <!-- Floating Toast Notification Container (Fixed Top-Right) -->
     <div id="toast-container"
-         class="fixed right-4 top-4 z-9999 flex flex-col gap-2 pointer-events-none"
-         @if(session('success')) data-toast-success="{{ session('success') }}" @endif
-         @if(session('error')) data-toast-error="{{ session('error') }}" @endif
-         @if(session('warning')) data-toast-warning="{{ session('warning') }}" @endif
-         @if(session('info')) data-toast-info="{{ session('info') }}" @endif
-         @if(session('toast_success')) data-toast-success="{{ session('toast_success') }}" @endif
-         @if(session('toast_error')) data-toast-error="{{ session('toast_error') }}" @endif
-         @if(session('toast_warning')) data-toast-warning="{{ session('toast_warning') }}" @endif
-         @if(session('toast_info')) data-toast-info="{{ session('toast_info') }}" @endif>
+        class="fixed right-4 top-4 z-9999 flex flex-col gap-2 pointer-events-none"
+        @if(session('success')) data-toast-success="{{ session('success') }}" @endif
+        @if(session('error')) data-toast-error="{{ session('error') }}" @endif
+        @if(session('warning')) data-toast-warning="{{ session('warning') }}" @endif
+        @if(session('info')) data-toast-info="{{ session('info') }}" @endif
+        @if(session('toast_success')) data-toast-success="{{ session('toast_success') }}" @endif
+        @if(session('toast_error')) data-toast-error="{{ session('toast_error') }}" @endif
+        @if(session('toast_warning')) data-toast-warning="{{ session('toast_warning') }}" @endif
+        @if(session('toast_info')) data-toast-info="{{ session('toast_info') }}" @endif>
     </div>
 
     <!-- Admin Sidebar -->
@@ -69,9 +71,13 @@
     <!-- Global Image Preview Lightbox Modal -->
     <x-admin.image-modal />
 
+    <!-- Global Date Picker Modal -->
+    <x-admin.date-modal />
+
     <!-- Dashboard Core JS -->
     <script src="{{ asset('dashboard/assets/js/dashboard.js') }}"></script>
 
     @stack('scripts')
 </body>
+
 </html>
