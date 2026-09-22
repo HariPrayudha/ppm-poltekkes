@@ -5,7 +5,7 @@
             <a href="{{ route('frontend.home') }}" class="flex items-center gap-3 sm:gap-3.5 shrink-0 select-none">
                 <img src="{{ asset('dashboard/assets/image/logo-text-kemnaker.png') }}"
                     alt="Poltekkes Kemenkes Medan"
-                    class="h-10 sm:h-12 w-auto object-contain">
+                    class="h-14 w-auto object-contain shrink-0">
                 <div class="hidden sm:flex flex-col border-l-2 border-slate-200/80 pl-3.5 py-0.5">
                     <span class="text-[11px] font-bold tracking-wider text-[#00A99D] uppercase">Pusat Penjaminan Mutu</span>
                     <span class="text-sm font-extrabold text-slate-800 tracking-tight">Poltekkes Kemenkes Medan</span>
@@ -103,54 +103,56 @@
 
     <!-- Mobile Floating Navigation Card with Smooth Animation -->
     <div id="mobile-menu"
-        class="fixed left-4 right-4 top-[5.5rem] z-50 max-w-md mx-auto bg-white/98 backdrop-blur-2xl border border-slate-200/90 rounded-3xl p-4 sm:p-5 shadow-2xl shadow-slate-900/15 opacity-0 -translate-y-4 scale-[0.98] pointer-events-none lg:hidden space-y-1.5">
+        class="fixed left-4 right-4 top-[5.5rem] z-50 max-w-md mx-auto bg-white/98 backdrop-blur-2xl border border-slate-200/90 rounded-3xl p-4 sm:p-5 shadow-2xl shadow-slate-900/15 opacity-0 -translate-y-4 scale-[0.98] pointer-events-none lg:hidden flex flex-col gap-1.5">
         <!-- 1. Beranda -->
         <a href="{{ route('frontend.home') }}"
-            class="block px-4 py-3 rounded-2xl text-sm font-semibold transition-all duration-200 {{ request()->routeIs('frontend.home') ? 'bg-linear-to-r from-[#00A99D] to-[#0BB5CB] text-white shadow-md shadow-[#0BB5CB]/25' : 'text-slate-700 hover:text-[#028DA9] hover:bg-slate-50' }}">
+            class="flex items-center w-full px-4 py-3 rounded-2xl text-sm font-semibold transition-all duration-200 {{ request()->routeIs('frontend.home') ? 'bg-linear-to-r from-[#00A99D] to-[#0BB5CB] text-white shadow-md shadow-[#0BB5CB]/25' : 'text-slate-700 hover:text-[#028DA9] hover:bg-slate-50' }}">
             Beranda
         </a>
 
         <!-- 2. Profil (Accordion) -->
-        <div class="space-y-1">
+        <div class="relative">
             <button type="button"
                 id="mobile-profile-toggle"
                 aria-expanded="{{ request()->routeIs('frontend.profile*') ? 'true' : 'false' }}"
-                class="w-full flex items-center justify-between px-4 py-3 rounded-2xl text-sm font-semibold transition-all duration-200 cursor-pointer {{ request()->routeIs('frontend.profile*') ? 'bg-linear-to-r from-[#00A99D] to-[#0BB5CB] text-white shadow-md shadow-[#0BB5CB]/25' : 'text-slate-700 hover:text-[#028DA9] hover:bg-slate-50' }}">
+                class="flex items-center justify-between w-full px-4 py-3 rounded-2xl text-sm font-semibold transition-all duration-200 cursor-pointer {{ request()->routeIs('frontend.profile*') ? 'bg-linear-to-r from-[#00A99D] to-[#0BB5CB] text-white shadow-md shadow-[#0BB5CB]/25' : 'text-slate-700 hover:text-[#028DA9] hover:bg-slate-50' }}">
                 <span>Profil</span>
                 <i data-feather="chevron-down" id="mobile-profile-chevron" class="w-4 h-4 transition-transform duration-300 {{ request()->routeIs('frontend.profile*') ? 'rotate-180' : '' }}"></i>
             </button>
             <div id="mobile-profile-submenu" class="accordion-content {{ request()->routeIs('frontend.profile*') ? 'is-open' : '' }}">
-                <div class="accordion-inner pl-3 pr-1 py-1 space-y-1 border-l-2 border-[#00A99D]/30 ml-4">
-                    <a href="{{ route('frontend.profile.structure') }}"
-                        class="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl text-xs font-medium transition-colors {{ request()->routeIs('frontend.profile.structure') ? 'text-[#028DA9] font-bold bg-[#0BB5CB]/10' : 'text-slate-600 hover:text-[#028DA9] hover:bg-slate-50' }}">
-                        <i data-feather="git-commit" class="w-3.5 h-3.5 text-[#00A99D]"></i>
-                        <span>Struktur Organisasi</span>
-                    </a>
-                    <a href="{{ route('frontend.profile.duties') }}"
-                        class="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl text-xs font-medium transition-colors {{ request()->routeIs('frontend.profile.duties') ? 'text-[#028DA9] font-bold bg-[#0BB5CB]/10' : 'text-slate-600 hover:text-[#028DA9] hover:bg-slate-50' }}">
-                        <i data-feather="clipboard" class="w-3.5 h-3.5 text-[#0BB5CB]"></i>
-                        <span>Tugas & Fungsi</span>
-                    </a>
+                <div class="accordion-inner">
+                    <div class="pl-3 pr-1 pt-2 pb-1 space-y-1 border-l-2 border-[#00A99D]/30 ml-4">
+                        <a href="{{ route('frontend.profile.structure') }}"
+                            class="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl text-xs font-medium transition-colors {{ request()->routeIs('frontend.profile.structure') ? 'text-[#028DA9] font-bold bg-[#0BB5CB]/10' : 'text-slate-600 hover:text-[#028DA9] hover:bg-slate-50' }}">
+                            <i data-feather="git-commit" class="w-3.5 h-3.5 text-[#00A99D]"></i>
+                            <span>Struktur Organisasi</span>
+                        </a>
+                        <a href="{{ route('frontend.profile.duties') }}"
+                            class="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl text-xs font-medium transition-colors {{ request()->routeIs('frontend.profile.duties') ? 'text-[#028DA9] font-bold bg-[#0BB5CB]/10' : 'text-slate-600 hover:text-[#028DA9] hover:bg-slate-50' }}">
+                            <i data-feather="clipboard" class="w-3.5 h-3.5 text-[#0BB5CB]"></i>
+                            <span>Tugas & Fungsi</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- 3. Dokumen & SOP -->
         <a href="{{ route('frontend.documents.index') }}"
-            class="block px-4 py-3 rounded-2xl text-sm font-semibold transition-all duration-200 {{ request()->routeIs('frontend.documents.*') ? 'bg-linear-to-r from-[#00A99D] to-[#0BB5CB] text-white shadow-md shadow-[#0BB5CB]/25' : 'text-slate-700 hover:text-[#028DA9] hover:bg-slate-50' }}">
+            class="flex items-center w-full px-4 py-3 rounded-2xl text-sm font-semibold transition-all duration-200 {{ request()->routeIs('frontend.documents.*') ? 'bg-linear-to-r from-[#00A99D] to-[#0BB5CB] text-white shadow-md shadow-[#0BB5CB]/25' : 'text-slate-700 hover:text-[#028DA9] hover:bg-slate-50' }}">
             Dokumen & SOP
         </a>
 
         <!-- 4. Galeri -->
         <a href="{{ route('frontend.gallery.index') }}"
-            class="block px-4 py-3 rounded-2xl text-sm font-semibold transition-all duration-200 {{ request()->routeIs('frontend.gallery.*') ? 'bg-linear-to-r from-[#00A99D] to-[#0BB5CB] text-white shadow-md shadow-[#0BB5CB]/25' : 'text-slate-700 hover:text-[#028DA9] hover:bg-slate-50' }}">
+            class="flex items-center w-full px-4 py-3 rounded-2xl text-sm font-semibold transition-all duration-200 {{ request()->routeIs('frontend.gallery.*') ? 'bg-linear-to-r from-[#00A99D] to-[#0BB5CB] text-white shadow-md shadow-[#0BB5CB]/25' : 'text-slate-700 hover:text-[#028DA9] hover:bg-slate-50' }}">
             Galeri
         </a>
 
         <!-- 5. Kontak (Featured Card Action) -->
-        <div class="pt-2 mt-1 border-t border-slate-100">
+        <div class="pt-2 border-t border-slate-100">
             <a href="{{ route('frontend.contact.index') }}"
-                class="flex items-center justify-center gap-2 px-4 py-3 rounded-2xl text-sm font-semibold transition-all duration-300 {{ request()->routeIs('frontend.contact.*') ? 'bg-linear-to-r from-[#00A99D] to-[#0BB5CB] text-white shadow-md shadow-[#0BB5CB]/25' : 'bg-linear-to-r from-[#00A99D]/10 to-[#0BB5CB]/10 text-[#028DA9] border border-[#0BB5CB]/30 hover:border-[#0BB5CB] hover:bg-linear-to-r hover:from-[#00A99D] hover:to-[#0BB5CB] hover:text-white' }}">
+                class="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-2xl text-sm font-semibold transition-all duration-300 {{ request()->routeIs('frontend.contact.*') ? 'bg-linear-to-r from-[#00A99D] to-[#0BB5CB] text-white shadow-md shadow-[#0BB5CB]/25' : 'bg-linear-to-r from-[#00A99D]/10 to-[#0BB5CB]/10 text-[#028DA9] border border-[#0BB5CB]/30 hover:border-[#0BB5CB] hover:bg-linear-to-r hover:from-[#00A99D] hover:to-[#0BB5CB] hover:text-white' }}">
                 <i data-feather="headphones" class="w-4 h-4"></i>
                 <span>Layanan Kontak</span>
             </a>
