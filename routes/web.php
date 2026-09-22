@@ -12,10 +12,27 @@ use App\Http\Controllers\Admin\RelatedLinkController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Frontend\ContactController as FrontendContactController;
+use App\Http\Controllers\Frontend\DocumentController as FrontendDocumentController;
+use App\Http\Controllers\Frontend\GalleryController as FrontendGalleryController;
+use App\Http\Controllers\Frontend\HomeController as FrontendHomeController;
+use App\Http\Controllers\Frontend\ProfileController as FrontendProfileController;
 use Illuminate\Support\Facades\Route;
 
-// Redirect root & admin prefix to dashboard or login
-Route::get('/', fn () => redirect()->route('admin.dashboard'));
+// Public Frontend Routes
+Route::name('frontend.')->group(function () {
+    Route::get('/', [FrontendHomeController::class, 'index'])->name('home');
+    Route::get('/profil', [FrontendProfileController::class, 'index'])->name('profile');
+    Route::get('/profil/struktur-organisasi', [FrontendProfileController::class, 'structure'])->name('profile.structure');
+    Route::get('/profil/tugas-fungsi', [FrontendProfileController::class, 'duties'])->name('profile.duties');
+    Route::get('/dokumen', [FrontendDocumentController::class, 'index'])->name('documents.index');
+    Route::get('/dokumen/{document}/preview', [FrontendDocumentController::class, 'preview'])->name('documents.preview');
+    Route::get('/dokumen/{document}/download', [FrontendDocumentController::class, 'download'])->name('documents.download');
+    Route::get('/galeri', [FrontendGalleryController::class, 'index'])->name('gallery.index');
+    Route::get('/kontak', [FrontendContactController::class, 'index'])->name('contact.index');
+});
+
+// Admin shortcut redirects
 Route::get('/admin', fn () => redirect()->route('admin.dashboard'));
 Route::get('/admin/login', fn () => redirect()->route('login'));
 
