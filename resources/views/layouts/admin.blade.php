@@ -8,8 +8,8 @@
     <title>{{ $title ?? 'Admin Panel' }} | PPM Poltekkes Kemenkes Medan</title>
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="{{ asset('dashboard/assets/image/favicon-kemnaker.png') }}">
-    <link rel="apple-touch-icon" href="{{ asset('dashboard/assets/image/favicon-kemnaker.png') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('dashboard/assets/image/favicon-kemnaker.ico') }}">
+    <link rel="apple-touch-icon" href="{{ asset('dashboard/assets/image/favicon-kemnaker.ico') }}">
 
     <!-- Google Fonts Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
