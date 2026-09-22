@@ -1,11 +1,11 @@
 <header id="main-navbar" class="sticky top-0 z-50 backdrop-blur-md bg-white/95 border-b border-slate-200/80 shadow-xs transition-all duration-300">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between h-20">
+        <div class="flex items-center justify-between h-16 sm:h-20">
             <!-- Brand Logo & Identity (Static logo, no hover zoom) -->
             <a href="{{ route('frontend.home') }}" class="flex items-center gap-3 sm:gap-3.5 shrink-0 select-none">
                 <img src="{{ asset('dashboard/assets/image/logo-text-kemnaker.png') }}"
                     alt="Poltekkes Kemenkes Medan"
-                    class="h-14 w-auto object-contain shrink-0">
+                    class="h-11 sm:h-14 w-auto object-contain shrink-0">
                 <div class="hidden sm:flex flex-col border-l-2 border-slate-200/80 pl-3.5 py-0.5">
                     <span class="text-[11px] font-bold tracking-wider text-[#00A99D] uppercase">Pusat Penjaminan Mutu</span>
                     <span class="text-sm font-extrabold text-slate-800 tracking-tight">Poltekkes Kemenkes Medan</span>
@@ -88,7 +88,7 @@
                     type="button"
                     aria-label="Menu Navigasi"
                     aria-expanded="false"
-                    class="relative w-11 h-11 flex flex-col items-center justify-center gap-1.5 rounded-2xl border border-slate-200/90 text-slate-700 hover:text-[#028DA9] hover:bg-slate-50 hover:border-[#0BB5CB]/40 transition-all duration-300 focus:outline-hidden cursor-pointer group shadow-2xs">
+                    class="relative w-10 h-10 sm:w-11 sm:h-11 flex flex-col items-center justify-center gap-1.5 rounded-xl sm:rounded-2xl border border-slate-200/90 text-slate-700 hover:text-[#028DA9] hover:bg-slate-50 hover:border-[#0BB5CB]/40 transition-all duration-300 focus:outline-hidden cursor-pointer group shadow-2xs">
                     <span class="hamburger-bar block w-5 h-0.5 rounded-full bg-slate-700 transition-all duration-300 ease-out origin-center"></span>
                     <span class="hamburger-bar block w-5 h-0.5 rounded-full bg-slate-700 transition-all duration-300 ease-out origin-center"></span>
                     <span class="hamburger-bar block w-5 h-0.5 rounded-full bg-slate-700 transition-all duration-300 ease-out origin-center"></span>
@@ -99,11 +99,11 @@
 
     <!-- Mobile Backdrop Overlay -->
     <div id="mobile-menu-backdrop"
-        class="fixed inset-0 top-20 bg-slate-950/25 backdrop-blur-xs opacity-0 pointer-events-none transition-opacity duration-300 z-40 lg:hidden"></div>
+        class="fixed inset-0 top-16 sm:top-20 bg-slate-950/25 backdrop-blur-xs opacity-0 pointer-events-none transition-opacity duration-300 z-40 lg:hidden"></div>
 
     <!-- Mobile Floating Navigation Card with Smooth Animation -->
     <div id="mobile-menu"
-        class="fixed left-4 right-4 top-[5.5rem] z-50 max-w-md mx-auto bg-white/98 backdrop-blur-2xl border border-slate-200/90 rounded-3xl p-4 sm:p-5 shadow-2xl shadow-slate-900/15 opacity-0 -translate-y-4 scale-[0.98] pointer-events-none lg:hidden flex flex-col gap-1.5">
+        class="fixed left-4 right-4 top-18 sm:top-[5.5rem] z-50 max-w-md mx-auto bg-white/98 backdrop-blur-2xl border border-slate-200/90 rounded-3xl p-4 sm:p-5 shadow-2xl shadow-slate-900/15 opacity-0 -translate-y-4 scale-[0.98] pointer-events-none lg:hidden flex flex-col gap-1.5">
         <!-- 1. Beranda -->
         <a href="{{ route('frontend.home') }}"
             class="flex items-center w-full px-4 py-3 rounded-2xl text-sm font-semibold transition-all duration-200 {{ request()->routeIs('frontend.home') ? 'bg-linear-to-r from-[#00A99D] to-[#0BB5CB] text-white shadow-md shadow-[#0BB5CB]/25' : 'text-slate-700 hover:text-[#028DA9] hover:bg-slate-50' }}">
