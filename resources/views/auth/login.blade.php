@@ -10,7 +10,7 @@
         </div>
 
         <!-- Login Form -->
-        <form method="POST" action="{{ route('login') }}" class="space-y-5">
+        <form method="POST" action="{{ route('login') }}" class="space-y-5" novalidate id="login-form">
             @csrf
 
             <!-- Email Field -->
@@ -21,9 +21,9 @@
                     ? ' border-red-500 ring-4 ring-red-500/10 bg-white focus:border-red-500'
                     : ' border-slate-200 bg-slate-50/50 hover:bg-slate-50 hover:border-slate-300 focus:bg-white focus:border-[#0BB5CB] focus:ring-4 focus:ring-[#0BB5CB]/15';
             @endphp
-            <div>
+            <div id="email-field-container">
                 <label for="email" class="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-2">
-                    Alamat Email
+                    Alamat Email <span class="text-rose-500">*</span>
                 </label>
                 <div class="relative group">
                     <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400 transition-colors duration-200 group-focus-within:text-[#0BB5CB]">
@@ -34,18 +34,19 @@
                         name="email"
                         id="email"
                         value="{{ old('email') }}"
-                        required
                         autofocus
                         class="{{ $emailClasses }}"
                         placeholder="contoh@ppm.ac.id"
                     >
                 </div>
-                @error('email')
-                    <p class="mt-1.5 text-xs text-red-600 flex items-center gap-1">
-                        <i data-feather="alert-circle" class="h-3.5 w-3.5"></i>
-                        {{ $message }}
-                    </p>
-                @enderror
+                <div id="email-error-container">
+                    @error('email')
+                        <p class="mt-1.5 text-xs text-red-600 flex items-center gap-1">
+                            <i data-feather="alert-circle" class="h-3.5 w-3.5"></i>
+                            {{ $message }}
+                        </p>
+                    @enderror
+                </div>
             </div>
 
             <!-- Password Field -->
@@ -56,9 +57,9 @@
                     ? ' border-red-500 ring-4 ring-red-500/10 bg-white focus:border-red-500'
                     : ' border-slate-200 bg-slate-50/50 hover:bg-slate-50 hover:border-slate-300 focus:bg-white focus:border-[#0BB5CB] focus:ring-4 focus:ring-[#0BB5CB]/15';
             @endphp
-            <div>
+            <div id="password-field-container">
                 <label for="password" class="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-2">
-                    Kata Sandi
+                    Kata Sandi <span class="text-rose-500">*</span>
                 </label>
                 <div class="relative group">
                     <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400 transition-colors duration-200 group-focus-within:text-[#0BB5CB]">
@@ -68,7 +69,6 @@
                         type="password"
                         name="password"
                         id="password"
-                        required
                         class="{{ $passwordClasses }}"
                         placeholder="••••••••"
                     >
@@ -82,12 +82,14 @@
                         <i data-feather="eye" class="h-4 w-4" id="toggle-password-icon"></i>
                     </button>
                 </div>
-                @error('password')
-                    <p class="mt-1.5 text-xs text-red-600 flex items-center gap-1">
-                        <i data-feather="alert-circle" class="h-3.5 w-3.5"></i>
-                        {{ $message }}
-                    </p>
-                @enderror
+                <div id="password-error-container">
+                    @error('password')
+                        <p class="mt-1.5 text-xs text-red-600 flex items-center gap-1">
+                            <i data-feather="alert-circle" class="h-3.5 w-3.5"></i>
+                            {{ $message }}
+                        </p>
+                    @enderror
+                </div>
             </div>
 
             <!-- Remember Me -->

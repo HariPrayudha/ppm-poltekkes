@@ -140,14 +140,15 @@
             </x-admin.card>
 
             <!-- Quick Info Card -->
-            <div class="rounded-2xl border border-slate-200 bg-linear-to-br from-white to-[#0BB5CB]/5 p-4 sm:p-6 shadow-2xs">
-                <div class="flex items-center gap-3 mb-3">
-                    <div class="rounded-xl bg-[#0BB5CB]/10 p-2 text-[#028DA9]">
+            <div class="relative overflow-hidden rounded-2xl border border-[#0BB5CB]/25 bg-linear-to-br from-white via-white to-[#0BB5CB]/10 p-4 sm:p-6 shadow-xs transition-all duration-300 hover:shadow-md hover:border-[#0BB5CB]/40">
+                <div class="absolute -right-6 -bottom-6 h-24 w-24 rounded-full bg-[#0BB5CB]/10 blur-xl pointer-events-none"></div>
+                <div class="relative z-10 flex items-center gap-3 mb-3">
+                    <div class="rounded-xl bg-linear-to-tr from-[#00A99D]/15 to-[#0BB5CB]/20 p-2.5 text-[#028DA9] shadow-2xs">
                         <i data-feather="info" class="h-5 w-5"></i>
                     </div>
                     <h4 class="text-sm font-bold text-slate-900">Panduan Pengelolaan Mutu</h4>
                 </div>
-                <p class="text-xs text-slate-600 leading-relaxed">
+                <p class="relative z-10 text-xs text-slate-600 leading-relaxed">
                     Pastikan setiap dokumen SOP dan Standar Mutu yang diunggah dalam format PDF yang rapi serta memiliki kode resmi SPMI Poltekkes Medan.
                 </p>
             </div>

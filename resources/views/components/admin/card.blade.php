@@ -4,7 +4,7 @@
     'overflow' => false,
 ])
 
-<div {{ $attributes->merge(['class' => 'rounded-2xl border border-slate-200 bg-white shadow-2xs ' . ($overflow ? 'overflow-visible' : 'overflow-hidden')]) }}>
+<div {{ $attributes->merge(['class' => 'rounded-2xl border border-slate-200/90 bg-white shadow-xs transition-all duration-300 hover:border-slate-300 hover:shadow-md ' . ($overflow ? 'overflow-visible' : 'overflow-hidden')]) }}>
     @if($title || isset($headerActions))
         <div class="shrink-0 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between border-b border-slate-100 px-4 py-3.5 sm:px-6 sm:py-4">
             <div>

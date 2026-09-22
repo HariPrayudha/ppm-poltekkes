@@ -160,6 +160,13 @@ function openModal(modalId, triggerBtn = null) {
   const modal = document.getElementById(modalId);
   if (!modal) return;
 
+  // Clear previous validation errors if any and ensure novalidate is present
+  const forms = modal.querySelectorAll('form');
+  forms.forEach((form) => {
+    form.setAttribute('novalidate', 'true');
+    clearFormErrors(form);
+  });
+
   // Handle data-fill-* attributes if present on trigger
   if (triggerBtn) {
     const formSelector = triggerBtn.getAttribute('data-fill-form');
@@ -346,11 +353,198 @@ function showToast(message, type = 'success', title = '', duration = 5000) {
 window.showToast = showToast;
 
 /* ==========================================================================
-   Form Submit Loading State
+   Form Validation & Submit Loading State
    ========================================================================== */
+function clearFormErrors(form) {
+  if (!form) return;
+  form.querySelectorAll('.client-error-msg').forEach((el) => el.remove());
+  form.querySelectorAll('.border-rose-500').forEach((el) => {
+    el.classList.remove('border-rose-500', 'ring-4', 'ring-rose-500/10', 'focus:border-rose-500');
+    el.classList.add('border-slate-200');
+  });
+}
+
+function validateForm(form) {
+  clearFormErrors(form);
+
+  let isValid = true;
+  let firstInvalidElement = null;
+
+  const elements = Array.from(form.elements);
+
+  elements.forEach((input) => {
+    if (input.disabled || input.type === 'hidden' || input.type === 'submit' || input.type === 'button') {
+      return;
+    }
+
+    const isRequired = input.hasAttribute('required') || input.required;
+    if (!isRequired) return;
+
+    let isEmpty = false;
+
+    // Check TinyMCE editor
+    if (input.tagName.toLowerCase() === 'textarea' && typeof tinymce !== 'undefined') {
+      const editor = tinymce.get(input.id);
+      if (editor) {
+        const textContent = editor.getContent({ format: 'text' }).trim();
+        if (!textContent) {
+          isEmpty = true;
+        }
+      } else if (!input.value.trim()) {
+        isEmpty = true;
+      }
+    } else if (input.type === 'file') {
+      if (!input.files || input.files.length === 0) {
+        isEmpty = true;
+      }
+    } else if (input.type === 'checkbox' || input.type === 'radio') {
+      if (!input.checked) {
+        isEmpty = true;
+      }
+    } else if (input.tagName.toLowerCase() === 'select') {
+      if (!input.value || input.value.trim() === '') {
+        isEmpty = true;
+      }
+    } else {
+      if (!input.value.trim()) {
+        isEmpty = true;
+      }
+    }
+
+    if (isEmpty) {
+      isValid = false;
+      if (!firstInvalidElement) {
+        firstInvalidElement = input;
+      }
+
+      // Determine label text for error message
+      let labelText = '';
+      if (input.id) {
+        const labelEl = form.querySelector(`label[for="${input.id}"]`);
+        if (labelEl) {
+          labelText = labelEl.innerText.replace('*', '').trim();
+        }
+      }
+      if (!labelText) {
+        const parentLabel = input.closest('label');
+        if (parentLabel) {
+          labelText = parentLabel.innerText.replace('*', '').trim();
+        }
+      }
+      if (!labelText) {
+        labelText = input.getAttribute('placeholder') || 'Bidang ini';
+      }
+
+      const errorMsgText = `${labelText} wajib diisi.`;
+
+      // Apply invalid styling
+      let visualTarget = input;
+      const customSelectWrapper = input.closest('.custom-select-wrapper');
+      if (customSelectWrapper) {
+        const trigger = customSelectWrapper.querySelector('.custom-select-trigger');
+        if (trigger) visualTarget = trigger;
+      } else if (input.tagName.toLowerCase() === 'textarea' && typeof tinymce !== 'undefined') {
+        const editorContainer = input.parentNode.querySelector('.tox-tinymce');
+        if (editorContainer) visualTarget = editorContainer;
+      }
+
+      visualTarget.classList.add('border-rose-500', 'ring-4', 'ring-rose-500/10');
+      visualTarget.classList.remove('border-slate-200', 'border-slate-300');
+
+      // Create error message element
+      const errorP = document.createElement('p');
+      errorP.className = 'client-error-msg mt-1.5 text-xs text-rose-600 flex items-center gap-1 font-medium';
+      errorP.innerHTML = `
+        <svg class="h-3.5 w-3.5 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+        <span>${errorMsgText}</span>
+      `;
+
+      // Insertion logic
+      if (customSelectWrapper) {
+        const triggerWrapper = customSelectWrapper.querySelector('.relative') || customSelectWrapper;
+        triggerWrapper.parentNode.insertBefore(errorP, triggerWrapper.nextSibling);
+      } else if (visualTarget.classList.contains('tox-tinymce')) {
+        visualTarget.parentNode.insertBefore(errorP, visualTarget.nextSibling);
+      } else if (input.type === 'file') {
+        const container = input.closest('div');
+        if (container) {
+          container.appendChild(errorP);
+        } else {
+          input.parentNode.insertBefore(errorP, input.nextSibling);
+        }
+      } else {
+        input.parentNode.insertBefore(errorP, input.nextSibling);
+      }
+
+      // Auto-clear listener on change/input
+      const clearHandler = () => {
+        errorP.remove();
+        visualTarget.classList.remove('border-rose-500', 'ring-4', 'ring-rose-500/10');
+        visualTarget.classList.add('border-slate-200');
+        input.removeEventListener('input', clearHandler);
+        input.removeEventListener('change', clearHandler);
+      };
+
+      input.addEventListener('input', clearHandler);
+      input.addEventListener('change', clearHandler);
+
+      if (customSelectWrapper) {
+        const options = customSelectWrapper.querySelectorAll('.custom-select-option');
+        options.forEach((opt) => {
+          opt.addEventListener('click', clearHandler, { once: true });
+        });
+      }
+
+      if (input.tagName.toLowerCase() === 'textarea' && typeof tinymce !== 'undefined') {
+        const editor = tinymce.get(input.id);
+        if (editor) {
+          editor.on('input change keyup', clearHandler);
+        }
+      }
+    }
+  });
+
+  if (!isValid && firstInvalidElement) {
+    const customSelectWrapper = firstInvalidElement.closest('.custom-select-wrapper');
+    if (customSelectWrapper) {
+      const trigger = customSelectWrapper.querySelector('.custom-select-trigger');
+      if (trigger) trigger.focus();
+    } else {
+      firstInvalidElement.focus();
+    }
+    firstInvalidElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  return isValid;
+}
+
+window.clearFormErrors = clearFormErrors;
+window.validateForm = validateForm;
+
 function initFormSubmits() {
+  // Ensure all existing forms have novalidate to prevent default browser tooltip popovers
+  document.querySelectorAll('form').forEach((form) => {
+    form.setAttribute('novalidate', 'true');
+  });
+
   document.addEventListener('submit', (e) => {
     const form = e.target;
+    if (!form || form.tagName !== 'FORM') return;
+
+    // Check custom validation if not explicitly bypassed
+    if (!form.hasAttribute('data-no-validate')) {
+      const isValid = validateForm(form);
+      if (!isValid) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        return false;
+      }
+    }
+
     if (form.hasAttribute('data-no-loading')) return;
 
     const submitBtn = form.querySelector('button[type="submit"]:not([data-no-loading])');
@@ -390,8 +584,9 @@ function initFormSubmits() {
         <span>${loadingText}</span>
       `;
     }
-  });
+  }, true);
 }
+
 
 /* ==========================================================================
    SweetAlert2 Delete Confirmation Helper

@@ -48,22 +48,30 @@ body {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  background-color: var(--primary);
+  background: linear-gradient(135deg, #00A99D 0%, #0BB5CB 100%);
   color: #ffffff;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 1.125rem;
   border-radius: 0.75rem;
   font-size: 0.875rem;
   font-weight: 600;
   line-height: 1.25rem;
-  transition: all 0.15s ease-in-out;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
   border: none;
-  box-shadow: 0 1px 2px 0 rgba(11, 181, 203, 0.2);
+  box-shadow: 0 4px 14px 0 rgba(11, 181, 203, 0.35);
+  position: relative;
+  overflow: hidden;
 }
 .btn-primary:hover {
-  background-color: var(--primary-dark);
-  box-shadow: 0 4px 6px -1px rgba(11, 181, 203, 0.3);
+  background: linear-gradient(135deg, #028DA9 0%, #00A99D 100%);
+  box-shadow: 0 6px 20px 0 rgba(11, 181, 203, 0.45);
+  transform: translateY(-1.5px);
 }
+.btn-primary:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: 0 2px 8px 0 rgba(11, 181, 203, 0.3);
+}
+
 
 .btn-secondary {
   display: inline-flex;
