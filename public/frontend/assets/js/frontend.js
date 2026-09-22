@@ -35,9 +35,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 10. Document Repository AJAX Filter & Search
     initDocumentRepository();
-
-    // 11. FAQ Accordion Toggle
-    initFaqAccordion();
 });
 
 /**
@@ -655,35 +652,4 @@ function initDocumentRepository() {
     }
 }
 
-/**
- * 11. FAQ Accordion Toggle
- */
-function initFaqAccordion() {
-    const accordion = document.getElementById('faq-accordion');
-    if (!accordion) return;
 
-    accordion.addEventListener('click', (e) => {
-        const trigger = e.target.closest('.faq-trigger');
-        if (!trigger) return;
-
-        const item = trigger.closest('.faq-item');
-        const content = item.querySelector('.faq-content');
-        const icon = trigger.querySelector('[data-feather="chevron-down"]');
-
-        const isCurrentlyOpen = !content.classList.contains('hidden');
-
-        // Close all items
-        accordion.querySelectorAll('.faq-item').forEach(otherItem => {
-            const otherContent = otherItem.querySelector('.faq-content');
-            const otherIcon = otherItem.querySelector('[data-feather="chevron-down"]');
-            if (otherContent) otherContent.classList.add('hidden');
-            if (otherIcon) otherIcon.style.transform = 'rotate(0deg)';
-        });
-
-        // If it was closed, open it
-        if (!isCurrentlyOpen) {
-            content.classList.remove('hidden');
-            if (icon) icon.style.transform = 'rotate(180deg)';
-        }
-    });
-}

@@ -258,7 +258,7 @@ class PublicPagesTest extends TestCase
         $response->assertSee('15 Maret 2026');
     }
 
-    public function test_contact_page_is_accessible_and_shows_details_and_faq(): void
+    public function test_contact_page_is_accessible_and_shows_details_without_faq(): void
     {
         Contact::create([
             'address' => 'Jl. Jamin Ginting KM. 13,5 Lau Cih Medan',
@@ -273,7 +273,7 @@ class PublicPagesTest extends TestCase
         $response->assertViewIs('frontend.contact');
         $response->assertSee('Jl. Jamin Ginting KM. 13,5 Lau Cih Medan');
         $response->assertSee('mutu@poltekkes-medan.ac.id');
-        $response->assertSee('Pertanyaan yang Sering Diajukan (FAQ)');
+        $response->assertDontSee('Pertanyaan yang Sering Diajukan (FAQ)');
     }
 
     public function test_navbar_does_not_contain_admin_portal_button(): void
