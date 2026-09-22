@@ -5,14 +5,7 @@
     <x-admin.page-header
         title="Selamat Datang di Panel PPM"
         description="Pusat kendali konten dan penjaminan mutu Poltekkes Kemenkes Medan."
-    >
-        <x-slot:actions>
-            <x-admin.btn-primary href="{{ route('admin.documents.index') }}">
-                <i data-feather="file-text" class="h-4 w-4"></i>
-                Kelola Dokumen
-            </x-admin.btn-primary>
-        </x-slot:actions>
-    </x-admin.page-header>
+    />
 
     <!-- Stats Grid (4 Stat Cards) -->
     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 sm:gap-5 mb-6 sm:mb-8">
@@ -154,13 +147,9 @@
                     </div>
                     <h4 class="text-sm font-bold text-slate-900">Panduan Pengelolaan Mutu</h4>
                 </div>
-                <p class="text-xs text-slate-600 leading-relaxed mb-4">
+                <p class="text-xs text-slate-600 leading-relaxed">
                     Pastikan setiap dokumen SOP dan Standar Mutu yang diunggah dalam format PDF yang rapi serta memiliki kode resmi SPMI Poltekkes Medan.
                 </p>
-                <a href="{{ route('admin.documents.index') }}" class="inline-flex items-center gap-1.5 text-xs font-semibold text-[#028DA9] hover:text-[#0BB5CB] transition-colors">
-                    <span>Unggah dokumen sekarang</span>
-                    <i data-feather="arrow-right" class="h-3.5 w-3.5"></i>
-                </a>
             </div>
         </div>
     </div>
