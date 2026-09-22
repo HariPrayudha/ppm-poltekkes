@@ -57,6 +57,7 @@ Route::prefix('admin')
         Route::resource('document-categories', DocumentCategoryController::class)->except(['show', 'create', 'edit']);
 
         // Dokumen & SOP
+        Route::get('documents/{document}/preview-file', [DocumentController::class, 'previewFile'])->name('documents.preview-file');
         Route::resource('documents', DocumentController::class)->except(['show', 'create', 'edit']);
 
         // Galeri Kegiatan

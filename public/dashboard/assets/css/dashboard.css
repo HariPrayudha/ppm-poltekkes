@@ -169,6 +169,50 @@ body {
   color: #9f1239 !important;
 }
 
+.btn-icon-info {
+  color: #028da9 !important; /* cyan-700 */
+  background-color: #ecfeff !important; /* cyan-50 */
+  border: 1px solid rgba(165, 243, 252, 0.9) !important; /* cyan-200 */
+}
+.btn-icon-info:hover {
+  color: #0e7490 !important; /* cyan-800 */
+  background-color: #cffafe !important; /* cyan-100 */
+  border-color: #67e8f9 !important; /* cyan-300 */
+  box-shadow: 0 1px 3px 0 rgba(6, 182, 212, 0.25) !important;
+}
+.btn-icon-info i,
+.btn-icon-info svg {
+  stroke: #028da9 !important;
+  color: #028da9 !important;
+}
+.btn-icon-info:hover i,
+.btn-icon-info:hover svg {
+  stroke: #0e7490 !important;
+  color: #0e7490 !important;
+}
+
+.btn-icon-success {
+  color: #047857 !important; /* emerald-700 */
+  background-color: #ecfdf5 !important; /* emerald-50 */
+  border: 1px solid rgba(167, 243, 208, 0.9) !important; /* emerald-200 */
+}
+.btn-icon-success:hover {
+  color: #065f46 !important; /* emerald-800 */
+  background-color: #d1fae5 !important; /* emerald-100 */
+  border-color: #6ee7b7 !important; /* emerald-300 */
+  box-shadow: 0 1px 3px 0 rgba(16, 185, 129, 0.25) !important;
+}
+.btn-icon-success i,
+.btn-icon-success svg {
+  stroke: #047857 !important;
+  color: #047857 !important;
+}
+.btn-icon-success:hover i,
+.btn-icon-success:hover svg {
+  stroke: #065f46 !important;
+  color: #065f46 !important;
+}
+
 /* ====== Custom Scrollbar ====== */
 ::-webkit-scrollbar {
   width: 6px;

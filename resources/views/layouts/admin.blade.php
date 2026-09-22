@@ -16,6 +16,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
+    <!-- jQuery Vendor -->
+    <script src="{{ asset('dashboard/assets/vendor/jquery/jquery.min.js') }}"></script>
+
     <!-- Feather Icons CDN -->
     <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
 
@@ -74,8 +77,11 @@
     <!-- Global Date Picker Modal -->
     <x-admin.date-modal />
 
+    <!-- Global PDF Preview Modal -->
+    <x-admin.pdf-modal />
+
     <!-- Dashboard Core JS -->
-    <script src="{{ asset('dashboard/assets/js/dashboard.js') }}"></script>
+    <script src="{{ asset('dashboard/assets/js/dashboard.js') }}?v={{ file_exists(public_path('dashboard/assets/js/dashboard.js')) ? filemtime(public_path('dashboard/assets/js/dashboard.js')) : time() }}"></script>
 
     @stack('scripts')
 </body>

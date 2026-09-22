@@ -29,6 +29,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 8. Custom Date Picker
   initCustomDatePicker();
+
+  // 8. Global PDF Preview Modal
+  initPdfPreviewModal();
+
+  // 9. Custom Select Dropdown Component System
+  initCustomSelects();
 });
 
 /* ==========================================================================
@@ -138,12 +144,13 @@ function initModals() {
     }
   });
 
-  // ESC key listener
+  // ESC key listener (closes topmost active modal)
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
-      const activeModal = document.querySelector('.dashboard-modal.modal-open');
-      if (activeModal) {
-        closeModal(activeModal);
+      const openModals = document.querySelectorAll('.dashboard-modal.modal-open');
+      if (openModals.length > 0) {
+        const topModal = openModals[openModals.length - 1];
+        closeModal(topModal);
       }
     }
   });
@@ -389,7 +396,7 @@ function initFormSubmits() {
 /* ==========================================================================
    SweetAlert2 Delete Confirmation Helper
    ========================================================================== */
-window.confirmDelete = function(formId, itemName = 'data ini') {
+window.confirmDelete = function (formId, itemName = 'data ini') {
   if (typeof Swal === 'undefined') {
     if (confirm(`Apakah Anda yakin ingin menghapus ${itemName}?`)) {
       document.getElementById(formId).submit();
@@ -687,7 +694,7 @@ function initCustomDatePicker() {
   const grid = document.getElementById('cdm-grid');
   const todayBtn = document.getElementById('cdm-today-btn');
   const clearBtn = document.getElementById('cdm-clear-btn');
-  
+
   let currentTargetInput = null;
   let currentDate = new Date();
 
@@ -712,11 +719,10 @@ function initCustomDatePicker() {
       const isSelected = idx === selectedMonth;
       const btn = document.createElement('button');
       btn.type = 'button';
-      btn.className = `w-full flex items-center justify-between px-3 py-1.5 rounded-xl text-xs font-semibold transition-all duration-150 cursor-pointer ${
-        isSelected 
-          ? 'bg-linear-to-r from-[#028DA9] to-[#0BB5CB] text-white shadow-xs' 
+      btn.className = `w-full flex items-center justify-between px-3 py-1.5 rounded-xl text-xs font-semibold transition-all duration-150 cursor-pointer ${isSelected
+          ? 'bg-linear-to-r from-[#028DA9] to-[#0BB5CB] text-white shadow-xs'
           : 'text-slate-700 hover:bg-[#028DA9]/10 hover:text-[#028DA9]'
-      }`;
+        }`;
       btn.innerHTML = `
         <span>${name}</span>
         ${isSelected ? '<i data-feather="check" class="w-3.5 h-3.5 stroke-2"></i>' : ''}
@@ -744,11 +750,10 @@ function initCustomDatePicker() {
       const isSelected = y === selectedYear;
       const btn = document.createElement('button');
       btn.type = 'button';
-      btn.className = `w-full flex items-center justify-center px-3 py-1.5 rounded-xl text-xs font-semibold transition-all duration-150 cursor-pointer ${
-        isSelected 
-          ? 'bg-linear-to-r from-[#028DA9] to-[#0BB5CB] text-white shadow-xs' 
+      btn.className = `w-full flex items-center justify-center px-3 py-1.5 rounded-xl text-xs font-semibold transition-all duration-150 cursor-pointer ${isSelected
+          ? 'bg-linear-to-r from-[#028DA9] to-[#0BB5CB] text-white shadow-xs'
           : 'text-slate-700 hover:bg-[#028DA9]/10 hover:text-[#028DA9]'
-      }`;
+        }`;
       btn.textContent = y;
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -771,7 +776,7 @@ function initCustomDatePicker() {
         monthMenu.classList.remove('hidden');
         if (monthChevron) monthChevron.classList.add('rotate-180');
         monthBtn.setAttribute('aria-expanded', 'true');
-        
+
         const selected = monthMenu.querySelector('.bg-linear-to-r');
         if (selected) {
           setTimeout(() => selected.scrollIntoView({ block: 'nearest' }), 10);
@@ -825,24 +830,24 @@ function initCustomDatePicker() {
   function renderCalendar(date) {
     const year = date.getFullYear();
     const month = date.getMonth();
-    
+
     if (monthLabel) monthLabel.textContent = monthNames[month] || '';
     if (yearLabel) yearLabel.textContent = year;
-    
+
     closeDropdowns();
     grid.innerHTML = '';
-    
+
     const firstDay = new Date(year, month, 1).getDay();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     const today = new Date();
-    
+
     // Empty slots before first day
     for (let i = 0; i < firstDay; i++) {
       const emptyDiv = document.createElement('div');
       emptyDiv.className = 'h-8 w-8';
       grid.appendChild(emptyDiv);
     }
-    
+
     // Selected date from target input
     let selectedDate = null;
     if (currentTargetInput && currentTargetInput.value) {
@@ -852,14 +857,14 @@ function initCustomDatePicker() {
     for (let i = 1; i <= daysInMonth; i++) {
       const cellDate = new Date(year, month, i);
       const isToday = cellDate.getFullYear() === today.getFullYear() &&
-                      cellDate.getMonth() === today.getMonth() &&
-                      cellDate.getDate() === today.getDate();
+        cellDate.getMonth() === today.getMonth() &&
+        cellDate.getDate() === today.getDate();
 
       const isSelected = selectedDate &&
-                         cellDate.getFullYear() === selectedDate.getFullYear() &&
-                         cellDate.getMonth() === selectedDate.getMonth() &&
-                         cellDate.getDate() === selectedDate.getDate();
-      
+        cellDate.getFullYear() === selectedDate.getFullYear() &&
+        cellDate.getMonth() === selectedDate.getMonth() &&
+        cellDate.getDate() === selectedDate.getDate();
+
       let classes = 'h-8 w-8 mx-auto flex items-center justify-center rounded-xl cursor-pointer transition-all duration-150 text-xs font-semibold ';
       if (isSelected) {
         classes += 'bg-linear-to-r from-[#028DA9] to-[#0BB5CB] text-white shadow-md shadow-[#028DA9]/25 scale-105';
@@ -868,7 +873,7 @@ function initCustomDatePicker() {
       } else {
         classes += 'text-slate-700 hover:bg-slate-100 hover:text-slate-900 active:scale-95';
       }
-      
+
       const dayEl = document.createElement('div');
       dayEl.className = classes;
       dayEl.textContent = i;
@@ -883,7 +888,7 @@ function initCustomDatePicker() {
         closeDropdowns();
         window.closeDashboardModal(modal);
       });
-      
+
       grid.appendChild(dayEl);
     }
 
@@ -917,7 +922,7 @@ function initCustomDatePicker() {
       renderCalendar(currentDate);
     });
   }
-  
+
   if (nextBtn) {
     nextBtn.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -926,7 +931,7 @@ function initCustomDatePicker() {
       renderCalendar(currentDate);
     });
   }
-  
+
   if (todayBtn) {
     todayBtn.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -957,5 +962,382 @@ function initCustomDatePicker() {
     });
   }
 }
+
+
+
+/* ==========================================================================
+   Global PDF Preview Modal Logic (via native iframe)
+   ========================================================================== */
+let activePdfBlobUrl = null;
+let currentPdfAbortController = null;
+
+function openPdfPreviewModal(source, title = 'Pratinjau Dokumen PDF', downloadUrl = null) {
+  if (!source) return;
+
+  const titleElem = document.getElementById('global-pdf-modal-title');
+  const linkElem = document.getElementById('global-pdf-modal-link');
+  const downloadElem = document.getElementById('global-pdf-modal-download');
+  const iframe = document.getElementById('global-pdf-iframe');
+  const loading = document.getElementById('global-pdf-loading');
+  const fallback = document.getElementById('global-pdf-fallback');
+  const fallbackLink = document.getElementById('global-pdf-fallback-link');
+
+  const fileDownloadUrl = downloadUrl || (typeof source === 'string' ? source : '#');
+  const safeTitle = (title || 'Dokumen').replace(/\.[^/.]+$/, '');
+  const downloadFileName = `${safeTitle}.pdf`;
+
+  if (titleElem) titleElem.textContent = title;
+
+  if (linkElem) {
+    linkElem.href = fileDownloadUrl;
+    linkElem.setAttribute('title', 'Buka dokumen di tab baru');
+  }
+
+  if (downloadElem) {
+    downloadElem.href = fileDownloadUrl;
+    downloadElem.setAttribute('download', downloadFileName);
+    downloadElem.setAttribute('title', 'Unduh berkas PDF');
+  }
+
+  if (fallbackLink) {
+    fallbackLink.href = fileDownloadUrl;
+  }
+  if (fallback) {
+    fallback.classList.add('hidden');
+  }
+
+  if (loading) {
+    loading.classList.remove('opacity-0', 'pointer-events-none');
+  }
+
+  // Cancel any ongoing fetch request
+  if (currentPdfAbortController) {
+    currentPdfAbortController.abort();
+    currentPdfAbortController = null;
+  }
+
+  const renderBlobInIframe = (blobUrl) => {
+    if (!iframe) return;
+
+    let loadHandled = false;
+    const hideLoading = () => {
+      if (loadHandled) return;
+      loadHandled = true;
+      if (loading) {
+        loading.classList.add('opacity-0', 'pointer-events-none');
+      }
+    };
+
+    iframe.onload = hideLoading;
+    iframe.onerror = hideLoading;
+
+    // Safety timeout: Native PDF viewers in Chromium may take a moment
+    setTimeout(hideLoading, 700);
+
+    // Fallback prompt after delay if iframe cannot render on mobile devices
+    setTimeout(() => {
+      if (fallback) {
+        fallback.classList.remove('hidden');
+        if (typeof feather !== 'undefined') feather.replace();
+      }
+    }, 4000);
+
+    iframe.src = blobUrl;
+  };
+
+  // Case A: Source is already a local Blob URL (from local file upload)
+  if (typeof source === 'string' && source.startsWith('blob:')) {
+    if (activePdfBlobUrl && activePdfBlobUrl !== source) {
+      URL.revokeObjectURL(activePdfBlobUrl);
+    }
+    activePdfBlobUrl = source;
+    renderBlobInIframe(source);
+    openModal('modal-global-pdf-preview');
+    return;
+  }
+
+  // Case B: Source is a server URL (from table or edit modal)
+  // Fetch as Blob via AJAX to PREVENT Internet Download Manager (IDM) from hijacking the iframe request!
+  currentPdfAbortController = new AbortController();
+
+  fetch(source, {
+    signal: currentPdfAbortController.signal,
+    headers: {
+      'X-Requested-With': 'XMLHttpRequest',
+      'X-Preview-Request': '1',
+      'Accept': 'application/octet-stream, application/pdf',
+    },
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Gagal memuat dokumen: ' + response.status);
+      }
+      return response.blob();
+    })
+    .then((blob) => {
+      if (activePdfBlobUrl) {
+        URL.revokeObjectURL(activePdfBlobUrl);
+      }
+      const blobUrl = URL.createObjectURL(new Blob([blob], { type: 'application/pdf' }));
+      activePdfBlobUrl = blobUrl;
+
+      renderBlobInIframe(blobUrl);
+    })
+    .catch((err) => {
+      if (err.name === 'AbortError') return;
+      console.warn('AJAX Blob fetch error:', err);
+
+      if (loading) {
+        loading.classList.add('opacity-0', 'pointer-events-none');
+      }
+      if (fallback) {
+        fallback.classList.remove('hidden');
+        if (typeof feather !== 'undefined') feather.replace();
+      }
+    });
+
+  openModal('modal-global-pdf-preview');
+}
+
+function initPdfPreviewModal() {
+  document.addEventListener('click', (e) => {
+    const trigger = e.target.closest('[data-preview-pdf]');
+    if (trigger) {
+      e.preventDefault();
+      const pdfUrl = trigger.getAttribute('data-preview-pdf');
+      const downloadUrl = trigger.getAttribute('data-download-url') || pdfUrl;
+      const pdfTitle = trigger.getAttribute('data-preview-title') || 'Pratinjau Dokumen PDF';
+      openPdfPreviewModal(pdfUrl, pdfTitle, downloadUrl);
+    }
+  });
+
+  const pdfModal = document.getElementById('modal-global-pdf-preview');
+  if (pdfModal) {
+    const observer = new MutationObserver(() => {
+      if (pdfModal.classList.contains('hidden')) {
+        if (currentPdfAbortController) {
+          currentPdfAbortController.abort();
+          currentPdfAbortController = null;
+        }
+
+        const iframe = document.getElementById('global-pdf-iframe');
+        if (iframe) iframe.src = '';
+
+        const fallback = document.getElementById('global-pdf-fallback');
+        if (fallback) fallback.classList.add('hidden');
+
+        if (activePdfBlobUrl) {
+          URL.revokeObjectURL(activePdfBlobUrl);
+          activePdfBlobUrl = null;
+        }
+      }
+    });
+    observer.observe(pdfModal, { attributes: true, attributeFilter: ['class'] });
+  }
+}
+
+window.openPdfPreviewModal = openPdfPreviewModal;
+
+/* ==========================================================================
+   Custom Select Dropdown Component System
+   ========================================================================== */
+function setupCustomSelect(wrapper) {
+  const select = wrapper.querySelector('.custom-select-native');
+  const trigger = wrapper.querySelector('.custom-select-trigger');
+  const label = wrapper.querySelector('.custom-select-label');
+  const chevron = wrapper.querySelector('.custom-select-chevron');
+  const menu = wrapper.querySelector('.custom-select-menu');
+  const optionsContainer = wrapper.querySelector('.custom-select-options');
+
+  if (!select || !trigger || !label || !menu || !optionsContainer) return;
+
+  const openMenu = () => {
+    document.querySelectorAll('.custom-select-wrapper').forEach((w) => {
+      const m = w.querySelector('.custom-select-menu');
+      if (m && m !== menu) {
+        m.classList.add('hidden');
+        m.style.top = '';
+        m.style.bottom = '';
+        m.style.marginTop = '';
+        w.classList.remove('z-50');
+        const c = w.querySelector('.custom-select-chevron');
+        if (c) c.classList.remove('rotate-180');
+      }
+    });
+
+    const rect = trigger.getBoundingClientRect();
+    const menuEstimatedHeight = 220;
+    const modalBody = wrapper.closest('.modal-body');
+    let spaceBelow, spaceAbove;
+
+    if (modalBody) {
+      const bodyRect = modalBody.getBoundingClientRect();
+      spaceBelow = bodyRect.bottom - rect.bottom;
+      spaceAbove = rect.top - bodyRect.top;
+    } else {
+      spaceBelow = window.innerHeight - rect.bottom;
+      spaceAbove = rect.top;
+    }
+
+    const openUpward = spaceBelow < menuEstimatedHeight && spaceAbove > spaceBelow;
+
+    if (openUpward) {
+      menu.style.top = 'auto';
+      menu.style.bottom = 'calc(100% + 6px)';
+      menu.style.marginTop = '0';
+      menu.classList.add('origin-bottom');
+      menu.classList.remove('origin-top');
+    } else {
+      menu.style.top = '';
+      menu.style.bottom = '';
+      menu.style.marginTop = '';
+      menu.classList.add('origin-top');
+      menu.classList.remove('origin-bottom');
+    }
+
+    wrapper.classList.add('z-50');
+    menu.classList.remove('hidden');
+    trigger.setAttribute('aria-expanded', 'true');
+    if (chevron) chevron.classList.add('rotate-180');
+  };
+
+  const closeMenu = () => {
+    wrapper.classList.remove('z-50');
+    menu.classList.add('hidden');
+    menu.style.top = '';
+    menu.style.bottom = '';
+    menu.style.marginTop = '';
+    trigger.setAttribute('aria-expanded', 'false');
+    if (chevron) chevron.classList.remove('rotate-180');
+  };
+
+  const populateOptions = () => {
+    optionsContainer.innerHTML = '';
+    let selectedText = '';
+
+    Array.from(select.options).forEach((opt) => {
+      const isSelected = opt.value === select.value || (!select.value && opt.selected && !selectedText);
+      if (isSelected) {
+        selectedText = opt.text;
+      }
+
+      const optDiv = document.createElement('div');
+      optDiv.className = `custom-select-option px-3 py-2 text-xs sm:text-sm font-medium rounded-xl transition-colors cursor-pointer flex items-center justify-between ${isSelected
+        ? 'bg-[rgba(11,181,203,0.1)] text-[#028DA9] font-bold'
+        : 'text-slate-700 hover:bg-[rgba(11,181,203,0.08)] hover:text-[#028DA9]'}`;
+      optDiv.setAttribute('data-value', opt.value);
+      optDiv.innerHTML = `
+        <span class="truncate">${opt.text}</span>
+        <svg class="custom-select-check h-4 w-4 shrink-0 text-[#028DA9] ${isSelected ? '' : 'hidden'}" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+        </svg>
+      `;
+
+      optDiv.addEventListener('click', (e) => {
+        e.stopPropagation();
+        select.value = opt.value;
+        label.textContent = opt.text;
+
+        optionsContainer.querySelectorAll('.custom-select-option').forEach((el) => {
+          el.classList.remove('bg-[rgba(11,181,203,0.1)]', 'text-[#028DA9]', 'font-bold');
+          el.classList.add('text-slate-700');
+          const check = el.querySelector('.custom-select-check');
+          if (check) check.classList.add('hidden');
+        });
+        optDiv.classList.add('bg-[rgba(11,181,203,0.1)]', 'text-[#028DA9]', 'font-bold');
+        optDiv.classList.remove('text-slate-700');
+        const check = optDiv.querySelector('.custom-select-check');
+        if (check) check.classList.remove('hidden');
+
+        closeMenu();
+
+        select.dispatchEvent(new Event('change', { bubbles: true }));
+        if (window.jQuery) {
+          window.jQuery(select).trigger('change');
+        }
+      });
+
+      optionsContainer.appendChild(optDiv);
+    });
+
+    if (selectedText) {
+      label.textContent = selectedText;
+    } else if (select.options.length > 0) {
+      label.textContent = select.options[0].text;
+    }
+  };
+
+  trigger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (menu.classList.contains('hidden')) {
+      openMenu();
+    } else {
+      closeMenu();
+    }
+  });
+
+  select.addEventListener('change', () => {
+    const activeOpt = Array.from(select.options).find((o) => o.value === select.value);
+    if (activeOpt) {
+      label.textContent = activeOpt.text;
+    }
+    optionsContainer.querySelectorAll('.custom-select-option').forEach((el) => {
+      const isSel = el.getAttribute('data-value') === select.value;
+      const check = el.querySelector('.custom-select-check');
+      if (isSel) {
+        el.classList.add('bg-[rgba(11,181,203,0.1)]', 'text-[#028DA9]', 'font-bold');
+        el.classList.remove('text-slate-700');
+        if (check) check.classList.remove('hidden');
+      } else {
+        el.classList.remove('bg-[rgba(11,181,203,0.1)]', 'text-[#028DA9]', 'font-bold');
+        el.classList.add('text-slate-700');
+        if (check) check.classList.add('hidden');
+      }
+    });
+  });
+
+  populateOptions();
+  wrapper.__customSelectInitialized = true;
+}
+
+function initCustomSelects(container = document) {
+  container.querySelectorAll('.custom-select-wrapper').forEach((wrapper) => {
+    if (!wrapper.__customSelectInitialized) {
+      setupCustomSelect(wrapper);
+    }
+  });
+
+  if (!window.__customSelectGlobalClickAttached) {
+    const resetAllMenus = () => {
+      document.querySelectorAll('.custom-select-wrapper').forEach((w) => {
+        w.classList.remove('z-50');
+        const m = w.querySelector('.custom-select-menu');
+        if (m) {
+          m.classList.add('hidden');
+          m.style.top = '';
+          m.style.bottom = '';
+          m.style.marginTop = '';
+        }
+        const chevron = w.querySelector('.custom-select-chevron');
+        if (chevron) chevron.classList.remove('rotate-180');
+      });
+    };
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.custom-select-wrapper')) {
+        resetAllMenus();
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        resetAllMenus();
+      }
+    });
+    window.__customSelectGlobalClickAttached = true;
+  }
+}
+
+window.initCustomSelects = initCustomSelects;
 
 

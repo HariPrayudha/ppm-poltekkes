@@ -9,7 +9,11 @@ use App\Services\DocumentCategoryService;
 use App\Services\DocumentService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class DocumentController extends Controller
 {
@@ -31,7 +35,48 @@ class DocumentController extends Controller
         $categories = $this->categoryService->getAll();
         $availableYears = $this->documentService->getAvailableYears();
 
+        if ($request->ajax()) {
+            return view('admin.documents._table', compact('documents'));
+        }
+
         return view('admin.documents.index', compact('documents', 'categories', 'availableYears', 'categoryId', 'search', 'year'));
+    }
+
+    /**
+     * Stream the PDF file inline for modal preview without triggering download prompts.
+     */
+    public function previewFile(Document $document): BinaryFileResponse
+    {
+        Log::info('[PDF Preview Backend] previewFile dipanggil', [
+            'document_id' => $document->id,
+            'code' => $document->code,
+            'name' => $document->name,
+            'file_path' => $document->file_path,
+            'storage_exists' => $document->file_path ? Storage::disk('public')->exists($document->file_path) : false,
+            'user_id' => Auth::id(),
+            'ip' => request()->ip(),
+        ]);
+
+        if (! $document->file_path || ! Storage::disk('public')->exists($document->file_path)) {
+            Log::warning('[PDF Preview Backend] Berkas dokumen tidak ditemukan di disk public', [
+                'document_id' => $document->id,
+                'file_path' => $document->file_path,
+            ]);
+            abort(404, 'Berkas dokumen tidak ditemukan.');
+        }
+
+        $fullPath = Storage::disk('public')->path($document->file_path);
+
+        $contentType = (request()->ajax() || request()->header('X-Preview-Request'))
+            ? 'application/octet-stream'
+            : 'application/pdf';
+
+        return response()->file($fullPath, [
+            'Content-Type' => $contentType,
+            'Content-Disposition' => 'inline',
+            'Cache-Control' => 'no-cache, private',
+            'X-Frame-Options' => 'SAMEORIGIN',
+        ]);
     }
 
     /**

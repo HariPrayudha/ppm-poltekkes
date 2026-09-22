@@ -19,7 +19,7 @@ class DocumentRequest extends FormRequest
             'document_category_id' => ['required', 'exists:document_categories,id'],
             'code' => ['required', 'string', 'max:100'],
             'name' => ['required', 'string', 'max:255'],
-            'year' => ['required', 'integer', 'min:1990', 'max:'.(date('Y') + 1)],
+            'year' => ['required', 'integer', 'min:1990', 'max:'.(date('Y') + 5)],
             'file' => [$isStore ? 'required' : 'nullable', 'file', 'mimes:pdf', 'max:5120'],
         ];
     }
