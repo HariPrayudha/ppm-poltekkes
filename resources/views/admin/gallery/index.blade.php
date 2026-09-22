@@ -21,39 +21,45 @@
             />
         </x-admin.card>
     @else
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 md:gap-5 lg:gap-6">
             @foreach($galleries as $item)
-                <div class="group flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-all hover:shadow-md hover:border-slate-300">
+                <div class="group flex flex-col overflow-hidden rounded-xl sm:rounded-2xl border border-slate-200/90 bg-white shadow-2xs transition-all duration-200 hover:shadow-md hover:border-slate-300 hover:-translate-y-0.5">
                     <!-- Photo Image -->
                     <div class="relative aspect-video w-full overflow-hidden bg-slate-100 cursor-pointer group/photo"
                          data-preview-image="{{ $item->image_url }}"
                          data-preview-title="{{ $item->title }}"
                          title="Klik untuk memperbesar foto">
-                        <img src="{{ $item->image_url }}" alt="{{ $item->title }}" class="h-full w-full object-cover transition-transform duration-300 group-hover/photo:scale-105">
-                        <div class="absolute inset-0 bg-slate-950/20 opacity-0 group-hover/photo:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
-                            <i data-feather="zoom-in" class="h-6 w-6 text-white drop-shadow-md"></i>
+                        <img src="{{ $item->image_url }}" alt="{{ $item->title }}" class="h-full w-full object-cover transition-transform duration-300 ease-out group-hover/photo:scale-105">
+                        
+                        <div class="absolute inset-0 bg-slate-950/25 opacity-0 group-hover/photo:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
+                            <div class="p-2 rounded-full bg-white/20 backdrop-blur-xs text-white">
+                                <i data-feather="zoom-in" class="h-4 w-4 sm:h-5 sm:w-5 drop-shadow-sm"></i>
+                            </div>
                         </div>
-                        <div class="absolute bottom-2 left-2 rounded-lg bg-black/60 backdrop-blur-xs px-2.5 py-1 text-[11px] font-semibold text-white pointer-events-none">
-                            {{ $item->event_date ? $item->event_date->isoFormat('D MMMM Y') : '' }}
+
+                        <div class="absolute bottom-1.5 left-1.5 sm:bottom-2 sm:left-2 rounded-md sm:rounded-lg bg-slate-950/70 backdrop-blur-xs px-2 py-0.5 sm:px-2.5 sm:py-1 text-[10px] sm:text-[11px] font-semibold text-white pointer-events-none truncate max-w-[90%] shadow-2xs flex items-center gap-1">
+                            <i data-feather="calendar" class="w-2.5 h-2.5 sm:w-3 sm:h-3 shrink-0 opacity-80"></i>
+                            <span class="truncate">{{ $item->event_date ? $item->event_date->isoFormat('D MMM Y') : '' }}</span>
                         </div>
                     </div>
 
                     <!-- Content -->
-                    <div class="flex flex-1 flex-col p-4">
-                        <h4 class="text-sm font-bold text-slate-900 line-clamp-1 group-hover:text-[#028DA9] transition-colors">
+                    <div class="flex flex-1 flex-col p-3 sm:p-4">
+                        <h4 class="text-xs sm:text-sm font-bold text-slate-900 line-clamp-2 leading-snug group-hover:text-[#028DA9] transition-colors" title="{{ $item->title }}">
                             {{ $item->title }}
                         </h4>
+
                         @if($item->description)
-                            <p class="mt-1 text-xs text-slate-500 line-clamp-2 leading-relaxed flex-1">
+                            <p class="mt-1 text-[11px] sm:text-xs text-slate-500 line-clamp-2 leading-relaxed flex-1">
                                 {{ $item->description }}
                             </p>
                         @endif
 
                         <!-- Action Buttons -->
-                        <div class="mt-4 flex items-center justify-end gap-1.5 border-t border-slate-100 pt-3">
+                        <div class="mt-2.5 sm:mt-4 flex items-center justify-end gap-2 border-t border-slate-100 pt-2 sm:pt-3">
                             <button
                                 type="button"
-                                class="btn-icon btn-icon-lime btn-edit-gallery rounded-xl p-2 transition-all duration-200 shadow-2xs hover:shadow-xs active:scale-95 cursor-pointer"
+                                class="btn-icon btn-icon-lime btn-edit-gallery rounded-lg sm:rounded-xl p-1.5 sm:p-2 transition-all duration-150 shadow-2xs hover:shadow-xs active:scale-90 cursor-pointer"
                                 title="Edit Foto"
                                 data-action="{{ route('admin.gallery.update', $item) }}"
                                 data-gallery="{{ json_encode([
@@ -64,16 +70,16 @@
                                     'image_url' => $item->image_url,
                                 ]) }}"
                             >
-                                <i data-feather="edit-2" class="h-4 w-4"></i>
+                                <i data-feather="edit-2" class="h-3.5 w-3.5 sm:h-4 sm:w-4"></i>
                             </button>
 
                             <button
                                 type="button"
-                                class="btn-icon btn-icon-danger rounded-xl p-2 transition-all duration-200 shadow-2xs hover:shadow-xs active:scale-95 cursor-pointer"
+                                class="btn-icon btn-icon-danger rounded-lg sm:rounded-xl p-1.5 sm:p-2 transition-all duration-150 shadow-2xs hover:shadow-xs active:scale-90 cursor-pointer"
                                 title="Hapus Foto"
                                 onclick="confirmDelete('delete-gallery-{{ $item->id }}', 'kegiatan {{ addslashes($item->title) }}')"
                             >
-                                <i data-feather="trash-2" class="h-4 w-4"></i>
+                                <i data-feather="trash-2" class="h-3.5 w-3.5 sm:h-4 sm:w-4"></i>
                             </button>
 
                             <form id="delete-gallery-{{ $item->id }}" method="POST" action="{{ route('admin.gallery.destroy', $item) }}" class="hidden">
