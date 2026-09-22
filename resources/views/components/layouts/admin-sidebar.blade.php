@@ -31,18 +31,18 @@
                 </div>
             </div>
 
-            <!-- Group: Konten Beranda -->
+            <!-- Group: Beranda -->
             <div>
-                <p class="px-3 text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-2">Konten Beranda</p>
+                <p class="px-3 text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-2">Beranda</p>
                 <div class="space-y-1">
                     <x-layouts.sidebar-link :href="route('admin.banners.index')" icon="image" :active="request()->routeIs('admin.banners.*')">
                         Hero Banner
                     </x-layouts.sidebar-link>
                     <x-layouts.sidebar-link :href="route('admin.greeting.index')" icon="user" :active="request()->routeIs('admin.greeting.*')">
-                        Sambutan Pimpinan
+                        Sambutan
                     </x-layouts.sidebar-link>
                     <x-layouts.sidebar-link :href="route('admin.services.index')" icon="grid" :active="request()->routeIs('admin.services.*')">
-                        Layanan Mutu
+                        Layanan Kami
                     </x-layouts.sidebar-link>
                     <x-layouts.sidebar-link :href="route('admin.related-links.index')" icon="link-2" :active="request()->routeIs('admin.related-links.*')">
                         Link Terkait
@@ -50,12 +50,12 @@
                 </div>
             </div>
 
-            <!-- Group: Dokumen SPMI -->
+            <!-- Group: SPMI & Dokumen -->
             <div>
-                <p class="px-3 text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-2">Dokumen & SPMI</p>
+                <p class="px-3 text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-2">SPMI & Dokumen</p>
                 <div class="space-y-1">
                     <x-layouts.sidebar-link :href="route('admin.profile.index')" icon="users" :active="request()->routeIs('admin.profile.*')">
-                        Struktur & Tupoksi
+                        Profil
                     </x-layouts.sidebar-link>
                     <x-layouts.sidebar-link :href="route('admin.document-categories.index')" icon="folder" :active="request()->routeIs('admin.document-categories.*')">
                         Kategori Dokumen
@@ -66,15 +66,15 @@
                 </div>
             </div>
 
-            <!-- Group: Media & Informasi -->
+            <!-- Group: Galeri & Kontak -->
             <div>
-                <p class="px-3 text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-2">Media & Informasi</p>
+                <p class="px-3 text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-2">Galeri & Kontak</p>
                 <div class="space-y-1">
                     <x-layouts.sidebar-link :href="route('admin.gallery.index')" icon="camera" :active="request()->routeIs('admin.gallery.*')">
-                        Galeri Kegiatan
+                        Galeri
                     </x-layouts.sidebar-link>
                     <x-layouts.sidebar-link :href="route('admin.contact.index')" icon="phone" :active="request()->routeIs('admin.contact.*')">
-                        Kontak & Footer
+                        Kontak
                     </x-layouts.sidebar-link>
                 </div>
             </div>
@@ -85,7 +85,7 @@
                     <p class="px-3 text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-2">Pengaturan</p>
                     <div class="space-y-1">
                         <x-layouts.sidebar-link :href="route('admin.users.index')" icon="user-check" :active="request()->routeIs('admin.users.*')">
-                            Kelola Pengguna
+                            Pengguna
                         </x-layouts.sidebar-link>
                     </div>
                 </div>
