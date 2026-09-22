@@ -22,7 +22,7 @@ class ContactSeeder extends Seeder
                 'instagram_url' => 'https://instagram.com/poltekkesmedan',
                 'youtube_url' => 'https://youtube.com/@poltekkeskemenkesmedanofficial',
                 'facebook_url' => 'https://facebook.com/poltekkesmedan',
-                'maps_embed' => '<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d31858.56293876502!2d98.6139837!3d3.5131805!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30312452458d243f%3A0xf9ebdd1dbf4f271a!2sPoltekkes%20Medan!5e0!3m2!1sid!2sid!4v1790091254878!5m2!1sid!2sid" width="100%" height="320" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>',
+                'maps_embed' => 'https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d31858.56293876502!2d98.6139837!3d3.5131805!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30312452458d243f%3A0xf9ebdd1dbf4f271a!2sPoltekkes%20Medan!5e0!3m2!1sid!2sid!4v1790091254878!5m2!1sid!2sid',
             ]
         );
     }

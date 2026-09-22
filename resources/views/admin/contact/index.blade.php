@@ -97,18 +97,18 @@
             <div class="space-y-5">
                 <x-admin.form-textarea
                     name="maps_embed"
-                    label="Kode HTML Iframe Sematan Peta"
+                    label="Link / Kode Iframe Sematan Peta Google Maps"
                     rows="3"
                     :value="$contact->maps_embed"
-                    placeholder='<iframe src="https://www.google.com/maps/embed?..." width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>'
-                    hint="Salin kode HTML sematan dari Google Maps melalui menu Bagikan > Sematkan peta."
+                    placeholder='https://www.google.com/maps/embed?... atau <iframe src="https://www.google.com/maps/embed?..."></iframe>'
+                    hint="Bisa berupa link URL embed langsung (https://...) atau seluruh kode tag iframe dari Google Maps (Bagikan > Sematkan peta)."
                 />
 
-                @if($contact->maps_embed)
+                @if($contact->map_url)
                     <div>
                         <p class="text-xs font-semibold text-slate-500 mb-2">Pratinjau Peta Saat Ini:</p>
-                        <div class="overflow-hidden rounded-2xl border border-slate-200 aspect-21/9 sm:aspect-video max-h-72 w-full bg-slate-50 shadow-2xs [&>iframe]:w-full [&>iframe]:h-full [&>iframe]:border-0">
-                            {!! $contact->maps_embed !!}
+                        <div class="overflow-hidden rounded-2xl border border-slate-200 aspect-21/9 sm:aspect-video max-h-72 w-full bg-slate-50 shadow-2xs">
+                            <iframe src="{{ $contact->map_url }}" class="w-full h-full border-0" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
                         </div>
                     </div>
                 @endif
