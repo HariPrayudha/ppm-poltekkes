@@ -2,7 +2,7 @@
 
 @section('content')
     <x-admin.page-header
-        title="Kelola Pengguna & Akses"
+        title="Kelola Pengguna"
         description="Kelola akun Super Admin dan Operator Mutu yang memiliki izin mengelola sistem PPM."
     >
         <x-slot:actions>
@@ -22,7 +22,7 @@
                         <th class="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">Alamat Email</th>
                         <th class="px-6 py-3.5 text-center text-xs font-semibold uppercase tracking-wider text-slate-500">Peran (Role)</th>
                         <th class="px-6 py-3.5 text-center text-xs font-semibold uppercase tracking-wider text-slate-500">Status</th>
-                        <th class="px-6 py-3.5 text-right text-xs font-semibold uppercase tracking-wider text-slate-500">Aksi</th>
+                        <th class="px-6 py-3.5 text-center text-xs font-semibold uppercase tracking-wider text-slate-500">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100 bg-white">
@@ -35,7 +35,7 @@
                                     </div>
                                     <div>
                                         <p class="text-sm font-bold text-slate-900 leading-tight">{{ $u->name }}</p>
-                                        @if($u->id === auth()->id())
+                                        @if($u->id === \Illuminate\Support\Facades\Auth::id())
                                             <span class="text-[10px] font-semibold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded">Akun Anda</span>
                                         @endif
                                     </div>
@@ -52,12 +52,12 @@
                             <td class="px-6 py-4 text-center">
                                 <x-admin.badge :active="$u->is_active" />
                             </td>
-                            <td class="px-6 py-4 text-right">
-                                <div class="flex items-center justify-end gap-1.5">
-                                    <!-- Edit Button -->
+                            <td class="px-6 py-4 text-center">
+                                <div class="flex items-center justify-center gap-2">
+                                    <!-- Edit Button (Lime) -->
                                     <button
                                         type="button"
-                                        class="btn-icon btn-edit-user text-amber-600 hover:bg-amber-50"
+                                        class="btn-icon btn-icon-lime btn-edit-user rounded-xl p-2 transition-all duration-200 shadow-2xs hover:shadow-xs active:scale-95 cursor-pointer"
                                         title="Edit Pengguna"
                                         data-action="{{ route('admin.users.update', $u) }}"
                                         data-user="{{ json_encode([
@@ -71,11 +71,11 @@
                                         <i data-feather="edit-2" class="h-4 w-4"></i>
                                     </button>
 
-                                    <!-- Delete Button (Disabled for self) -->
-                                    @if($u->id !== auth()->id())
+                                    <!-- Delete Button (Rose / Disabled for self) -->
+                                    @if($u->id !== \Illuminate\Support\Facades\Auth::id())
                                         <button
                                             type="button"
-                                            class="btn-icon text-rose-600 hover:bg-rose-50"
+                                            class="btn-icon btn-icon-danger rounded-xl p-2 transition-all duration-200 shadow-2xs hover:shadow-xs active:scale-95 cursor-pointer"
                                             title="Hapus Pengguna"
                                             onclick="confirmDelete('delete-user-{{ $u->id }}', 'pengguna {{ addslashes($u->name) }}')"
                                         >
@@ -87,7 +87,7 @@
                                             @method('DELETE')
                                         </form>
                                     @else
-                                        <span class="btn-icon text-slate-300 cursor-not-allowed" title="Tidak dapat menghapus akun Anda sendiri">
+                                        <span class="btn-icon rounded-xl p-2 text-slate-300 cursor-not-allowed opacity-50" title="Tidak dapat menghapus akun Anda sendiri">
                                             <i data-feather="trash-2" class="h-4 w-4"></i>
                                         </span>
                                     @endif
@@ -114,7 +114,7 @@
 
 @section('modals')
     <!-- Modal Tambah Pengguna -->
-    <x-admin.modal id="modal-create-user" title="Tambah Pengguna Admin Baru">
+    <x-admin.modal id="modal-create-user" title="Tambah Pengguna Operator Mutu">
         <form method="POST" action="{{ route('admin.users.store') }}" class="space-y-4">
             @csrf
 
@@ -133,10 +133,16 @@
                 required
             />
 
-            <x-admin.form-select name="role" label="Peran (Role Akses)" required>
-                <option value="operator_mutu">Operator Mutu (Kelola Konten & Dokumen)</option>
-                <option value="super_admin">Super Admin (Akses Penuh termasuk Pengguna)</option>
-            </x-admin.form-select>
+            <div>
+                <label class="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1.5">Peran (Role Akses)</label>
+                <div class="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200/80 text-sm">
+                    <span class="inline-flex items-center rounded-lg px-2.5 py-0.5 text-xs font-bold bg-sky-50 text-[#028DA9] border border-sky-200">
+                        Operator Mutu
+                    </span>
+                    <span class="text-xs text-slate-500 font-normal">Hak akses mengelola konten & dokumen portal PPM</span>
+                </div>
+                <input type="hidden" name="role" value="operator_mutu">
+            </div>
 
             <x-admin.form-input
                 name="password"
@@ -146,11 +152,14 @@
                 required
             />
 
-            <div class="pt-2">
-                <label class="flex items-center gap-2.5 cursor-pointer">
-                    <input type="checkbox" name="is_active" value="1" checked class="h-4 w-4 rounded border-slate-300 text-[#0BB5CB] focus:ring-[#0BB5CB]">
-                    <span class="text-sm font-semibold text-slate-700">Akun Langsung Aktif</span>
-                </label>
+            <div class="pt-1">
+                <x-admin.form-checkbox
+                    name="is_active"
+                    id="create_user_is_active"
+                    label="Akun Langsung Aktif"
+                    description="Pengguna dapat langsung masuk menggunakan email dan kata sandi yang dibuat."
+                    :checked="true"
+                />
             </div>
 
             <div class="flex items-center justify-end gap-2.5 pt-4 border-t border-slate-100">
@@ -161,7 +170,7 @@
     </x-admin.modal>
 
     <!-- Modal Edit Pengguna -->
-    <x-admin.modal id="modal-edit-user" title="Edit Data Pengguna Admin">
+    <x-admin.modal id="modal-edit-user" title="Edit Data Pengguna">
         <form id="form-edit-user" method="POST" action="" class="space-y-4">
             @csrf
             @method('PUT')
@@ -179,10 +188,16 @@
                 required
             />
 
-            <x-admin.form-select name="role" label="Peran (Role Akses)" required>
-                <option value="operator_mutu">Operator Mutu (Kelola Konten & Dokumen)</option>
-                <option value="super_admin">Super Admin (Akses Penuh)</option>
-            </x-admin.form-select>
+            <div>
+                <label class="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1.5">Peran (Role Akses)</label>
+                <div class="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200/80 text-sm">
+                    <span id="edit-user-role-badge" class="inline-flex items-center rounded-lg px-2.5 py-0.5 text-xs font-bold bg-sky-50 text-[#028DA9] border border-sky-200">
+                        Operator Mutu
+                    </span>
+                    <span id="edit-user-role-desc" class="text-xs text-slate-500 font-normal">Hak akses mengelola konten & dokumen portal PPM</span>
+                </div>
+                <input type="hidden" name="role" id="edit-user-role" value="operator_mutu">
+            </div>
 
             <x-admin.form-input
                 name="password"
@@ -191,11 +206,14 @@
                 placeholder="Minimal 6 karakter baru"
             />
 
-            <div class="pt-2">
-                <label class="flex items-center gap-2.5 cursor-pointer">
-                    <input type="checkbox" name="is_active" value="1" class="h-4 w-4 rounded border-slate-300 text-[#0BB5CB] focus:ring-[#0BB5CB]">
-                    <span class="text-sm font-semibold text-slate-700">Status Akun Aktif</span>
-                </label>
+            <div class="pt-1">
+                <x-admin.form-checkbox
+                    name="is_active"
+                    id="edit_user_is_active"
+                    label="Status Akun Aktif"
+                    description="Beri centang untuk mengaktifkan akses atau hilangkan untuk menonaktifkan."
+                    :checked="false"
+                />
             </div>
 
             <div class="flex items-center justify-end gap-2.5 pt-4 border-t border-slate-100">

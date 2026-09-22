@@ -14,7 +14,7 @@ class UserService
      */
     public function getAllPaginated(int $perPage = 10): LengthAwarePaginator
     {
-        return User::latest('id')->paginate($perPage);
+        return User::where('role', '!=', 'super_admin')->latest('id')->paginate($perPage);
     }
 
     /**
@@ -23,7 +23,7 @@ class UserService
     public function create(array $data): User
     {
         $data['password'] = Hash::make($data['password']);
-        $data['is_active'] = isset($data['is_active']) ? (bool) $data['is_active'] : true;
+        $data['is_active'] = isset($data['is_active']) ? (bool) $data['is_active'] : false;
 
         return User::create($data);
     }

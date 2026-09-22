@@ -14,8 +14,11 @@ document.addEventListener('DOMContentLoaded', () => {
         editForm.action = updateUrl;
         editForm.querySelector('[name="name"]').value = user.name || '';
         editForm.querySelector('[name="email"]').value = user.email || '';
-        editForm.querySelector('[name="role"]').value = user.role || 'operator_mutu';
         editForm.querySelector('[name="password"]').value = '';
+
+        const roleInput = editForm.querySelector('[name="role"]');
+        if (roleInput) roleInput.value = user.role || 'operator_mutu';
+
         const activeCheckbox = editForm.querySelector('[name="is_active"]');
         if (activeCheckbox) {
           activeCheckbox.checked = Boolean(user.is_active);
