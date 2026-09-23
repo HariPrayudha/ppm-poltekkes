@@ -1,13 +1,13 @@
 @props(['contact' => null])
 
 @php
-    $address = $contact?->address ?: 'Jl. Jamin Ginting KM 13,5, Kel. Lau Cih, Kec. Medan Tuntungan, Kota Medan, Sumatera Utara 20137';
-    $operatingHours = $contact?->operating_hours ?: 'Senin - Kamis: 07.30 - 16.00 WIB | Jumat: 07.30 - 16.30 WIB';
-    $email = $contact?->email ?: 'info@poltekkes-medan.ac.id';
-    $phone = $contact?->phone ?: '+62 811-6238-633';
-    $instagram = $contact?->instagram_url ?: 'https://www.instagram.com/polkesmedan';
-    $youtube = $contact?->youtube_url ?: 'https://www.youtube.com/@polkesmedan';
-    $facebook = $contact?->facebook_url ?: 'https://www.facebook.com/polkesmedan';
+$address = $contact?->address ?: 'Jl. Jamin Ginting KM 13,5, Kel. Lau Cih, Kec. Medan Tuntungan, Kota Medan, Sumatera Utara 20137';
+$operatingHours = $contact?->operating_hours ?: 'Senin - Kamis: 07.30 - 16.00 WIB | Jumat: 07.30 - 16.30 WIB';
+$email = $contact?->email ?: 'info@poltekkes-medan.ac.id';
+$phone = $contact?->phone ?: '+62 811-6238-633';
+$instagram = $contact?->instagram_url ?: 'https://www.instagram.com/polkesmedan';
+$youtube = $contact?->youtube_url ?: 'https://www.youtube.com/@polkesmedan';
+$facebook = $contact?->facebook_url ?: 'https://www.facebook.com/polkesmedan';
 @endphp
 
 <footer class="mt-auto bg-slate-950 text-slate-300 relative overflow-hidden border-t border-slate-800/80">
@@ -116,6 +116,15 @@
                         <a href="{{ route('frontend.contact.index') }}" class="text-slate-400 hover:text-[#0BB5CB] hover:translate-x-1 transition-all duration-200 flex items-center gap-2">
                             <i data-feather="chevron-right" class="w-3.5 h-3.5 text-[#00A99D]"></i>
                             <span>Kontak Kami</span>
+                        </a>
+                    </li>
+                    <li class="pt-2">
+                        <a href="{{ route('login') }}"
+                            class="relative inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-linear-to-r from-[#00A99D] to-[#0BB5CB] text-white text-xs font-bold shadow-md shadow-[#0BB5CB]/25 hover:shadow-lg hover:shadow-[#0BB5CB]/40 hover:-translate-y-0.5 active:scale-95 transition-all duration-300 group cursor-pointer border border-white/20"
+                            title="Akses Portal Administrator & CMS">
+                            <span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
+                            <i data-feather="lock" class="w-3.5 h-3.5 text-white group-hover:scale-110 transition-transform duration-200"></i>
+                            <span class="tracking-wide">Portal Admin</span>
                         </a>
                     </li>
                 </ul>

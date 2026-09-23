@@ -278,10 +278,18 @@ class PublicPagesTest extends TestCase
 
     public function test_navbar_does_not_contain_admin_portal_button(): void
     {
+        $navbarHtml = view('components.frontend.navbar')->render();
+
+        $this->assertStringNotContainsString('Portal Admin', $navbarHtml);
+    }
+
+    public function test_footer_contains_admin_portal_button_and_link(): void
+    {
         $response = $this->get(route('frontend.home'));
 
         $response->assertStatus(200);
-        $response->assertDontSee('Portal Admin');
+        $response->assertSee('Portal Admin');
+        $response->assertSee(route('login'));
     }
 
     public function test_navbar_contains_profile_dropdown_items(): void
