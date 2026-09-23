@@ -67,7 +67,7 @@ class PublicPagesTest extends TestCase
         $response->assertStatus(200);
         $response->assertViewIs('frontend.profile.structure');
         $response->assertSee('Struktur Organisasi');
-        $response->assertSee('Bagan Visual Struktur Organisasi');
+        $response->assertSee('Struktur Organisasi Pusat Penjaminan Mutu');
     }
 
     public function test_profile_duties_page_is_accessible(): void
