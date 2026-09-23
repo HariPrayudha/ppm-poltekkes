@@ -2,6 +2,21 @@ import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import { bunny } from 'laravel-vite-plugin/fonts';
 import tailwindcss from '@tailwindcss/vite';
+import os from 'os';
+
+function getLocalIp() {
+    const interfaces = os.networkInterfaces();
+    for (const name of Object.keys(interfaces)) {
+        for (const iface of interfaces[name] || []) {
+            if (iface.family === 'IPv4' && !iface.internal) {
+                return iface.address;
+            }
+        }
+    }
+    return 'localhost';
+}
+
+const hostIp = getLocalIp();
 
 export default defineConfig({
     plugins: [
@@ -19,7 +34,7 @@ export default defineConfig({
     server: {
         host: '0.0.0.0',
         cors: true,
-        origin: 'http://10.143.116.51:5173',
+        origin: `http://${hostIp}:5173`,
         watch: {
             ignored: ['**/storage/framework/views/**'],
         },
