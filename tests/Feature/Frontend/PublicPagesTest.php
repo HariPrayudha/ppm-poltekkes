@@ -48,7 +48,7 @@ class PublicPagesTest extends TestCase
         $response = $this->get(route('frontend.home'));
 
         $response->assertStatus(200);
-        $response->assertViewIs('frontend.home');
+        $response->assertViewIs('frontend.home.index');
         $response->assertSee('Banner SPMI Nasional');
         $response->assertSee('Dr. Hj. Siti Mutu, M.Kes');
         $response->assertSee('Audit Mutu Internal');
@@ -253,7 +253,7 @@ class PublicPagesTest extends TestCase
         $response = $this->get(route('frontend.gallery.index'));
 
         $response->assertStatus(200);
-        $response->assertViewIs('frontend.gallery');
+        $response->assertViewIs('frontend.gallery.index');
         $response->assertSee('Workshop Audit Mutu 2026');
         $response->assertSee('15 Maret 2026');
     }
@@ -270,7 +270,7 @@ class PublicPagesTest extends TestCase
         $response = $this->get(route('frontend.contact.index'));
 
         $response->assertStatus(200);
-        $response->assertViewIs('frontend.contact');
+        $response->assertViewIs('frontend.contact.index');
         $response->assertSee('Jl. Jamin Ginting KM. 13,5 Lau Cih Medan');
         $response->assertSee('mutu@poltekkes-medan.ac.id');
         $response->assertDontSee('Pertanyaan yang Sering Diajukan (FAQ)');

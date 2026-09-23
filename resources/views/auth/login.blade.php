@@ -1,4 +1,8 @@
-<x-layouts.auth title="Masuk ke Panel Admin">
+@extends('layouts.auth')
+
+@section('title', 'Masuk ke Panel Admin')
+
+@section('content')
     <div class="rounded-3xl border border-slate-200/80 bg-white p-8 shadow-xl shadow-slate-200/40">
         <!-- Logo / Header -->
         <div class="text-center mb-8">
@@ -129,4 +133,4 @@
 
     <!-- External Script (Rule 1: No inline JS in Blade) -->
     <script src="{{ asset('dashboard/assets/js/login.js') }}"></script>
-</x-layouts.auth>
+@endsection

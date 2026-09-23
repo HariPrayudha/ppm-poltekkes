@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ $title ?? 'Masuk' }} | PPM Poltekkes Kemenkes Medan</title>
+    <title>@yield('title', $title ?? 'Masuk') | PPM Poltekkes Kemenkes Medan</title>
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{{ asset('dashboard/assets/image/favicon-kemnaker.ico') }}">
@@ -32,7 +32,8 @@
     </div>
 
     <main class="w-full max-w-md">
-        {{ $slot }}
+        @yield('content')
+        {{ $slot ?? '' }}
     </main>
 
     <script src="{{ asset('dashboard/assets/js/dashboard.js') }}"></script>

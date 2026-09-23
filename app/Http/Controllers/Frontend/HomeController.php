@@ -31,7 +31,7 @@ class HomeController extends Controller
 
         $contact = Contact::first();
 
-        return view('frontend.home', compact(
+        return view('frontend.home.index', compact(
             'banners',
             'greeting',
             'services',

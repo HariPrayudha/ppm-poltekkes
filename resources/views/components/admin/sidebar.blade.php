@@ -25,9 +25,9 @@
             <div>
                 <p class="px-3 text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-2">Utama</p>
                 <div class="space-y-1">
-                    <x-layouts.sidebar-link :href="route('admin.dashboard')" icon="home" :active="request()->routeIs('admin.dashboard')">
+                    <x-admin.sidebar-link :href="route('admin.dashboard')" icon="home" :active="request()->routeIs('admin.dashboard')">
                         Dashboard
-                    </x-layouts.sidebar-link>
+                    </x-admin.sidebar-link>
                 </div>
             </div>
 
@@ -35,18 +35,18 @@
             <div>
                 <p class="px-3 text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-2">Beranda</p>
                 <div class="space-y-1">
-                    <x-layouts.sidebar-link :href="route('admin.banners.index')" icon="image" :active="request()->routeIs('admin.banners.*')">
+                    <x-admin.sidebar-link :href="route('admin.banners.index')" icon="image" :active="request()->routeIs('admin.banners.*')">
                         Hero Banner
-                    </x-layouts.sidebar-link>
-                    <x-layouts.sidebar-link :href="route('admin.greeting.index')" icon="user" :active="request()->routeIs('admin.greeting.*')">
+                    </x-admin.sidebar-link>
+                    <x-admin.sidebar-link :href="route('admin.greeting.index')" icon="user" :active="request()->routeIs('admin.greeting.*')">
                         Sambutan
-                    </x-layouts.sidebar-link>
-                    <x-layouts.sidebar-link :href="route('admin.services.index')" icon="grid" :active="request()->routeIs('admin.services.*')">
+                    </x-admin.sidebar-link>
+                    <x-admin.sidebar-link :href="route('admin.services.index')" icon="grid" :active="request()->routeIs('admin.services.*')">
                         Layanan Kami
-                    </x-layouts.sidebar-link>
-                    <x-layouts.sidebar-link :href="route('admin.related-links.index')" icon="link-2" :active="request()->routeIs('admin.related-links.*')">
+                    </x-admin.sidebar-link>
+                    <x-admin.sidebar-link :href="route('admin.related-links.index')" icon="link-2" :active="request()->routeIs('admin.related-links.*')">
                         Link Terkait
-                    </x-layouts.sidebar-link>
+                    </x-admin.sidebar-link>
                 </div>
             </div>
 
@@ -54,15 +54,15 @@
             <div>
                 <p class="px-3 text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-2">SPMI & Dokumen</p>
                 <div class="space-y-1">
-                    <x-layouts.sidebar-link :href="route('admin.profile.index')" icon="users" :active="request()->routeIs('admin.profile.*')">
+                    <x-admin.sidebar-link :href="route('admin.profile.index')" icon="users" :active="request()->routeIs('admin.profile.*')">
                         Profil
-                    </x-layouts.sidebar-link>
-                    <x-layouts.sidebar-link :href="route('admin.document-categories.index')" icon="folder" :active="request()->routeIs('admin.document-categories.*')">
+                    </x-admin.sidebar-link>
+                    <x-admin.sidebar-link :href="route('admin.document-categories.index')" icon="folder" :active="request()->routeIs('admin.document-categories.*')">
                         Kategori Dokumen
-                    </x-layouts.sidebar-link>
-                    <x-layouts.sidebar-link :href="route('admin.documents.index')" icon="file-text" :active="request()->routeIs('admin.documents.*')">
+                    </x-admin.sidebar-link>
+                    <x-admin.sidebar-link :href="route('admin.documents.index')" icon="file-text" :active="request()->routeIs('admin.documents.*')">
                         Dokumen & SOP
-                    </x-layouts.sidebar-link>
+                    </x-admin.sidebar-link>
                 </div>
             </div>
 
@@ -70,12 +70,12 @@
             <div>
                 <p class="px-3 text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-2">Galeri & Kontak</p>
                 <div class="space-y-1">
-                    <x-layouts.sidebar-link :href="route('admin.gallery.index')" icon="camera" :active="request()->routeIs('admin.gallery.*')">
+                    <x-admin.sidebar-link :href="route('admin.gallery.index')" icon="camera" :active="request()->routeIs('admin.gallery.*')">
                         Galeri
-                    </x-layouts.sidebar-link>
-                    <x-layouts.sidebar-link :href="route('admin.contact.index')" icon="phone" :active="request()->routeIs('admin.contact.*')">
+                    </x-admin.sidebar-link>
+                    <x-admin.sidebar-link :href="route('admin.contact.index')" icon="phone" :active="request()->routeIs('admin.contact.*')">
                         Kontak
-                    </x-layouts.sidebar-link>
+                    </x-admin.sidebar-link>
                 </div>
             </div>
 
@@ -84,9 +84,9 @@
                 <div>
                     <p class="px-3 text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-2">Pengaturan</p>
                     <div class="space-y-1">
-                        <x-layouts.sidebar-link :href="route('admin.users.index')" icon="user-check" :active="request()->routeIs('admin.users.*')">
+                        <x-admin.sidebar-link :href="route('admin.users.index')" icon="user-check" :active="request()->routeIs('admin.users.*')">
                             Pengguna
-                        </x-layouts.sidebar-link>
+                        </x-admin.sidebar-link>
                     </div>
                 </div>
             @endif

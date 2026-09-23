@@ -48,12 +48,12 @@
     </div>
 
     <!-- Admin Sidebar -->
-    <x-layouts.admin-sidebar />
+    <x-admin.sidebar />
 
     <!-- Main Content Wrapper (Fixed Height Viewport) -->
     <div class="flex flex-1 flex-col lg:pl-64 min-w-0 h-screen overflow-hidden transition-all">
         <!-- Admin Header -->
-        <x-layouts.admin-header />
+        <x-admin.header />
 
         <!-- Main Scrollable Body -->
         <main class="flex-1 overflow-y-auto w-full">

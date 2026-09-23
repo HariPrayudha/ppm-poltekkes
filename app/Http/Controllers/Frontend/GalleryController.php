@@ -15,6 +15,6 @@ class GalleryController extends Controller
     {
         $galleries = Gallery::orderByDesc('event_date')->paginate(12);
 
-        return view('frontend.gallery', compact('galleries'));
+        return view('frontend.gallery.index', compact('galleries'));
     }
 }
