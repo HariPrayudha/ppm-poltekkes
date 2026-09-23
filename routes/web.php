@@ -17,6 +17,7 @@ use App\Http\Controllers\Frontend\DocumentController as FrontendDocumentControll
 use App\Http\Controllers\Frontend\GalleryController as FrontendGalleryController;
 use App\Http\Controllers\Frontend\HomeController as FrontendHomeController;
 use App\Http\Controllers\Frontend\ProfileController as FrontendProfileController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 // Public Frontend Routes
@@ -35,6 +36,38 @@ Route::name('frontend.')->group(function () {
 // Admin shortcut redirects
 Route::get('/admin', fn () => redirect()->route('admin.dashboard'));
 Route::get('/admin/login', fn () => redirect()->route('login'));
+
+// Production deployment helper: create storage symlink via browser
+Route::get('/storage-link', function () {
+    $link = public_path('storage');
+    $target = storage_path('app/public');
+
+    if (file_exists($link)) {
+        return response()->json([
+            'status' => 'info',
+            'message' => 'Symlink storage sudah ada.',
+            'link' => $link,
+            'target' => $target,
+        ]);
+    }
+
+    try {
+        Artisan::call('storage:link');
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Symlink storage berhasil dibuat.',
+            'output' => trim(Artisan::output()),
+            'link' => $link,
+            'target' => $target,
+        ]);
+    } catch (Throwable $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Gagal membuat storage link: '.$e->getMessage(),
+        ], 500);
+    }
+});
 
 // Authentication Routes
 Route::middleware('guest')->group(function () {

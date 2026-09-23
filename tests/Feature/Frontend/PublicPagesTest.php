@@ -347,4 +347,12 @@ class PublicPagesTest extends TestCase
         $response->assertSee('fa-brands fa-facebook-f');
         $response->assertSee('fa-brands fa-whatsapp');
     }
+
+    public function test_storage_link_helper_route_executes_successfully(): void
+    {
+        $response = $this->get('/storage-link');
+
+        $response->assertStatus(200);
+        $response->assertJsonStructure(['status', 'message', 'link', 'target']);
+    }
 }
