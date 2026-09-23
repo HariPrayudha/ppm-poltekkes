@@ -8,7 +8,7 @@
 
     <!-- 2. Section Sambutan Kepala PPM (Bab 2.2 SRS) -->
     @if($greeting && ($greeting->name || $greeting->content))
-        <section class="py-14 sm:py-20 lg:py-24 bg-slate-50/70 border-b border-slate-200/70 reveal-on-scroll">
+        <section class="py-14 sm:py-20 lg:py-24 bg-slate-50/70 border-b border-slate-200/70">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 lg:p-14 shadow-xs relative overflow-hidden">
                     <!-- Ambient Glow Accent -->
