@@ -1,47 +1,47 @@
 @props(['banners' => collect()])
 
-<section class="relative w-full overflow-hidden bg-slate-950 min-h-[460px] sm:min-h-[520px] lg:min-h-[620px] flex items-center" id="hero-slider-container">
+<section class="relative w-full overflow-hidden bg-slate-950 min-h-[500px] sm:min-h-[520px] lg:min-h-[620px] flex items-center" id="hero-slider-container">
     @if($banners->isNotEmpty())
         <!-- Slides Wrapper -->
-        <div id="hero-slider-track" class="relative w-full h-[460px] sm:h-[520px] lg:h-[620px]">
+        <div id="hero-slider-track" class="relative w-full h-[500px] sm:h-[520px] lg:h-[620px]">
             @foreach($banners as $index => $banner)
                 <div class="hero-slide absolute inset-0 transition-opacity duration-700 ease-in-out {{ $index === 0 ? 'opacity-100 z-10' : 'opacity-0 pointer-events-none z-0' }}"
                     data-slide-index="{{ $index }}">
-                    <!-- Background Image -->
+                    <!-- Background Image (Focal point 75% on mobile to highlight subjects/people) -->
                     <img src="{{ $banner->image_url }}"
                         alt="{{ $banner->title }}"
-                        class="absolute inset-0 w-full h-full object-cover object-center transform scale-100 transition-transform duration-7000 ease-out" />
+                        class="absolute inset-0 w-full h-full object-cover object-[75%_center] sm:object-center transform scale-100 transition-transform duration-7000 ease-out" />
 
-                    <!-- Gradient Overlays for Maximum Readability & Depth -->
-                    <div class="absolute inset-0 bg-linear-to-r from-slate-950/95 via-slate-950/75 sm:via-slate-900/60 to-transparent"></div>
-                    <div class="absolute inset-0 bg-linear-to-t from-slate-950/80 via-transparent to-black/30"></div>
+                    <!-- Gradient Overlays: Bottom-anchored on mobile so top photo is clear, Left-to-right on desktop -->
+                    <div class="absolute inset-0 bg-linear-to-t from-slate-950 via-slate-950/80 to-transparent sm:bg-linear-to-r sm:from-slate-950/95 sm:via-slate-900/60 sm:to-transparent"></div>
+                    <div class="absolute inset-0 bg-linear-to-b from-slate-950/40 via-transparent to-slate-950/90 sm:from-black/30 sm:to-slate-950/80"></div>
 
-                    <!-- Slide Content -->
-                    <div class="relative z-10 max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex flex-col justify-center">
-                        <div class="max-w-3xl space-y-4 sm:space-y-6">
+                    <!-- Slide Content: Anchored toward bottom on mobile, centered on desktop -->
+                    <div class="relative z-10 max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex flex-col justify-end pb-16 sm:pb-0 sm:justify-center">
+                        <div class="max-w-3xl space-y-3 sm:space-y-6">
                             <!-- Institutional Tag Badge -->
-                            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0BB5CB]/20 border border-[#0BB5CB]/40 backdrop-blur-md text-[#0BB5CB] text-xs font-semibold tracking-wide uppercase">
-                                <span class="w-2 h-2 rounded-full bg-[#46B58B] animate-pulse"></span>
+                            <div class="inline-flex items-center gap-2 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-[#0BB5CB]/20 border border-[#0BB5CB]/40 backdrop-blur-md text-[#0BB5CB] text-[11px] sm:text-xs font-semibold tracking-wide uppercase">
+                                <span class="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-[#46B58B] animate-pulse"></span>
                                 <span>Penjaminan Mutu Institusi</span>
                             </div>
 
                             <!-- Title -->
-                            <h1 class="text-2xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold text-white leading-tight tracking-tight drop-shadow-sm">
+                            <h1 class="text-xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold text-white leading-tight tracking-tight drop-shadow-sm">
                                 {{ $banner->title }}
                             </h1>
 
                             <!-- Description -->
                             @if($banner->description)
-                                <p class="text-slate-200 text-xs sm:text-base lg:text-lg leading-relaxed max-w-2xl drop-shadow-xs line-clamp-3 sm:line-clamp-none">
+                                <p class="text-slate-200 text-xs sm:text-base lg:text-lg leading-relaxed max-w-2xl drop-shadow-xs line-clamp-2 sm:line-clamp-none">
                                     {{ $banner->description }}
                                 </p>
                             @endif
 
                             <!-- Action Buttons -->
-                            <div class="flex flex-wrap items-center gap-3 sm:gap-4 pt-1 sm:pt-2">
+                            <div class="flex flex-wrap items-center gap-2.5 sm:gap-4 pt-1 sm:pt-2">
                                 @if($banner->cta_label && $banner->cta_url)
                                     <a href="{{ $banner->cta_url }}"
-                                        class="relative group overflow-hidden rounded-xl bg-linear-to-r from-[#00A99D] via-[#0BB5CB] to-[#028DA9] px-5 py-2.5 sm:px-6 sm:py-3 text-xs sm:text-sm font-bold text-white shadow-lg shadow-[#0BB5CB]/25 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[#0BB5CB]/35 active:scale-95 flex items-center gap-2">
+                                        class="relative group overflow-hidden rounded-xl bg-linear-to-r from-[#00A99D] via-[#0BB5CB] to-[#028DA9] px-4 py-2 sm:px-6 sm:py-3 text-xs sm:text-sm font-bold text-white shadow-lg shadow-[#0BB5CB]/25 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[#0BB5CB]/35 active:scale-95 flex items-center gap-2">
                                         <span class="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
                                         <span class="relative z-10">{{ $banner->cta_label }}</span>
                                         <i data-feather="arrow-right" class="w-4 h-4 relative z-10 transition-transform duration-300 group-hover:translate-x-1"></i>
@@ -49,7 +49,7 @@
                                 @endif
 
                                 <a href="{{ route('frontend.documents.index') }}"
-                                    class="rounded-xl border border-white/30 bg-white/10 backdrop-blur-md px-5 py-2.5 sm:px-6 sm:py-3 text-xs sm:text-sm font-bold text-white transition-all duration-300 hover:bg-white/20 hover:border-white/50 active:scale-95 flex items-center gap-2">
+                                    class="rounded-xl border border-white/30 bg-white/10 backdrop-blur-md px-4 py-2 sm:px-6 sm:py-3 text-xs sm:text-sm font-bold text-white transition-all duration-300 hover:bg-white/20 hover:border-white/50 active:scale-95 flex items-center gap-2">
                                     <i data-feather="file-text" class="w-4 h-4"></i>
                                     <span>Dokumen & SOP</span>
                                 </a>
@@ -60,9 +60,9 @@
             @endforeach
         </div>
 
-        <!-- Slider Controls: Prev & Next Buttons + Dots (Bottom Center, Completely Free of Text Overlap) -->
+        <!-- Slider Controls: Prev & Next Buttons + Dots (Bottom Center) -->
         @if($banners->count() > 1)
-            <div class="absolute bottom-5 sm:bottom-7 inset-x-0 z-20 flex items-center justify-center gap-3 select-none">
+            <div class="absolute bottom-3 sm:bottom-7 inset-x-0 z-20 flex items-center justify-center gap-3 select-none">
                 <!-- Prev Button -->
                 <button id="slider-btn-prev"
                     type="button"
