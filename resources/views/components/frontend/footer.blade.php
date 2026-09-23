@@ -1,13 +1,13 @@
 @props(['contact' => null])
 
 @php
-    $address = $contact?->address ?: 'Jl. Jamin Ginting KM. 13,5 Kel. Lau Cih, Kec. Medan Tuntungan, Kota Medan, Sumatera Utara 20137';
-    $operatingHours = $contact?->operating_hours ?: 'Senin - Jumat: 08.00 - 16.00 WIB';
-    $email = $contact?->email ?: 'mutu@poltekkes-medan.ac.id';
-    $phone = $contact?->phone ?: '(061) 8368633';
-    $instagram = $contact?->instagram_url ?: 'https://instagram.com';
-    $youtube = $contact?->youtube_url ?: 'https://youtube.com';
-    $facebook = $contact?->facebook_url ?: 'https://facebook.com';
+    $address = $contact?->address ?: 'Jl. Jamin Ginting KM 13,5, Kel. Lau Cih, Kec. Medan Tuntungan, Kota Medan, Sumatera Utara 20137';
+    $operatingHours = $contact?->operating_hours ?: 'Senin - Kamis: 07.30 - 16.00 WIB | Jumat: 07.30 - 16.30 WIB';
+    $email = $contact?->email ?: 'info@poltekkes-medan.ac.id';
+    $phone = $contact?->phone ?: '+62 811-6238-633';
+    $instagram = $contact?->instagram_url ?: 'https://instagram.com/poltekkesmedan';
+    $youtube = $contact?->youtube_url ?: 'https://youtube.com/@poltekkeskemenkesmedanofficial';
+    $facebook = $contact?->facebook_url ?: 'https://facebook.com/poltekkesmedan';
 @endphp
 
 <footer class="mt-auto bg-slate-950 text-slate-300 relative overflow-hidden border-t border-slate-800/80">
@@ -45,7 +45,7 @@
                 <!-- Social Media Links (Font Awesome 6 Brands Library) with Generous Spacing -->
                 <div class="pt-3">
                     <span class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-3.5">
-                        Kanal Media Sosial Resmi
+                        Media Sosial
                     </span>
                     <div class="flex items-center gap-3">
                         <a href="{{ $instagram }}" target="_blank" rel="noopener noreferrer"

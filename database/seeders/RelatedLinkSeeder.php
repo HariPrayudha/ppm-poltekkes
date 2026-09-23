@@ -15,52 +15,52 @@ class RelatedLinkSeeder extends Seeder
         $links = [
             [
                 'name' => 'SIOPSET',
-                'url' => 'https://poltekkes-medan.ac.id/siopset',
+                'url' => 'https://siopset.poltekkes-medan.ac.id',
                 'logo_path' => null,
             ],
             [
                 'name' => 'LABIRIN',
-                'url' => 'https://poltekkes-medan.ac.id/labirin',
+                'url' => 'https://labirin.poltekkes-medan.ac.id',
                 'logo_path' => null,
             ],
             [
                 'name' => 'TELADAN',
-                'url' => 'https://poltekkes-medan.ac.id/teladan',
+                'url' => 'https://teladan.poltekkes-medan.ac.id',
                 'logo_path' => null,
             ],
             [
                 'name' => 'KEPK',
-                'url' => 'https://poltekkes-medan.ac.id/kepk',
+                'url' => 'https://kepk.poltekkes-medan.ac.id',
                 'logo_path' => null,
             ],
             [
                 'name' => 'LINGUA',
-                'url' => 'https://poltekkes-medan.ac.id/lingua',
+                'url' => 'https://lingua.poltekkes-medan.ac.id',
                 'logo_path' => null,
             ],
             [
                 'name' => 'SIGMA BLU',
-                'url' => 'https://poltekkes-medan.ac.id/sigma-blu',
+                'url' => 'https://sigma-blu.poltekkes-medan.ac.id',
                 'logo_path' => null,
             ],
             [
                 'name' => 'SIPPM',
-                'url' => 'https://poltekkes-medan.ac.id/sippm',
+                'url' => 'https://sippm.poltekkes-medan.ac.id',
                 'logo_path' => null,
             ],
             [
                 'name' => 'UPK',
-                'url' => 'https://poltekkes-medan.ac.id/upk',
+                'url' => 'https://upk.poltekkes-medan.ac.id',
                 'logo_path' => null,
             ],
             [
                 'name' => 'SIGMED',
-                'url' => 'https://poltekkes-medan.ac.id/sigmed',
+                'url' => 'https://sigmed.poltekkes-medan.ac.id',
                 'logo_path' => null,
             ],
             [
                 'name' => 'SIPADU',
-                'url' => 'https://poltekkes-medan.ac.id/sipadu',
+                'url' => 'https://sipadu.poltekkes-medan.ac.id',
                 'logo_path' => null,
             ],
         ];

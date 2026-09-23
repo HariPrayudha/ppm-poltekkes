@@ -119,7 +119,7 @@ $waUrl = 'https://wa.me/' . (str_starts_with($cleanPhone, '0') ? '62' . substr($
                 <div class="bg-white rounded-3xl border border-slate-200/80 p-4 sm:p-7 shadow-xs">
                     <div class="border-b border-slate-100 pb-3 sm:pb-3.5 mb-3.5 sm:mb-4">
                         <h2 class="text-sm sm:text-lg font-bold text-slate-900 tracking-tight">
-                            Kanal Media Sosial Resmi
+                            Media Sosial
                         </h2>
                         <p class="text-[11px] sm:text-xs text-slate-400 mt-0.5">Ikuti informasi dan pembaruan kegiatan mutu</p>
                     </div>
