@@ -15,16 +15,15 @@
             title="Bagan Struktur Organisasi"
             description="Unggah diagram bagan struktur tata kelola Pusat Penjaminan Mutu.">
             <div class="space-y-4">
-                <div id="chart-preview-container" class="{{ $profile->org_chart_url ? '' : 'hidden' }} mb-4">
-                    <p class="text-xs font-semibold text-slate-500 mb-2">Bagan Saat Ini:</p>
-                    <div class="relative overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 p-2 max-w-2xl">
-                        <img
-                            id="chart-preview-img"
-                            src="{{ $profile->org_chart_url ?: '' }}"
-                            alt="Bagan Organisasi PPM"
-                            class="w-full max-h-96 object-contain rounded-xl">
-                    </div>
-                </div>
+                <x-admin.image-preview
+                    :src="$profile->org_chart_url"
+                    alt="Bagan Struktur Organisasi PPM Poltekkes Kemenkes Medan"
+                    label="Bagan Saat Ini (Klik untuk memperbesar):"
+                    height="max-h-80 sm:max-h-96"
+                    id="chart-preview-container"
+                    wrapperId="chart-preview-wrapper"
+                    imgId="chart-preview-img"
+                    class="mb-4" />
 
                 <div>
                     <label for="chart-input" class="btn-secondary cursor-pointer text-xs mb-1">

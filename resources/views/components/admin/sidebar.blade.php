@@ -1,6 +1,6 @@
 @php
-    $user = auth()->user();
-    $isSuperAdmin = $user && $user->isSuperAdmin();
+$user = auth()->user();
+$isSuperAdmin = $user && $user->isSuperAdmin();
 @endphp
 
 <!-- Mobile Sidebar Backdrop Overlay -->
@@ -39,7 +39,7 @@
                         Hero Banner
                     </x-admin.sidebar-link>
                     <x-admin.sidebar-link :href="route('admin.greeting.index')" icon="user" :active="request()->routeIs('admin.greeting.*')">
-                        Sambutan
+                        Pimpinan
                     </x-admin.sidebar-link>
                     <x-admin.sidebar-link :href="route('admin.services.index')" icon="grid" :active="request()->routeIs('admin.services.*')">
                         Layanan Kami
@@ -81,14 +81,14 @@
 
             <!-- Group: Pengaturan (Super Admin only) -->
             @if($isSuperAdmin)
-                <div>
-                    <p class="px-3 text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-2">Pengaturan</p>
-                    <div class="space-y-1">
-                        <x-admin.sidebar-link :href="route('admin.users.index')" icon="user-check" :active="request()->routeIs('admin.users.*')">
-                            Pengguna
-                        </x-admin.sidebar-link>
-                    </div>
+            <div>
+                <p class="px-3 text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-2">Pengaturan</p>
+                <div class="space-y-1">
+                    <x-admin.sidebar-link :href="route('admin.users.index')" icon="user-check" :active="request()->routeIs('admin.users.*')">
+                        Pengguna
+                    </x-admin.sidebar-link>
                 </div>
+            </div>
             @endif
         </nav>
     </div>

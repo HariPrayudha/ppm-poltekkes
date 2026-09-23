@@ -38,6 +38,20 @@ class ProfileManagementTest extends TestCase
         $response->assertSee('Bagan Struktur Organisasi');
     }
 
+    public function test_profile_page_shows_chart_preview_when_present(): void
+    {
+        OrganizationProfile::create([
+            'org_chart_path' => 'profile/chart.png',
+            'duties_content' => '<p>Konten tugas fungsi</p>',
+        ]);
+
+        $response = $this->actingAs($this->admin)->get(route('admin.profile.index'));
+
+        $response->assertStatus(200);
+        $response->assertSee('data-preview-image', false);
+        $response->assertSee('Bagan Saat Ini (Klik untuk memperbesar)', false);
+    }
+
     public function test_profile_can_be_updated_with_org_chart(): void
     {
         Storage::fake('public');

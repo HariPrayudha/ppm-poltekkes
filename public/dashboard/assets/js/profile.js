@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const chartInput = document.getElementById('chart-input');
   const previewImg = document.getElementById('chart-preview-img');
   const previewContainer = document.getElementById('chart-preview-container');
+  const previewWrapper = document.getElementById('chart-preview-wrapper');
 
   if (chartInput && previewImg) {
     chartInput.addEventListener('change', (e) => {
@@ -30,6 +31,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const reader = new FileReader();
         reader.onload = (event) => {
           previewImg.src = event.target.result;
+          if (previewWrapper) {
+            previewWrapper.setAttribute('data-preview-image', event.target.result);
+          }
           if (previewContainer) previewContainer.classList.remove('hidden');
         };
         reader.readAsDataURL(file);
