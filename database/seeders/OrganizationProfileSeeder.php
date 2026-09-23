@@ -13,7 +13,7 @@ class OrganizationProfileSeeder extends Seeder
     public function run(): void
     {
         $dutiesContent = <<<'HTML'
-<h3>Dasar Hukum</h3>
+<h3><strong>Dasar Hukum</strong></h3>
 <p>Pusat Penjaminan Mutu (PPM) Poltekkes Kemenkes Medan dibentuk dan beroperasi dengan landasan yuridis sebagai berikut:</p>
 <ol>
     <li>Undang-Undang Republik Indonesia Nomor 12 Tahun 2012 tentang Pendidikan Tinggi.</li>
@@ -22,10 +22,10 @@ class OrganizationProfileSeeder extends Seeder
     <li>Statuta Politeknik Kesehatan Kementerian Kesehatan Medan.</li>
 </ol>
 
-<h3>Tugas Pokok</h3>
+<h3><strong>Tugas Pokok</strong></h3>
 <p>Pusat Penjaminan Mutu Poltekkes Kemenkes Medan mempunyai tugas pokok merencanakan, mengembangkan, mengoordinasikan, memonitor, mengevaluasi, dan mengendalikan pelaksanaan Sistem Penjaminan Mutu Internal (SPMI) secara menyeluruh pada seluruh unit kerja dan program studi di lingkungan Poltekkes Kemenkes Medan untuk mewujudkan budaya mutu yang berkelanjutan.</p>
 
-<h3>Fungsi Utama</h3>
+<h3><strong>Fungsi Utama</strong></h3>
 <p>Dalam menyelenggarakan tugas pokok tersebut, Pusat Penjaminan Mutu mengemban fungsi-fungsi strategis sebagai berikut:</p>
 <ul>
     <li><strong>Pengembangan Kebijakan dan Dokumen Mutu:</strong> Merumuskan, meninjau ulang, dan memutakhirkan Kebijakan Mutu, Manual Mutu, Standar Mutu SPMI, Standar Operasional Prosedur (SOP), serta Formulir Mutu yang relevan dengan perkembangan regulasi nasional dan kebutuhan stakeholder.</li>
@@ -36,7 +36,7 @@ class OrganizationProfileSeeder extends Seeder
     <li><strong>Fasilitasi Akreditasi dan Peningkatan Berkelanjutan:</strong> Mendampingi persiapan, simulasi, dan pelaksanaan akreditasi program studi maupun akreditasi perguruan tinggi (APT) oleh LAM-PTKes dan BAN-PT guna menjamin pencapaian predikat Unggul.</li>
 </ul>
 
-<h3>Ruang Lingkup Penjaminan Mutu</h3>
+<h3><strong>Ruang Lingkup Penjaminan Mutu</strong></h3>
 <p>Sistem Penjaminan Mutu Internal di Poltekkes Kemenkes Medan mencakup empat pilar utama:</p>
 <ul>
     <li><strong>Standar Pendidikan:</strong> Kompetensi lulusan, isi pembelajaran, proses perkuliahan dan praktik klinik/laboratorium, penilaian pembelajaran, dosen dan tenaga kependidikan, sarana prasarana pembelajaran, pengelolaan, serta pembiayaan pembelajaran.</li>

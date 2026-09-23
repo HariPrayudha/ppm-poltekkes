@@ -33,7 +33,7 @@
                 </div>
 
                 @if($profile && $profile->duties_content)
-                    <div class="prose prose-slate max-w-none text-slate-700 text-sm sm:text-base leading-relaxed space-y-4 font-normal">
+                    <div class="tupoksi-content text-slate-700 text-sm sm:text-base leading-relaxed space-y-4 [&_h3]:text-base sm:[&_h3]:text-lg [&_h3]:font-bold [&_h3]:text-slate-900 [&_h3]:pt-4 [&_h3]:pb-1 [&_ol]:list-decimal [&_ol]:pl-5 [&_ol]:space-y-1.5 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1.5 [&_li]:leading-relaxed [&_p]:leading-relaxed">
                         {!! $profile->duties_content !!}
                     </div>
                 @else

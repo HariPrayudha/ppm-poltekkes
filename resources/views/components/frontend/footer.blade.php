@@ -5,9 +5,9 @@
     $operatingHours = $contact?->operating_hours ?: 'Senin - Kamis: 07.30 - 16.00 WIB | Jumat: 07.30 - 16.30 WIB';
     $email = $contact?->email ?: 'info@poltekkes-medan.ac.id';
     $phone = $contact?->phone ?: '+62 811-6238-633';
-    $instagram = $contact?->instagram_url ?: 'https://instagram.com/poltekkesmedan';
-    $youtube = $contact?->youtube_url ?: 'https://youtube.com/@poltekkeskemenkesmedanofficial';
-    $facebook = $contact?->facebook_url ?: 'https://facebook.com/poltekkesmedan';
+    $instagram = $contact?->instagram_url ?: 'https://www.instagram.com/polkesmedan';
+    $youtube = $contact?->youtube_url ?: 'https://www.youtube.com/@polkesmedan';
+    $facebook = $contact?->facebook_url ?: 'https://www.facebook.com/polkesmedan';
 @endphp
 
 <footer class="mt-auto bg-slate-950 text-slate-300 relative overflow-hidden border-t border-slate-800/80">
