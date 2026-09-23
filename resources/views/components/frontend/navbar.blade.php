@@ -99,11 +99,11 @@
 
     <!-- Mobile Backdrop Overlay -->
     <div id="mobile-menu-backdrop"
-        class="fixed inset-0 top-16 sm:top-20 bg-slate-950/25 backdrop-blur-xs opacity-0 pointer-events-none transition-opacity duration-300 z-40 lg:hidden"></div>
+        class="fixed inset-0 top-16 sm:top-20 bg-slate-950/25 backdrop-blur-xs z-40 lg:hidden"></div>
 
     <!-- Mobile Floating Navigation Card with Smooth Animation -->
     <div id="mobile-menu"
-        class="fixed left-4 right-4 top-18 sm:top-[5.5rem] z-50 max-w-md mx-auto bg-white/98 backdrop-blur-2xl border border-slate-200/90 rounded-3xl p-4 sm:p-5 shadow-2xl shadow-slate-900/15 opacity-0 -translate-y-4 scale-[0.98] pointer-events-none lg:hidden flex flex-col gap-1.5">
+        class="fixed left-4 right-4 top-18 sm:top-[5.5rem] z-50 max-w-md mx-auto bg-white/98 backdrop-blur-2xl border border-slate-200/90 rounded-3xl p-4 sm:p-5 shadow-2xl shadow-slate-900/15 lg:hidden flex flex-col gap-1.5">
         <!-- 1. Beranda -->
         <a href="{{ route('frontend.home') }}"
             class="flex items-center w-full px-4 py-3 rounded-2xl text-sm font-semibold transition-all duration-200 {{ request()->routeIs('frontend.home') ? 'bg-linear-to-r from-[#00A99D] to-[#0BB5CB] text-white shadow-md shadow-[#0BB5CB]/25' : 'text-slate-700 hover:text-[#028DA9] hover:bg-slate-50' }}">

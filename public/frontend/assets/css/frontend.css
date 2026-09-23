@@ -130,12 +130,33 @@ body {
 }
 
 /* ==========================================================================
-   Floating Mobile Menu Dropdown Card
+   Floating Mobile Menu Dropdown Card & Backdrop
    ========================================================================== */
 #mobile-menu {
+    opacity: 0;
+    transform: translateY(-16px) scale(0.96);
+    pointer-events: none;
     transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1),
                 transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     will-change: opacity, transform;
+}
+
+#mobile-menu.is-open {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+}
+
+#mobile-menu-backdrop {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    will-change: opacity;
+}
+
+#mobile-menu-backdrop.is-open {
+    opacity: 1;
+    pointer-events: auto;
 }
 
 /* ==========================================================================

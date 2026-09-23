@@ -37,28 +37,16 @@ function initMobileMenu() {
     const openMenu = () => {
         btn.classList.add('is-active');
         btn.setAttribute('aria-expanded', 'true');
-        menu.classList.remove('pointer-events-none', 'opacity-0');
-        menu.classList.add('pointer-events-auto', 'opacity-100');
-        const drawer = menu.querySelector('div.bg-white');
-        if (drawer) {
-            drawer.classList.remove('translate-x-full');
-            drawer.classList.add('translate-x-0');
-        }
-        if (backdrop) backdrop.classList.remove('hidden');
+        menu.classList.add('is-open');
+        if (backdrop) backdrop.classList.add('is-open');
         document.body.classList.add('overflow-hidden');
     };
 
     const closeMenu = () => {
         btn.classList.remove('is-active');
         btn.setAttribute('aria-expanded', 'false');
-        const drawer = menu.querySelector('div.bg-white');
-        if (drawer) {
-            drawer.classList.remove('translate-x-0');
-            drawer.classList.add('translate-x-full');
-        }
-        menu.classList.remove('pointer-events-auto', 'opacity-100');
-        menu.classList.add('pointer-events-none', 'opacity-0');
-        if (backdrop) backdrop.classList.add('hidden');
+        menu.classList.remove('is-open');
+        if (backdrop) backdrop.classList.remove('is-open');
         document.body.classList.remove('overflow-hidden');
     };
 
