@@ -124,9 +124,43 @@
                     <span>Masuk ke Dashboard</span>
                 </span>
             </button>
+
+            <!-- Quick Credential Autofill (Demo / Evaluation) -->
+            <div>
+                <div class="relative flex items-center justify-center my-1.5">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-slate-200/80"></div>
+                    </div>
+                    <span class="relative bg-white px-2.5 text-[10px] sm:text-[11px] font-semibold tracking-wider text-slate-400 uppercase">
+                        Akses Cepat Akun Demo
+                    </span>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2">
+                    <button
+                        type="button"
+                        id="btn-autofill-superadmin"
+                        class="flex items-center justify-center gap-1.5 px-2.5 py-1.5 rounded-xl text-xs font-semibold text-slate-700 bg-slate-50 border border-slate-200/90 hover:border-[#00A99D] hover:text-[#00A99D] hover:bg-[#00A99D]/5 active:scale-95 transition-all duration-200 cursor-pointer shadow-2xs group"
+                        title="Isi otomatis email dan kata sandi Super Admin"
+                    >
+                        <i data-feather="shield" class="w-3.5 h-3.5 text-[#00A99D] group-hover:scale-110 transition-transform duration-200"></i>
+                        <span>Super Admin</span>
+                    </button>
+
+                    <button
+                        type="button"
+                        id="btn-autofill-operator"
+                        class="flex items-center justify-center gap-1.5 px-2.5 py-1.5 rounded-xl text-xs font-semibold text-slate-700 bg-slate-50 border border-slate-200/90 hover:border-[#0BB5CB] hover:text-[#028DA9] hover:bg-[#0BB5CB]/5 active:scale-95 transition-all duration-200 cursor-pointer shadow-2xs group"
+                        title="Isi otomatis email dan kata sandi Operator Mutu"
+                    >
+                        <i data-feather="user-check" class="w-3.5 h-3.5 text-[#0BB5CB] group-hover:scale-110 transition-transform duration-200"></i>
+                        <span>Operator Mutu</span>
+                    </button>
+                </div>
+            </div>
         </form>
 
-        <div class="mt-8 border-t border-slate-100 pt-6 text-center text-xs text-slate-400">
+        <div class="mt-4 border-t border-slate-100 pt-3 text-center text-xs text-slate-400">
             &copy; {{ date('Y') }} PPM Poltekkes Kemenkes Medan. Hak Cipta Dilindungi.
         </div>
     </div>

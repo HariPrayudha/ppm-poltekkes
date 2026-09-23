@@ -155,5 +155,44 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
+
+    // 3. Quick Credential Autofill (Demo / Evaluation)
+    const btnSuperAdmin = document.getElementById('btn-autofill-superadmin');
+    const btnOperator = document.getElementById('btn-autofill-operator');
+
+    const fillCredentials = (email, password) => {
+        if (!emailInput || !passwordInput) return;
+
+        emailInput.value = email;
+        passwordInput.value = password;
+
+        clearEmailError();
+        clearPasswordError();
+
+        emailInput.dispatchEvent(new Event('input', { bubbles: true }));
+        passwordInput.dispatchEvent(new Event('input', { bubbles: true }));
+
+        // Subtle brief glow feedback
+        emailInput.classList.add('border-[#00A99D]', 'bg-[#00A99D]/5');
+        passwordInput.classList.add('border-[#00A99D]', 'bg-[#00A99D]/5');
+        setTimeout(() => {
+            emailInput.classList.remove('border-[#00A99D]', 'bg-[#00A99D]/5');
+            passwordInput.classList.remove('border-[#00A99D]', 'bg-[#00A99D]/5');
+        }, 600);
+
+        emailInput.focus();
+    };
+
+    if (btnSuperAdmin) {
+        btnSuperAdmin.addEventListener('click', () => {
+            fillCredentials('superadmin@ppm.ac.id', 'password');
+        });
+    }
+
+    if (btnOperator) {
+        btnOperator.addEventListener('click', () => {
+            fillCredentials('operator@ppm.ac.id', 'password');
+        });
+    }
 });
 

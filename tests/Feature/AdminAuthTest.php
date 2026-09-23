@@ -19,6 +19,17 @@ class AdminAuthTest extends TestCase
         $response->assertSee('PPM Poltekkes Medan');
     }
 
+    public function test_login_page_renders_autofill_credential_buttons(): void
+    {
+        $response = $this->get('/login');
+
+        $response->assertStatus(200);
+        $response->assertSee('btn-autofill-superadmin');
+        $response->assertSee('btn-autofill-operator');
+        $response->assertSee('Super Admin');
+        $response->assertSee('Operator Mutu');
+    }
+
     public function test_user_can_login_with_valid_credentials(): void
     {
         $user = User::factory()->create([
