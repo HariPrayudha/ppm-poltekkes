@@ -134,3 +134,7 @@
         </section>
     @endif
 @endsection
+
+@push('scripts')
+    <script src="{{ asset('frontend/assets/js/home.js') }}?v={{ file_exists(public_path('frontend/assets/js/home.js')) ? filemtime(public_path('frontend/assets/js/home.js')) : time() }}" defer></script>
+@endpush

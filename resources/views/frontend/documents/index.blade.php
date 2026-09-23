@@ -101,3 +101,7 @@
 @section('modals')
     <x-frontend.pdf-modal />
 @endsection
+
+@push('scripts')
+    <script src="{{ asset('frontend/assets/js/documents.js') }}?v={{ file_exists(public_path('frontend/assets/js/documents.js')) ? filemtime(public_path('frontend/assets/js/documents.js')) : time() }}" defer></script>
+@endpush

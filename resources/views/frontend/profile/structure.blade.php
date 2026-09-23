@@ -35,19 +35,19 @@
 
                     @if($profile && $profile->org_chart_path)
                         <button type="button"
-                            class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#0BB5CB]/10 text-[#028DA9] hover:bg-[#0BB5CB] hover:text-white text-xs font-semibold transition-all duration-200 cursor-pointer lightbox-trigger self-start sm:self-auto shadow-2xs"
-                            data-image="{{ $profile->org_chart_url }}"
-                            data-title="Bagan Struktur Organisasi PPM Poltekkes Kemenkes Medan">
+                            class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#0BB5CB]/10 text-[#028DA9] hover:bg-[#0BB5CB] hover:text-white text-xs font-semibold transition-all duration-200 cursor-pointer self-start sm:self-auto shadow-2xs"
+                            data-preview-image="{{ $profile->org_chart_url }}"
+                            data-preview-title="Bagan Struktur Organisasi PPM Poltekkes Kemenkes Medan">
                             <i data-feather="maximize-2" class="w-4 h-4"></i>
-                            <span>Perbesar Gambar</span>
+                            <span>Perbesar Bagan (Zoom & Pan)</span>
                         </button>
                     @endif
                 </div>
 
                 @if($profile && $profile->org_chart_path)
-                    <div class="relative group rounded-2xl overflow-hidden border border-slate-200/80 bg-slate-50 flex items-center justify-center p-4 sm:p-8 cursor-pointer lightbox-trigger"
-                        data-image="{{ $profile->org_chart_url }}"
-                        data-title="Bagan Struktur Organisasi PPM Poltekkes Kemenkes Medan">
+                    <div class="relative group rounded-2xl overflow-hidden border border-slate-200/80 bg-slate-50 flex items-center justify-center p-4 sm:p-8 cursor-pointer"
+                        data-preview-image="{{ $profile->org_chart_url }}"
+                        data-preview-title="Bagan Struktur Organisasi PPM Poltekkes Kemenkes Medan">
                         <img src="{{ $profile->org_chart_url }}"
                             alt="Bagan Struktur Organisasi PPM Poltekkes Kemenkes Medan"
                             class="max-h-[650px] w-auto max-w-full object-contain transition-transform duration-300 group-hover:scale-101" />
@@ -55,7 +55,7 @@
                         <div class="absolute inset-0 bg-slate-950/20 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
                             <span class="px-4 py-2 rounded-xl bg-white/95 text-slate-900 text-xs font-bold shadow-lg flex items-center gap-1.5">
                                 <i data-feather="zoom-in" class="w-4 h-4 text-[#028DA9]"></i>
-                                Klik untuk memperbesar bagan
+                                Klik untuk memperbesar bagan (Zoom & Pan)
                             </span>
                         </div>
                     </div>
@@ -68,8 +68,4 @@
             </div>
         </div>
     </section>
-@endsection
-
-@section('modals')
-    <x-frontend.lightbox-modal />
 @endsection

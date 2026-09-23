@@ -1,82 +1,65 @@
 /**
- * Frontend JavaScript - Pusat Penjaminan Mutu (PPM) Poltekkes Kemenkes Medan
- * Handles Slider, Scroll Reveal, Number Counters, Lightbox, Anti-IDM Blob PDF Preview, and AJAX Filter.
+ * Frontend Core JavaScript | PPM Poltekkes Kemenkes Medan
+ * Handles Feather Icons, Mobile Navbar, Scroll Reveal, Back-to-Top, and Global Image Zoom Modal
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Initialize Feather Icons
+    // 1. Feather Icons
     if (typeof feather !== 'undefined') {
         feather.replace();
     }
 
     // 2. Mobile Navbar Menu Toggle
-    initMobileNav();
+    initMobileMenu();
 
-    // 3. Navbar Scroll Shrink & Back-to-Top Button
+    // 3. Navbar Scroll Shrink & Back-to-Top
     initScrollInteractions();
 
-    // 4. Hero Banner Slider
-    initHeroSlider();
-
-    // 5. Scroll Reveal Observer
+    // 4. Scroll Reveal Observer
     initScrollReveal();
 
-    // 6. Animated Stat Counter Observer
-    initStatCounters();
-
-    // 7. Profile Tabs (Struktur Organisasi & Tupoksi)
-    initProfileTabs();
-
-    // 8. Lightbox Modal (Bagan & Galeri)
-    initLightboxModal();
-
-    // 9. Anti-IDM PDF Preview Modal
-    initPdfPreviewModal();
-
-    // 10. Document Repository AJAX Filter & Search
-    initDocumentRepository();
+    // 5. Global Image Lightbox Preview Modal with Gesture Zoom & Pan Engine
+    initFrontendImagePreviewModal();
 });
 
-/**
- * 2. Mobile Navbar Menu Toggle
- */
-function initMobileNav() {
+/* ==========================================================================
+   Mobile Navbar Menu Toggle
+   ========================================================================== */
+function initMobileMenu() {
     const btn = document.getElementById('mobile-menu-btn');
     const menu = document.getElementById('mobile-menu');
     const backdrop = document.getElementById('mobile-menu-backdrop');
-
     if (!btn || !menu) return;
 
-    function openMenu() {
+    const openMenu = () => {
         btn.classList.add('is-active');
         btn.setAttribute('aria-expanded', 'true');
-
-        menu.classList.remove('opacity-0', '-translate-y-4', 'scale-[0.98]', 'pointer-events-none');
-        menu.classList.add('opacity-100', 'translate-y-0', 'scale-100', 'pointer-events-auto');
-
-        if (backdrop) {
-            backdrop.classList.remove('opacity-0', 'pointer-events-none');
-            backdrop.classList.add('opacity-100', 'pointer-events-auto');
+        menu.classList.remove('pointer-events-none', 'opacity-0');
+        menu.classList.add('pointer-events-auto', 'opacity-100');
+        const drawer = menu.querySelector('div.bg-white');
+        if (drawer) {
+            drawer.classList.remove('translate-x-full');
+            drawer.classList.add('translate-x-0');
         }
+        if (backdrop) backdrop.classList.remove('hidden');
+        document.body.classList.add('overflow-hidden');
+    };
 
-        if (typeof feather !== 'undefined') feather.replace();
-    }
-
-    function closeMenu() {
+    const closeMenu = () => {
         btn.classList.remove('is-active');
         btn.setAttribute('aria-expanded', 'false');
-
-        menu.classList.remove('opacity-100', 'translate-y-0', 'scale-100', 'pointer-events-auto');
-        menu.classList.add('opacity-0', '-translate-y-4', 'scale-[0.98]', 'pointer-events-none');
-
-        if (backdrop) {
-            backdrop.classList.remove('opacity-100', 'pointer-events-auto');
-            backdrop.classList.add('opacity-0', 'pointer-events-none');
+        const drawer = menu.querySelector('div.bg-white');
+        if (drawer) {
+            drawer.classList.remove('translate-x-0');
+            drawer.classList.add('translate-x-full');
         }
-    }
+        menu.classList.remove('pointer-events-auto', 'opacity-100');
+        menu.classList.add('pointer-events-none', 'opacity-0');
+        if (backdrop) backdrop.classList.add('hidden');
+        document.body.classList.remove('overflow-hidden');
+    };
 
-    btn.addEventListener('click', (e) => {
-        e.stopPropagation();
+    btn.addEventListener('click', () => {
         const isOpen = btn.classList.contains('is-active');
         if (isOpen) {
             closeMenu();
@@ -95,14 +78,13 @@ function initMobileNav() {
         }
     });
 
-    // Close when clicking a menu link
-    menu.querySelectorAll('a').forEach(link => {
+    menu.querySelectorAll('a').forEach((link) => {
         link.addEventListener('click', () => {
             closeMenu();
         });
     });
 
-    // Mobile Profile Accordion Submenu Toggle (Smooth Height & Opacity Transition)
+    // Mobile Profile Submenu Accordion
     const profileToggle = document.getElementById('mobile-profile-toggle');
     const profileSubmenu = document.getElementById('mobile-profile-submenu');
     const profileChevron = document.getElementById('mobile-profile-chevron');
@@ -126,9 +108,9 @@ function initMobileNav() {
     }
 }
 
-/**
- * 3. Navbar Scroll Shrink & Back-to-Top
- */
+/* ==========================================================================
+   Navbar Scroll Shrink & Back-to-Top
+   ========================================================================== */
 function initScrollInteractions() {
     const navbar = document.getElementById('main-navbar');
     const backToTop = document.getElementById('back-to-top');
@@ -136,7 +118,6 @@ function initScrollInteractions() {
     window.addEventListener('scroll', () => {
         const scrollY = window.scrollY;
 
-        // Navbar shadow / shrink
         if (navbar) {
             if (scrollY > 20) {
                 navbar.classList.add('shadow-md', 'bg-white/98');
@@ -147,7 +128,6 @@ function initScrollInteractions() {
             }
         }
 
-        // Back to top button visibility
         if (backToTop) {
             if (scrollY > 350) {
                 backToTop.classList.remove('opacity-0', 'translate-y-4', 'pointer-events-none');
@@ -166,634 +146,299 @@ function initScrollInteractions() {
     }
 }
 
-/**
- * 4. Hero Banner Slider Carousel
- */
-function initHeroSlider() {
-    const track = document.getElementById('hero-slider-track');
-    if (!track) return;
-
-    const slides = track.querySelectorAll('.hero-slide');
-    const dots = document.querySelectorAll('.slider-dot');
-    const prevBtn = document.getElementById('slider-btn-prev');
-    const nextBtn = document.getElementById('slider-btn-next');
-    const container = document.getElementById('hero-slider-container');
-
-    if (slides.length <= 1) return;
-
-    let currentIndex = 0;
-    let autoSlideTimer = null;
-    const intervalTime = 6000;
-
-    function goToSlide(index) {
-        if (index < 0) index = slides.length - 1;
-        if (index >= slides.length) index = 0;
-
-        slides.forEach((slide, idx) => {
-            if (idx === index) {
-                slide.classList.remove('opacity-0', 'pointer-events-none', 'z-0');
-                slide.classList.add('opacity-100', 'z-10');
-            } else {
-                slide.classList.remove('opacity-100', 'z-10');
-                slide.classList.add('opacity-0', 'pointer-events-none', 'z-0');
-            }
-        });
-
-        dots.forEach((dot, idx) => {
-            if (idx === index) {
-                dot.classList.remove('w-2.5', 'bg-white/40');
-                dot.classList.add('w-8', 'bg-[#0BB5CB]');
-            } else {
-                dot.classList.remove('w-8', 'bg-[#0BB5CB]');
-                dot.classList.add('w-2.5', 'bg-white/40');
-            }
-        });
-
-        currentIndex = index;
-    }
-
-    function startAutoSlide() {
-        stopAutoSlide();
-        autoSlideTimer = setInterval(() => {
-            goToSlide(currentIndex + 1);
-        }, intervalTime);
-    }
-
-    function stopAutoSlide() {
-        if (autoSlideTimer) {
-            clearInterval(autoSlideTimer);
-            autoSlideTimer = null;
-        }
-    }
-
-    if (prevBtn) {
-        prevBtn.addEventListener('click', () => {
-            goToSlide(currentIndex - 1);
-            startAutoSlide();
-        });
-    }
-
-    if (nextBtn) {
-        nextBtn.addEventListener('click', () => {
-            goToSlide(currentIndex + 1);
-            startAutoSlide();
-        });
-    }
-
-    dots.forEach((dot, idx) => {
-        dot.addEventListener('click', () => {
-            goToSlide(idx);
-            startAutoSlide();
-        });
-    });
-
-    if (container) {
-        container.addEventListener('mouseenter', stopAutoSlide);
-        container.addEventListener('mouseleave', startAutoSlide);
-
-        // Touch Swipe Support
-        let startX = 0;
-        let endX = 0;
-        container.addEventListener('touchstart', (e) => {
-            startX = e.changedTouches[0].screenX;
-        }, { passive: true });
-
-        container.addEventListener('touchend', (e) => {
-            endX = e.changedTouches[0].screenX;
-            const diff = startX - endX;
-            if (Math.abs(diff) > 40) {
-                if (diff > 0) {
-                    goToSlide(currentIndex + 1);
-                } else {
-                    goToSlide(currentIndex - 1);
-                }
-                startAutoSlide();
-            }
-        }, { passive: true });
-    }
-
-    startAutoSlide();
-}
-
-/**
- * 5. Scroll Reveal Observer
- */
+/* ==========================================================================
+   Scroll Reveal Observer
+   ========================================================================== */
 function initScrollReveal() {
-    const revealItems = document.querySelectorAll('.reveal-on-scroll');
-    if (!revealItems.length || !('IntersectionObserver' in window)) {
-        revealItems.forEach(item => item.classList.add('is-revealed'));
+    const reveals = document.querySelectorAll('.reveal-on-scroll');
+    if (!reveals.length) return;
+
+    if (!('IntersectionObserver' in window)) {
+        reveals.forEach((el) => el.classList.add('is-revealed'));
         return;
     }
 
     const observer = new IntersectionObserver((entries, obs) => {
-        entries.forEach(entry => {
+        entries.forEach((entry) => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('is-revealed');
                 obs.unobserve(entry.target);
             }
         });
-    }, {
-        threshold: 0.12,
-        rootMargin: '0px 0px -40px 0px'
-    });
+    }, { threshold: 0.1 });
 
-    revealItems.forEach(item => observer.observe(item));
+    reveals.forEach((el) => observer.observe(el));
 }
 
-/**
- * 6. Animated Stat Counters
- */
-function initStatCounters() {
-    const counters = document.querySelectorAll('.stat-counter-number');
-    if (!counters.length || !('IntersectionObserver' in window)) return;
+/* ==========================================================================
+   Global Image Lightbox Preview Modal with Gesture Zoom & Pan Engine
+   (Desktop: Mouse Wheel Zoom + Drag Pan | Double-Click Zoom | Mobile: Pinch Zoom)
+   Matches the battle-tested engine in Admin Dashboard
+   ========================================================================== */
+let frontendZoomScale = 1;
+let frontendPanX = 0;
+let frontendPanY = 0;
+let frontendIsDragging = false;
+let frontendStartDragX = 0;
+let frontendStartDragY = 0;
+let frontendIsClosing = false;
 
-    const observer = new IntersectionObserver((entries, obs) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const el = entry.target;
-                const target = parseInt(el.dataset.target, 10) || 0;
-                animateCount(el, target);
-                obs.unobserve(el);
-            }
-        });
-    }, { threshold: 0.2 });
+function applyFrontendImageTransform(animated = false) {
+    const wrapper = document.getElementById('frontend-img-zoom-wrapper');
+    const container = document.getElementById('frontend-img-zoom-container');
+    if (!wrapper) return;
 
-    counters.forEach(counter => observer.observe(counter));
-}
-
-function animateCount(el, target) {
-    if (target === 0) {
-        el.textContent = '0';
-        return;
+    if (animated) {
+        wrapper.style.transition = 'transform 0.2s cubic-bezier(0.16, 1, 0.3, 1)';
+    } else {
+        wrapper.style.transition = 'none';
     }
 
-    const duration = 1400;
-    const startTime = performance.now();
+    wrapper.style.transform = `translate3d(${frontendPanX}px, ${frontendPanY}px, 0) scale(${frontendZoomScale})`;
 
-    function update(currentTime) {
-        const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        // Easing out cubic
-        const easeOut = 1 - Math.pow(1 - progress, 3);
-        const currentCount = Math.floor(easeOut * target);
-
-        el.textContent = currentCount.toLocaleString('id-ID');
-
-        if (progress < 1) {
-            requestAnimationFrame(update);
+    if (container) {
+        if (frontendZoomScale > 1.05) {
+            container.style.cursor = frontendIsDragging ? 'grabbing' : 'grab';
         } else {
-            el.textContent = target.toLocaleString('id-ID');
+            container.style.cursor = 'default';
         }
     }
-
-    requestAnimationFrame(update);
 }
 
-/**
- * 7. Profile Tabs (Struktur Organisasi & Tupoksi)
- */
-function initProfileTabs() {
-    const tabBtns = document.querySelectorAll('.profile-tab-btn');
-    if (!tabBtns.length) return;
-
-    tabBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const targetId = btn.dataset.tabTarget;
-
-            // Reset all tab buttons
-            tabBtns.forEach(b => {
-                b.classList.remove('bg-[#0BB5CB]', 'text-white', 'shadow-xs', 'font-bold');
-                b.classList.add('text-slate-600', 'font-semibold');
-                b.setAttribute('aria-selected', 'false');
-            });
-
-            // Activate clicked tab button
-            btn.classList.add('bg-[#0BB5CB]', 'text-white', 'shadow-xs', 'font-bold');
-            btn.classList.remove('text-slate-600');
-            btn.setAttribute('aria-selected', 'true');
-
-            // Toggle tab content panels
-            document.querySelectorAll('.profile-tab-content').forEach(content => {
-                if (content.id === targetId) {
-                    content.classList.remove('hidden');
-                } else {
-                    content.classList.add('hidden');
-                }
-            });
-
-            if (typeof feather !== 'undefined') feather.replace();
-        });
-    });
+function resetFrontendImageZoomAndPan(animated = false) {
+    frontendZoomScale = 1;
+    frontendPanX = 0;
+    frontendPanY = 0;
+    frontendIsDragging = false;
+    applyFrontendImageTransform(animated);
 }
 
-/**
- * 8. Lightbox Modal
- */
-function initLightboxModal() {
-    const modal = document.getElementById('lightbox-modal');
-    if (!modal) return;
-
-    const dialog = document.getElementById('lightbox-dialog');
-    const img = document.getElementById('lightbox-img');
-    const imgTrigger = document.getElementById('lightbox-img-trigger');
-    const headerTitle = document.getElementById('lightbox-header-title');
-    const title = document.getElementById('lightbox-title');
-    const dateEl = document.getElementById('lightbox-date');
-    const metaContainer = document.getElementById('lightbox-meta-container');
-    const descEl = document.getElementById('lightbox-desc');
-    const descContainer = document.getElementById('lightbox-desc-container');
-    const closeBtn = document.getElementById('lightbox-close');
-
-    // Fullscreen viewer elements
-    const fsModal = document.getElementById('lightbox-fullscreen');
-    const fsImg = document.getElementById('lightbox-fullscreen-img');
-    const fsTitle = document.getElementById('lightbox-fullscreen-title');
-    const fsClose = document.getElementById('lightbox-fullscreen-close');
-
-    let currentSrc = '';
-    let currentCaption = '';
-    let isClosingModal = false;
-    let isClosingFs = false;
-
-    function openLightbox(src, caption, date, desc) {
-        if (!img) return;
-        currentSrc = src;
-        currentCaption = caption || '';
-
-        img.src = src;
-        if (title) title.textContent = caption || '';
-        if (headerTitle) headerTitle.textContent = caption || '';
-
-        // Handle Date metadata
-        if (dateEl && metaContainer) {
-            if (date && date.trim() !== '') {
-                dateEl.textContent = date;
-                metaContainer.classList.remove('hidden');
-            } else {
-                metaContainer.classList.add('hidden');
-            }
-        }
-
-        // Handle Description block
-        if (descEl && descContainer) {
-            if (desc && desc.trim() !== '') {
-                descEl.textContent = desc;
-                descContainer.classList.remove('hidden');
-            } else {
-                descContainer.classList.add('hidden');
-            }
-        }
-
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-        document.body.classList.add('overflow-hidden');
-
-        // Smooth Entrance Animation
-        requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-                modal.classList.remove('opacity-0');
-                modal.classList.add('opacity-100');
-                if (dialog) {
-                    dialog.classList.remove('scale-95', 'opacity-0');
-                    dialog.classList.add('scale-100', 'opacity-100');
-                }
-            });
-        });
-
-        if (typeof feather !== 'undefined') {
-            feather.replace();
-        }
-    }
-
-    function closeLightbox() {
-        if (isClosingModal) return;
-        isClosingModal = true;
-
-        modal.classList.remove('opacity-100');
-        modal.classList.add('opacity-0');
-        if (dialog) {
-            dialog.classList.remove('scale-100', 'opacity-100');
-            dialog.classList.add('scale-95', 'opacity-0');
-        }
-
-        setTimeout(() => {
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-            if (img) img.src = '';
-            if (title) title.textContent = '';
-            if (headerTitle) headerTitle.textContent = '';
-            if (dateEl) dateEl.textContent = '';
-            if (descEl) descEl.textContent = '';
-            document.body.classList.remove('overflow-hidden');
-            isClosingModal = false;
-        }, 260);
-    }
-
-    // Fullscreen Image Preview Zoom
-    function openFullscreen() {
-        if (!fsModal || !fsImg || !currentSrc) return;
-        fsImg.src = currentSrc;
-        if (fsTitle) fsTitle.textContent = currentCaption;
-
-        fsModal.classList.remove('hidden');
-        fsModal.classList.add('flex');
-
-        requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-                fsModal.classList.remove('opacity-0');
-                fsModal.classList.add('opacity-100');
-                fsImg.classList.remove('scale-95', 'opacity-0');
-                fsImg.classList.add('scale-100', 'opacity-100');
-            });
-        });
-
-        if (typeof feather !== 'undefined') {
-            feather.replace();
-        }
-    }
-
-    function closeFullscreen() {
-        if (!fsModal || !fsImg || isClosingFs) return;
-        isClosingFs = true;
-
-        fsModal.classList.remove('opacity-100');
-        fsModal.classList.add('opacity-0');
-        fsImg.classList.remove('scale-100', 'opacity-100');
-        fsImg.classList.add('scale-95', 'opacity-0');
-
-        setTimeout(() => {
-            fsModal.classList.add('hidden');
-            fsModal.classList.remove('flex');
-            fsImg.src = '';
-            isClosingFs = false;
-        }, 260);
-    }
-
-    // Event Delegations
+function initFrontendImagePreviewModal() {
+    // Trigger from any element with [data-preview-image]
     document.addEventListener('click', (e) => {
-        const trigger = e.target.closest('.lightbox-trigger');
+        const trigger = e.target.closest('[data-preview-image]');
         if (trigger) {
             e.preventDefault();
-            const src = trigger.dataset.image;
-            const caption = trigger.dataset.title;
-            const date = trigger.dataset.date || '';
-            const desc = trigger.dataset.description || '';
-            if (src) openLightbox(src, caption, date, desc);
+            const imageUrl = trigger.getAttribute('data-preview-image');
+            const imageTitle = trigger.getAttribute('data-preview-title') || 'Pratinjau Foto';
+            openFrontendImagePreview(imageUrl, imageTitle);
         }
     });
 
-    if (imgTrigger) {
-        imgTrigger.addEventListener('click', (e) => {
-            e.stopPropagation();
-            openFullscreen();
-        });
-    }
+    const modal = document.getElementById('frontend-image-modal');
+    const container = document.getElementById('frontend-img-zoom-container');
+    const closeBtn = document.getElementById('frontend-image-modal-close');
+    if (!modal || !container) return;
 
-    if (closeBtn) {
-        closeBtn.addEventListener('click', closeLightbox);
-    }
+    // 1. Mouse Wheel Zoom In / Out
+    container.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        const zoomFactor = e.deltaY < 0 ? 1.15 : 0.87;
+        const newZoom = Math.min(Math.max(frontendZoomScale * zoomFactor, 1), 4);
 
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) closeLightbox();
+        if (newZoom === 1) {
+            frontendPanX = 0;
+            frontendPanY = 0;
+        } else if (newZoom !== frontendZoomScale) {
+            const rect = container.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left - rect.width / 2;
+            const mouseY = e.clientY - rect.top - rect.height / 2;
+            const scaleRatio = newZoom / frontendZoomScale;
+            frontendPanX = mouseX - (mouseX - frontendPanX) * scaleRatio;
+            frontendPanY = mouseY - (mouseY - frontendPanY) * scaleRatio;
+        }
+
+        frontendZoomScale = newZoom;
+        applyFrontendImageTransform(true);
+    }, { passive: false });
+
+    // 2. Mouse Drag Pan
+    container.addEventListener('mousedown', (e) => {
+        if (e.button !== 0) return;
+        if (frontendZoomScale <= 1.05) return;
+
+        frontendIsDragging = true;
+        frontendStartDragX = e.clientX - frontendPanX;
+        frontendStartDragY = e.clientY - frontendPanY;
+        applyFrontendImageTransform(false);
     });
 
-    if (fsClose) {
-        fsClose.addEventListener('click', (e) => {
-            e.stopPropagation();
-            closeFullscreen();
-        });
-    }
+    window.addEventListener('mousemove', (e) => {
+        if (!frontendIsDragging) return;
+        e.preventDefault();
+        frontendPanX = e.clientX - frontendStartDragX;
+        frontendPanY = e.clientY - frontendStartDragY;
+        applyFrontendImageTransform(false);
+    });
 
-    if (fsModal) {
-        fsModal.addEventListener('click', (e) => {
-            // Close fullscreen when clicking backdrop or image
-            closeFullscreen();
-        });
-    }
-
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            if (fsModal && !fsModal.classList.contains('hidden')) {
-                closeFullscreen();
-            } else if (!modal.classList.contains('hidden')) {
-                closeLightbox();
-            }
+    window.addEventListener('mouseup', () => {
+        if (frontendIsDragging) {
+            frontendIsDragging = false;
+            applyFrontendImageTransform(true);
         }
     });
-}
 
-/**
- * 9. Anti-IDM Blob PDF Preview Modal
- */
-let currentBlobUrl = null;
-
-function initPdfPreviewModal() {
-    const modal = document.getElementById('pdf-preview-modal');
-    if (!modal) return;
-
-    const titleEl = document.getElementById('pdf-modal-title');
-    const codeEl = document.getElementById('pdf-modal-code');
-    const downloadBtn = document.getElementById('pdf-modal-download');
-    const closeBtn = document.getElementById('pdf-modal-close');
-    const frame = document.getElementById('pdf-modal-frame');
-    const loadingEl = document.getElementById('pdf-modal-loading');
-    const errorEl = document.getElementById('pdf-modal-error');
-    const errorMsgEl = document.getElementById('pdf-modal-error-msg');
-
-    function closeModal() {
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
-        document.body.classList.remove('overflow-hidden');
-
-        if (frame) {
-            frame.src = 'about:blank';
-            frame.classList.add('hidden');
+    // 3. Double-Click Zoom Toggle (1x <-> 2x)
+    container.addEventListener('dblclick', (e) => {
+        e.preventDefault();
+        if (frontendZoomScale > 1.2) {
+            resetFrontendImageZoomAndPan(true);
+        } else {
+            frontendZoomScale = 2;
+            frontendPanX = 0;
+            frontendPanY = 0;
+            applyFrontendImageTransform(true);
         }
+    });
 
-        if (currentBlobUrl) {
-            URL.revokeObjectURL(currentBlobUrl);
-            currentBlobUrl = null;
-        }
-    }
+    // 4. Touch Gestures (2-Finger Pinch Zoom & 1-Finger Pan)
+    let initialTouchDist = 0;
+    let initialTouchZoom = 1;
+    let touchStartX = 0;
+    let touchStartY = 0;
 
-    async function openPdfPreview(previewUrl, downloadUrl, title, code) {
-        if (titleEl) titleEl.textContent = title || 'Pratinjau Dokumen';
-        if (codeEl) codeEl.textContent = code ? `Kode: ${code}` : 'Dokumen SPMI Poltekkes Kemenkes Medan';
-        if (downloadBtn) downloadBtn.href = downloadUrl || previewUrl;
-
-        // Reset state
-        if (loadingEl) loadingEl.classList.remove('hidden');
-        if (errorEl) errorEl.classList.add('hidden');
-        if (frame) frame.classList.add('hidden');
-
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-        document.body.classList.add('overflow-hidden');
-
-        try {
-            // Anti-IDM Strategy: fetch as binary blob with X-Preview-Request header
-            const response = await fetch(previewUrl, {
-                headers: {
-                    'X-Preview-Request': '1',
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP ${response.status}: Berkas tidak dapat diakses.`);
-            }
-
-            const blob = await response.blob();
-            if (currentBlobUrl) {
-                URL.revokeObjectURL(currentBlobUrl);
-            }
-
-            currentBlobUrl = URL.createObjectURL(blob);
-            if (frame) {
-                frame.src = currentBlobUrl;
-                frame.classList.remove('hidden');
-            }
-            if (loadingEl) loadingEl.classList.add('hidden');
-        } catch (err) {
-            console.error('[PDF Preview Error]', err);
-            if (loadingEl) loadingEl.classList.add('hidden');
-            if (errorEl) {
-                errorEl.classList.remove('hidden');
-                if (errorMsgEl) errorMsgEl.textContent = err.message || 'Terjadi kesalahan saat mengunduh berkas.';
-            }
-        }
-    }
-
-    document.addEventListener('click', (e) => {
-        const btn = e.target.closest('.btn-preview-pdf');
-        if (btn) {
+    container.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 2) {
             e.preventDefault();
-            const previewUrl = btn.dataset.previewUrl;
-            const downloadUrl = btn.dataset.downloadUrl;
-            const title = btn.dataset.title;
-            const code = btn.dataset.code;
+            frontendIsDragging = false;
+            initialTouchDist = Math.hypot(
+                e.touches[0].clientX - e.touches[1].clientX,
+                e.touches[0].clientY - e.touches[1].clientY
+            );
+            initialTouchZoom = frontendZoomScale;
+        } else if (e.touches.length === 1 && frontendZoomScale > 1.05) {
+            frontendIsDragging = true;
+            touchStartX = e.touches[0].clientX - frontendPanX;
+            touchStartY = e.touches[0].clientY - frontendPanY;
+        }
+    }, { passive: false });
 
-            if (previewUrl) {
-                openPdfPreview(previewUrl, downloadUrl, title, code);
+    container.addEventListener('touchmove', (e) => {
+        if (e.touches.length === 2) {
+            e.preventDefault();
+            const currentDist = Math.hypot(
+                e.touches[0].clientX - e.touches[1].clientX,
+                e.touches[0].clientY - e.touches[1].clientY
+            );
+            if (initialTouchDist > 0) {
+                const factor = currentDist / initialTouchDist;
+                frontendZoomScale = Math.min(Math.max(initialTouchZoom * factor, 1), 4);
+                if (frontendZoomScale === 1) {
+                    frontendPanX = 0;
+                    frontendPanY = 0;
+                }
+                applyFrontendImageTransform(false);
+            }
+        } else if (e.touches.length === 1 && frontendIsDragging) {
+            e.preventDefault();
+            frontendPanX = e.touches[0].clientX - touchStartX;
+            frontendPanY = e.touches[0].clientY - touchStartY;
+            applyFrontendImageTransform(false);
+        }
+    }, { passive: false });
+
+    container.addEventListener('touchend', (e) => {
+        if (e.touches.length === 0) {
+            frontendIsDragging = false;
+            if (frontendZoomScale <= 1.05) {
+                resetFrontendImageZoomAndPan(true);
+            } else {
+                applyFrontendImageTransform(true);
             }
         }
     });
 
+    // Close Button & Backdrop Listeners
     if (closeBtn) {
-        closeBtn.addEventListener('click', closeModal);
+        closeBtn.addEventListener('click', closeFrontendImagePreview);
     }
 
     modal.addEventListener('click', (e) => {
-        if (e.target === modal) closeModal();
+        if (e.target === modal) {
+            closeFrontendImagePreview();
+        }
     });
 
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
-            closeModal();
+            closeFrontendImagePreview();
         }
     });
 }
 
-/**
- * 10. Document Repository AJAX Filter & Search
- */
-function initDocumentRepository() {
-    const container = document.getElementById('document-table-container');
-    if (!container) return;
+function openFrontendImagePreview(imageUrl, title = 'Pratinjau Foto') {
+    if (!imageUrl) return;
 
-    const searchInput = document.getElementById('doc-search-input');
-    const yearSelect = document.getElementById('doc-year-select');
-    const categoryPills = document.querySelectorAll('.doc-category-pill');
-    const tableBody = document.getElementById('doc-table-body');
-    const loadingOverlay = document.getElementById('doc-table-loading');
-    const fetchUrl = container.dataset.fetchUrl;
+    const modal = document.getElementById('frontend-image-modal');
+    const dialog = document.getElementById('frontend-image-modal-dialog');
+    const imgElem = document.getElementById('frontend-image-modal-img');
+    const titleElem = document.getElementById('frontend-image-modal-title');
+    const linkElem = document.getElementById('frontend-image-modal-link');
 
-    let selectedCategory = '';
-    let searchDebounceTimer = null;
+    if (!modal) return;
 
-    async function fetchDocuments(pageUrl = null) {
-        if (loadingOverlay) loadingOverlay.classList.remove('hidden');
+    resetFrontendImageZoomAndPan(false);
 
-        const params = new URLSearchParams();
-        if (searchInput && searchInput.value.trim()) {
-            params.set('search', searchInput.value.trim());
-        }
-        if (yearSelect && yearSelect.value) {
-            params.set('year', yearSelect.value);
-        }
-        if (selectedCategory) {
-            params.set('category_id', selectedCategory);
-        }
+    if (imgElem) {
+        imgElem.src = imageUrl;
+        imgElem.alt = title;
+    }
+    if (titleElem) {
+        titleElem.textContent = title;
+    }
+    if (linkElem) {
+        linkElem.href = imageUrl;
+    }
 
-        const url = pageUrl || `${fetchUrl}?${params.toString()}`;
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    document.body.classList.add('overflow-hidden');
 
-        try {
-            const response = await fetch(url, {
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
-            });
-
-            if (!response.ok) throw new Error('Gagal memuat data');
-
-            const html = await response.text();
-            if (tableBody) {
-                tableBody.innerHTML = html;
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            modal.classList.remove('opacity-0');
+            modal.classList.add('opacity-100');
+            if (dialog) {
+                dialog.classList.remove('scale-95', 'opacity-0');
+                dialog.classList.add('scale-100', 'opacity-100');
             }
-
-            if (typeof feather !== 'undefined') feather.replace();
-        } catch (err) {
-            console.error('[Document Fetch Error]', err);
-        } finally {
-            if (loadingOverlay) loadingOverlay.classList.add('hidden');
-        }
-    }
-
-    // Debounced Search Input
-    if (searchInput) {
-        searchInput.addEventListener('input', () => {
-            clearTimeout(searchDebounceTimer);
-            searchDebounceTimer = setTimeout(() => {
-                fetchDocuments();
-            }, 300);
-        });
-    }
-
-    // Year Dropdown
-    if (yearSelect) {
-        yearSelect.addEventListener('change', () => {
-            fetchDocuments();
-        });
-    }
-
-    // Category Pills
-    categoryPills.forEach(pill => {
-        pill.addEventListener('click', () => {
-            selectedCategory = pill.dataset.categoryId || '';
-
-            // Update UI classes
-            categoryPills.forEach(p => {
-                p.classList.remove('bg-[#0BB5CB]', 'text-white', 'shadow-2xs');
-                p.classList.add('bg-slate-100', 'text-slate-600');
-            });
-
-            pill.classList.add('bg-[#0BB5CB]', 'text-white', 'shadow-2xs');
-            pill.classList.remove('bg-slate-100', 'text-slate-600');
-
-            fetchDocuments();
         });
     });
 
-    // Pagination Click Interception (AJAX pagination)
-    if (tableBody) {
-        tableBody.addEventListener('click', (e) => {
-            const paginationLink = e.target.closest('.pagination a, [rel="next"], [rel="prev"]');
-            if (paginationLink && paginationLink.href) {
-                e.preventDefault();
-                fetchDocuments(paginationLink.href);
-            }
-        });
+    if (typeof feather !== 'undefined') {
+        feather.replace();
     }
 }
 
+function closeFrontendImagePreview() {
+    const modal = document.getElementById('frontend-image-modal');
+    const dialog = document.getElementById('frontend-image-modal-dialog');
+    const imgElem = document.getElementById('frontend-image-modal-img');
 
+    if (!modal || frontendIsClosing) return;
+    frontendIsClosing = true;
+
+    modal.classList.remove('opacity-100');
+    modal.classList.add('opacity-0');
+    if (dialog) {
+        dialog.classList.remove('scale-100', 'opacity-100');
+        dialog.classList.add('scale-95', 'opacity-0');
+    }
+
+    setTimeout(() => {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        if (imgElem) imgElem.src = '';
+        resetFrontendImageZoomAndPan(false);
+        // Only remove body scroll lock if no other modal is currently open
+        const otherOpenModal = document.querySelector('#lightbox-modal:not(.hidden), #pdf-modal:not(.hidden)');
+        if (!otherOpenModal) {
+            document.body.classList.remove('overflow-hidden');
+        }
+        frontendIsClosing = false;
+    }, 260);
+}
+
+// Global Exports
+window.openFrontendImagePreview = openFrontendImagePreview;
+window.closeFrontendImagePreview = closeFrontendImagePreview;

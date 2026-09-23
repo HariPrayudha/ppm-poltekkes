@@ -103,3 +103,7 @@
 @section('modals')
     <x-frontend.lightbox-modal />
 @endsection
+
+@push('scripts')
+    <script src="{{ asset('frontend/assets/js/gallery.js') }}?v={{ file_exists(public_path('frontend/assets/js/gallery.js')) ? filemtime(public_path('frontend/assets/js/gallery.js')) : time() }}" defer></script>
+@endpush

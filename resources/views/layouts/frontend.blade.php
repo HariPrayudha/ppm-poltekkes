@@ -64,6 +64,9 @@
     <!-- Global Modals Outlet -->
     @yield('modals')
 
+    <!-- Global Image Preview Zoom Modal (Gesture Zoom & Pan Engine) -->
+    <x-frontend.image-modal />
+
     <!-- Frontend Interactive Script -->
     <script src="{{ asset('frontend/assets/js/frontend.js') }}?v={{ file_exists(public_path('frontend/assets/js/frontend.js')) ? filemtime(public_path('frontend/assets/js/frontend.js')) : time() }}" defer></script>
 
