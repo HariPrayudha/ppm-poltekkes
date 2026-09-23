@@ -43,11 +43,11 @@ function initHeroSlider() {
 
         dots.forEach((dot, idx) => {
             if (idx === index) {
-                dot.classList.remove('w-2.5', 'bg-white/40');
-                dot.classList.add('w-8', 'bg-[#0BB5CB]');
+                dot.style.width = '2rem';
+                dot.style.backgroundColor = '#0BB5CB';
             } else {
-                dot.classList.remove('w-8', 'bg-[#0BB5CB]');
-                dot.classList.add('w-2.5', 'bg-white/40');
+                dot.style.width = '0.625rem';
+                dot.style.backgroundColor = 'rgba(255, 255, 255, 0.4)';
             }
         });
 
@@ -90,9 +90,6 @@ function initHeroSlider() {
     });
 
     if (container) {
-        container.addEventListener('mouseenter', stopAutoSlide);
-        container.addEventListener('mouseleave', startAutoSlide);
-
         // Touch Swipe Support
         let startX = 0;
         let endX = 0;
