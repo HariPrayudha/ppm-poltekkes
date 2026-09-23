@@ -133,7 +133,7 @@ $waUrl = 'https://wa.me/' . (str_starts_with($cleanPhone, '0') ? '62' . substr($
                             </div>
                             <div class="min-w-0">
                                 <span class="block text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-wider truncate">Instagram</span>
-                                <span class="block text-[11px] sm:text-xs font-bold text-slate-800 truncate group-hover:text-[#028DA9] transition-colors">@poltekkesmedan</span>
+                                <span class="block text-[11px] sm:text-xs font-bold text-slate-800 truncate group-hover:text-[#028DA9] transition-colors">@polkesmedan</span>
                             </div>
                         </a>
 
