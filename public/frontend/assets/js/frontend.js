@@ -393,35 +393,161 @@ function initLightboxModal() {
     const modal = document.getElementById('lightbox-modal');
     if (!modal) return;
 
+    const dialog = document.getElementById('lightbox-dialog');
     const img = document.getElementById('lightbox-img');
+    const imgTrigger = document.getElementById('lightbox-img-trigger');
+    const headerTitle = document.getElementById('lightbox-header-title');
     const title = document.getElementById('lightbox-title');
+    const dateEl = document.getElementById('lightbox-date');
+    const metaContainer = document.getElementById('lightbox-meta-container');
+    const descEl = document.getElementById('lightbox-desc');
+    const descContainer = document.getElementById('lightbox-desc-container');
     const closeBtn = document.getElementById('lightbox-close');
 
-    function openLightbox(src, caption) {
+    // Fullscreen viewer elements
+    const fsModal = document.getElementById('lightbox-fullscreen');
+    const fsImg = document.getElementById('lightbox-fullscreen-img');
+    const fsTitle = document.getElementById('lightbox-fullscreen-title');
+    const fsClose = document.getElementById('lightbox-fullscreen-close');
+
+    let currentSrc = '';
+    let currentCaption = '';
+    let isClosingModal = false;
+    let isClosingFs = false;
+
+    function openLightbox(src, caption, date, desc) {
         if (!img) return;
+        currentSrc = src;
+        currentCaption = caption || '';
+
         img.src = src;
         if (title) title.textContent = caption || '';
+        if (headerTitle) headerTitle.textContent = caption || '';
+
+        // Handle Date metadata
+        if (dateEl && metaContainer) {
+            if (date && date.trim() !== '') {
+                dateEl.textContent = date;
+                metaContainer.classList.remove('hidden');
+            } else {
+                metaContainer.classList.add('hidden');
+            }
+        }
+
+        // Handle Description block
+        if (descEl && descContainer) {
+            if (desc && desc.trim() !== '') {
+                descEl.textContent = desc;
+                descContainer.classList.remove('hidden');
+            } else {
+                descContainer.classList.add('hidden');
+            }
+        }
+
         modal.classList.remove('hidden');
         modal.classList.add('flex');
         document.body.classList.add('overflow-hidden');
+
+        // Smooth Entrance Animation
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                modal.classList.remove('opacity-0');
+                modal.classList.add('opacity-100');
+                if (dialog) {
+                    dialog.classList.remove('scale-95', 'opacity-0');
+                    dialog.classList.add('scale-100', 'opacity-100');
+                }
+            });
+        });
+
+        if (typeof feather !== 'undefined') {
+            feather.replace();
+        }
     }
 
     function closeLightbox() {
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
-        if (img) img.src = '';
-        document.body.classList.remove('overflow-hidden');
+        if (isClosingModal) return;
+        isClosingModal = true;
+
+        modal.classList.remove('opacity-100');
+        modal.classList.add('opacity-0');
+        if (dialog) {
+            dialog.classList.remove('scale-100', 'opacity-100');
+            dialog.classList.add('scale-95', 'opacity-0');
+        }
+
+        setTimeout(() => {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            if (img) img.src = '';
+            if (title) title.textContent = '';
+            if (headerTitle) headerTitle.textContent = '';
+            if (dateEl) dateEl.textContent = '';
+            if (descEl) descEl.textContent = '';
+            document.body.classList.remove('overflow-hidden');
+            isClosingModal = false;
+        }, 260);
     }
 
+    // Fullscreen Image Preview Zoom
+    function openFullscreen() {
+        if (!fsModal || !fsImg || !currentSrc) return;
+        fsImg.src = currentSrc;
+        if (fsTitle) fsTitle.textContent = currentCaption;
+
+        fsModal.classList.remove('hidden');
+        fsModal.classList.add('flex');
+
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                fsModal.classList.remove('opacity-0');
+                fsModal.classList.add('opacity-100');
+                fsImg.classList.remove('scale-95', 'opacity-0');
+                fsImg.classList.add('scale-100', 'opacity-100');
+            });
+        });
+
+        if (typeof feather !== 'undefined') {
+            feather.replace();
+        }
+    }
+
+    function closeFullscreen() {
+        if (!fsModal || !fsImg || isClosingFs) return;
+        isClosingFs = true;
+
+        fsModal.classList.remove('opacity-100');
+        fsModal.classList.add('opacity-0');
+        fsImg.classList.remove('scale-100', 'opacity-100');
+        fsImg.classList.add('scale-95', 'opacity-0');
+
+        setTimeout(() => {
+            fsModal.classList.add('hidden');
+            fsModal.classList.remove('flex');
+            fsImg.src = '';
+            isClosingFs = false;
+        }, 260);
+    }
+
+    // Event Delegations
     document.addEventListener('click', (e) => {
         const trigger = e.target.closest('.lightbox-trigger');
         if (trigger) {
             e.preventDefault();
             const src = trigger.dataset.image;
             const caption = trigger.dataset.title;
-            if (src) openLightbox(src, caption);
+            const date = trigger.dataset.date || '';
+            const desc = trigger.dataset.description || '';
+            if (src) openLightbox(src, caption, date, desc);
         }
     });
+
+    if (imgTrigger) {
+        imgTrigger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            openFullscreen();
+        });
+    }
 
     if (closeBtn) {
         closeBtn.addEventListener('click', closeLightbox);
@@ -431,9 +557,27 @@ function initLightboxModal() {
         if (e.target === modal) closeLightbox();
     });
 
+    if (fsClose) {
+        fsClose.addEventListener('click', (e) => {
+            e.stopPropagation();
+            closeFullscreen();
+        });
+    }
+
+    if (fsModal) {
+        fsModal.addEventListener('click', (e) => {
+            // Close fullscreen when clicking backdrop or image
+            closeFullscreen();
+        });
+    }
+
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
-            closeLightbox();
+        if (e.key === 'Escape') {
+            if (fsModal && !fsModal.classList.contains('hidden')) {
+                closeFullscreen();
+            } else if (!modal.classList.contains('hidden')) {
+                closeLightbox();
+            }
         }
     });
 }

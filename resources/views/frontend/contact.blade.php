@@ -18,14 +18,14 @@ $waUrl = 'https://wa.me/' . (str_starts_with($cleanPhone, '0') ? '62' . substr($
 @endphp
 
 <!-- Luminous Institutional Page Header (Clean, Light Mode, Anti-Slop) -->
-<div class="relative bg-linear-to-b from-slate-50 via-white to-slate-50/60 border-b border-slate-200/80 overflow-hidden">
+<div class="relative bg-linear-to-b from-slate-50 via-white to-slate-50/60 overflow-hidden">
     <!-- Top Signature Gradient Accent Line -->
     <div class="h-1 w-full bg-linear-to-r from-[#00A99D] via-[#0BB5CB] to-[#46B58B]"></div>
 
     <!-- Soft Ambient Radial Glow -->
     <div class="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_-10%,rgba(11,181,203,0.08),transparent)] pointer-events-none"></div>
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 relative z-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-7 pb-6 sm:pt-9 sm:pb-7 relative z-10">
         <!-- Breadcrumb Navigation -->
         <nav class="flex items-center gap-2 text-xs font-semibold text-slate-500 mb-3 select-none" aria-label="Breadcrumb">
             <a href="{{ route('frontend.home') }}" class="hover:text-[#028DA9] transition-colors flex items-center gap-1.5">
@@ -37,12 +37,6 @@ $waUrl = 'https://wa.me/' . (str_starts_with($cleanPhone, '0') ? '62' . substr($
         </nav>
 
         <div>
-            <!-- Institutional Badge -->
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#00A99D]/10 border border-[#00A99D]/20 text-[#028DA9] text-xs font-bold uppercase tracking-wider mb-2.5">
-                <span class="w-2 h-2 rounded-full bg-[#46B58B] animate-pulse"></span>
-                <span>Sekretariat Pusat Penjaminan Mutu</span>
-            </div>
-
             <h1 class="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight">
                 Kontak & Lokasi PPM
             </h1>
@@ -54,7 +48,7 @@ $waUrl = 'https://wa.me/' . (str_starts_with($cleanPhone, '0') ? '62' . substr($
 </div>
 
 <!-- Main Contact Details & Map Section (Equal Height Columns on Desktop) -->
-<section class="py-8 sm:py-12 lg:py-14 bg-slate-50/60 reveal-on-scroll">
+<section class="pt-5 pb-12 sm:pt-7 sm:pb-16 bg-slate-50/60 reveal-on-scroll">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch">
             <!-- Left Column: Secretariat Information & Social Media (5 cols) -->

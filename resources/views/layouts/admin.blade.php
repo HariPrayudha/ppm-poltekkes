@@ -26,7 +26,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <link rel="stylesheet" href="{{ asset('dashboard/assets/css/dashboard.css') }}">
+    <link rel="stylesheet" href="{{ asset('dashboard/assets/css/dashboard.css') }}?v={{ file_exists(public_path('dashboard/assets/css/dashboard.css')) ? filemtime(public_path('dashboard/assets/css/dashboard.css')) : time() }}">
 
     @stack('styles')
 </head>
@@ -43,7 +43,8 @@
         @if(session('toast_success')) data-toast-success="{{ session('toast_success') }}" @endif
         @if(session('toast_error')) data-toast-error="{{ session('toast_error') }}" @endif
         @if(session('toast_warning')) data-toast-warning="{{ session('toast_warning') }}" @endif
-        @if(session('toast_info')) data-toast-info="{{ session('toast_info') }}" @endif>
+        @if(session('toast_info')) data-toast-info="{{ session('toast_info') }}" @endif
+        @if($errors->any()) data-toast-error="{{ $errors->first() }}" @endif>
     </div>
 
     <!-- Admin Sidebar -->

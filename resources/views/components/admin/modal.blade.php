@@ -5,8 +5,8 @@
     'zIndex' => 'z-50',
 ])
 
-<div id="{{ $id }}" class="dashboard-modal fixed inset-0 {{ $zIndex }} hidden items-center justify-center bg-slate-950/50 backdrop-blur-xs sm:backdrop-blur-sm p-3 sm:p-4 overflow-hidden">
-    <div class="modal-dialog flex flex-col w-full {{ $maxWidth }} max-h-[calc(100dvh-1.5rem)] sm:max-h-[calc(100vh-3.5rem)] rounded-3xl bg-white shadow-2xl border border-slate-100 overflow-hidden transform">
+<div id="{{ $id }}" class="dashboard-modal fixed inset-0 {{ $zIndex }} hidden items-center justify-center bg-slate-950/50 backdrop-blur-xs sm:backdrop-blur-sm overflow-hidden">
+    <div class="modal-dialog flex flex-col w-full {{ $maxWidth }} rounded-3xl bg-white shadow-2xl border border-slate-100 overflow-hidden transform">
         <!-- Modal Header (Pinned, Never Scrolls) -->
         <div class="modal-header shrink-0 flex items-center justify-between border-b border-slate-100 px-5 sm:px-6 py-4 bg-white sticky top-0 z-20">
             <h3 class="text-base font-bold text-slate-900 truncate pr-2">{{ $title }}</h3>

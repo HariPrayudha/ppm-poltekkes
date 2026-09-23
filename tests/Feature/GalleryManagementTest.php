@@ -89,6 +89,52 @@ class GalleryManagementTest extends TestCase
         $this->assertStringStartsWith('2026-01-12', (string) $updated->event_date);
     }
 
+    public function test_gallery_can_be_updated_with_new_image(): void
+    {
+        Storage::fake('public');
+
+        $oldImage = 'gallery/old_photo.jpg';
+        Storage::disk('public')->put($oldImage, 'old dummy content');
+
+        $gallery = Gallery::create([
+            'title' => 'Foto Kegiatan Sebelum Update',
+            'event_date' => '2026-01-10',
+            'image_path' => $oldImage,
+            'description' => 'Keterangan awal',
+        ]);
+
+        $newImage = UploadedFile::fake()->image('new_photo.jpg', 1200, 800)->size(1500); // 1.5MB image (below 2MB)
+
+        $response = $this->actingAs($this->admin)->put(route('admin.gallery.update', $gallery), [
+            'title' => 'Foto Kegiatan Setelah Update',
+            'event_date' => '2026-01-15',
+            'description' => 'Keterangan diperbarui',
+            'image' => $newImage,
+        ]);
+
+        $response->assertRedirect(route('admin.gallery.index'));
+        $gallery->refresh();
+
+        $this->assertNotEquals($oldImage, $gallery->image_path);
+        Storage::disk('public')->assertExists($gallery->image_path);
+        Storage::disk('public')->assertMissing($oldImage);
+    }
+
+    public function test_gallery_rejects_image_over_2mb(): void
+    {
+        Storage::fake('public');
+
+        $oversizedImage = UploadedFile::fake()->image('huge.jpg')->size(2500); // 2.5MB (above 2048KB)
+
+        $response = $this->actingAs($this->admin)->post(route('admin.gallery.store'), [
+            'title' => 'Foto Terlalu Besar',
+            'event_date' => '2026-01-10',
+            'image' => $oversizedImage,
+        ]);
+
+        $response->assertSessionHasErrors(['image']);
+    }
+
     public function test_gallery_can_be_deleted(): void
     {
         Storage::fake('public');

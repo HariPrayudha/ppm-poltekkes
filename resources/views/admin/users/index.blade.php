@@ -7,7 +7,7 @@
     >
         <x-slot:actions>
             <x-admin.btn-primary data-modal-open="modal-create-user">
-                <i data-feather="user-plus" class="h-4 w-4"></i>
+                <i data-feather="plus" class="h-4 w-4"></i>
                 Tambah Pengguna
             </x-admin.btn-primary>
         </x-slot:actions>

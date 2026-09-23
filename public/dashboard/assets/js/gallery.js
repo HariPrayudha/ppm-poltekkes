@@ -31,6 +31,19 @@ document.addEventListener('DOMContentLoaded', () => {
       input.addEventListener('change', function() {
         const file = this.files[0];
         if (file) {
+          if (file.size > 2 * 1024 * 1024) {
+            if (typeof showToast === 'function') {
+              showToast('Ukuran file melebihi batas maksimal 2MB.', 'error');
+            } else {
+              alert('Ukuran file melebihi batas maksimal 2MB.');
+            }
+            this.value = '';
+            if (inputId === 'create-gallery-img') {
+              container.innerHTML = '';
+              container.classList.add('hidden');
+            }
+            return;
+          }
           const url = URL.createObjectURL(file);
           container.innerHTML = generatePreviewHTML(url, file.name, label);
           if (typeof feather !== 'undefined') {

@@ -202,12 +202,6 @@ function openModal(modalId, triggerBtn = null) {
   if (typeof feather !== 'undefined') {
     feather.replace();
   }
-
-  // Focus first input
-  const firstInput = modal.querySelector('input:not([type="hidden"]), select, textarea');
-  if (firstInput) {
-    setTimeout(() => firstInput.focus(), 150);
-  }
 }
 
 function closeModal(modal) {
