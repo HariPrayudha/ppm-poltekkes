@@ -157,6 +157,7 @@ body {
 #mobile-menu-backdrop.is-open {
     opacity: 1;
     pointer-events: auto;
+    cursor: pointer;
 }
 
 /* ==========================================================================

@@ -32,6 +32,9 @@ function initMobileMenu() {
     const btn = document.getElementById('mobile-menu-btn');
     const menu = document.getElementById('mobile-menu');
     const backdrop = document.getElementById('mobile-menu-backdrop');
+    const profileToggle = document.getElementById('mobile-profile-toggle');
+    const profileSubmenu = document.getElementById('mobile-profile-submenu');
+    const profileChevron = document.getElementById('mobile-profile-chevron');
     if (!btn || !menu) return;
 
     const openMenu = () => {
@@ -48,9 +51,21 @@ function initMobileMenu() {
         menu.classList.remove('is-open');
         if (backdrop) backdrop.classList.remove('is-open');
         document.body.classList.remove('overflow-hidden');
+
+        // Reset dropdown submenu profil agar tertutup saat menu dibuka kembali
+        if (profileSubmenu) {
+            profileSubmenu.classList.remove('is-open');
+        }
+        if (profileToggle) {
+            profileToggle.setAttribute('aria-expanded', 'false');
+        }
+        if (profileChevron) {
+            profileChevron.style.transform = 'rotate(0deg)';
+        }
     };
 
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', (e) => {
+        e.stopPropagation();
         const isOpen = btn.classList.contains('is-active');
         if (isOpen) {
             closeMenu();
@@ -60,8 +75,26 @@ function initMobileMenu() {
     });
 
     if (backdrop) {
-        backdrop.addEventListener('click', closeMenu);
+        backdrop.addEventListener('click', (e) => {
+            e.stopPropagation();
+            closeMenu();
+        });
     }
+
+    // Klik atau tap di luar area menu & tombol menutup navbar
+    document.addEventListener('click', (e) => {
+        if (!btn.classList.contains('is-active')) return;
+        if (!menu.contains(e.target) && !btn.contains(e.target)) {
+            closeMenu();
+        }
+    });
+
+    document.addEventListener('touchstart', (e) => {
+        if (!btn.classList.contains('is-active')) return;
+        if (!menu.contains(e.target) && !btn.contains(e.target)) {
+            closeMenu();
+        }
+    }, { passive: true });
 
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && btn.classList.contains('is-active')) {
@@ -76,10 +109,6 @@ function initMobileMenu() {
     });
 
     // Mobile Profile Submenu Accordion
-    const profileToggle = document.getElementById('mobile-profile-toggle');
-    const profileSubmenu = document.getElementById('mobile-profile-submenu');
-    const profileChevron = document.getElementById('mobile-profile-chevron');
-
     if (profileToggle && profileSubmenu) {
         profileToggle.addEventListener('click', (e) => {
             e.preventDefault();
