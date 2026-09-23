@@ -20,6 +20,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 5. Global Image Lightbox Preview Modal with Gesture Zoom & Pan Engine
     initFrontendImagePreviewModal();
+
+    // 6. Custom Select Dropdowns
+    initCustomSelects();
 });
 
 /* ==========================================================================
@@ -442,3 +445,192 @@ function closeFrontendImagePreview() {
 // Global Exports
 window.openFrontendImagePreview = openFrontendImagePreview;
 window.closeFrontendImagePreview = closeFrontendImagePreview;
+window.initCustomSelects = initCustomSelects;
+
+/* ==========================================================================
+   Custom Select Dropdown Component System (Frontend)
+   ========================================================================== */
+function setupCustomSelect(wrapper) {
+    const select = wrapper.querySelector('.custom-select-native');
+    const trigger = wrapper.querySelector('.custom-select-trigger');
+    const label = wrapper.querySelector('.custom-select-label');
+    const chevron = wrapper.querySelector('.custom-select-chevron');
+    const menu = wrapper.querySelector('.custom-select-menu');
+    const optionsContainer = wrapper.querySelector('.custom-select-options');
+
+    if (!select || !trigger || !label || !menu || !optionsContainer) return;
+
+    const openMenu = () => {
+        document.querySelectorAll('.custom-select-wrapper').forEach((w) => {
+            const m = w.querySelector('.custom-select-menu');
+            if (m && m !== menu) {
+                m.classList.add('hidden');
+                m.style.top = '';
+                m.style.bottom = '';
+                m.style.marginTop = '';
+                w.classList.remove('z-50');
+                const c = w.querySelector('.custom-select-chevron');
+                if (c) c.classList.remove('rotate-180');
+            }
+        });
+
+        const rect = trigger.getBoundingClientRect();
+        const menuEstimatedHeight = 220;
+        const spaceBelow = window.innerHeight - rect.bottom;
+        const spaceAbove = rect.top;
+        const openUpward = spaceBelow < menuEstimatedHeight && spaceAbove > spaceBelow;
+
+        if (openUpward) {
+            menu.style.top = 'auto';
+            menu.style.bottom = 'calc(100% + 6px)';
+            menu.style.marginTop = '0';
+            menu.classList.add('origin-bottom');
+            menu.classList.remove('origin-top');
+        } else {
+            menu.style.top = '';
+            menu.style.bottom = '';
+            menu.style.marginTop = '';
+            menu.classList.add('origin-top');
+            menu.classList.remove('origin-bottom');
+        }
+
+        wrapper.classList.add('z-50');
+        menu.classList.remove('hidden');
+        trigger.setAttribute('aria-expanded', 'true');
+        if (chevron) chevron.classList.add('rotate-180');
+    };
+
+    const closeMenu = () => {
+        wrapper.classList.remove('z-50');
+        menu.classList.add('hidden');
+        menu.style.top = '';
+        menu.style.bottom = '';
+        menu.style.marginTop = '';
+        trigger.setAttribute('aria-expanded', 'false');
+        if (chevron) chevron.classList.remove('rotate-180');
+    };
+
+    const populateOptions = () => {
+        optionsContainer.innerHTML = '';
+        let selectedText = '';
+
+        Array.from(select.options).forEach((opt) => {
+            const isSelected = opt.value === select.value || (!select.value && opt.selected && !selectedText);
+            if (isSelected) {
+                selectedText = opt.text;
+            }
+
+            const optDiv = document.createElement('div');
+            optDiv.className = `custom-select-option px-3.5 py-2.5 text-xs sm:text-sm font-medium rounded-xl transition-all duration-150 cursor-pointer flex items-center justify-between ${isSelected
+                ? 'bg-linear-to-r from-[#00A99D]/12 to-[#0BB5CB]/10 text-[#028DA9] font-bold shadow-2xs'
+                : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900'}`;
+            optDiv.setAttribute('data-value', opt.value);
+            optDiv.innerHTML = `
+                <span class="truncate">${opt.text}</span>
+                <svg class="custom-select-check h-4 w-4 shrink-0 text-[#028DA9] ${isSelected ? '' : 'hidden'}" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+            `;
+
+            optDiv.addEventListener('click', (e) => {
+                e.stopPropagation();
+                select.value = opt.value;
+                label.textContent = opt.text;
+
+                optionsContainer.querySelectorAll('.custom-select-option').forEach((el) => {
+                    el.classList.remove('bg-linear-to-r', 'from-[#00A99D]/12', 'to-[#0BB5CB]/10', 'text-[#028DA9]', 'font-bold', 'shadow-2xs');
+                    el.classList.add('text-slate-700');
+                    const check = el.querySelector('.custom-select-check');
+                    if (check) check.classList.add('hidden');
+                });
+                optDiv.classList.add('bg-linear-to-r', 'from-[#00A99D]/12', 'to-[#0BB5CB]/10', 'text-[#028DA9]', 'font-bold', 'shadow-2xs');
+                optDiv.classList.remove('text-slate-700');
+                const check = optDiv.querySelector('.custom-select-check');
+                if (check) check.classList.remove('hidden');
+
+                closeMenu();
+
+                select.dispatchEvent(new Event('change', { bubbles: true }));
+            });
+
+            optionsContainer.appendChild(optDiv);
+        });
+
+        if (selectedText) {
+            label.textContent = selectedText;
+        } else if (select.options.length > 0) {
+            label.textContent = select.options[0].text;
+        }
+    };
+
+    trigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (menu.classList.contains('hidden')) {
+            openMenu();
+        } else {
+            closeMenu();
+        }
+    });
+
+    select.addEventListener('change', () => {
+        const activeOpt = Array.from(select.options).find((o) => o.value === select.value);
+        if (activeOpt) {
+            label.textContent = activeOpt.text;
+        }
+        optionsContainer.querySelectorAll('.custom-select-option').forEach((el) => {
+            const isSel = el.getAttribute('data-value') === select.value;
+            const check = el.querySelector('.custom-select-check');
+            if (isSel) {
+                el.classList.add('bg-linear-to-r', 'from-[#00A99D]/12', 'to-[#0BB5CB]/10', 'text-[#028DA9]', 'font-bold', 'shadow-2xs');
+                el.classList.remove('text-slate-700');
+                if (check) check.classList.remove('hidden');
+            } else {
+                el.classList.remove('bg-linear-to-r', 'from-[#00A99D]/12', 'to-[#0BB5CB]/10', 'text-[#028DA9]', 'font-bold', 'shadow-2xs');
+                el.classList.add('text-slate-700');
+                if (check) check.classList.add('hidden');
+            }
+        });
+    });
+
+    populateOptions();
+    wrapper.__customSelectInitialized = true;
+}
+
+function initCustomSelects(container = document) {
+    container.querySelectorAll('.custom-select-wrapper').forEach((wrapper) => {
+        if (!wrapper.__customSelectInitialized) {
+            setupCustomSelect(wrapper);
+        }
+    });
+
+    if (!window.__customSelectFrontendClickAttached) {
+        const resetAllMenus = () => {
+            document.querySelectorAll('.custom-select-wrapper').forEach((w) => {
+                w.classList.remove('z-50');
+                const m = w.querySelector('.custom-select-menu');
+                if (m) {
+                    m.classList.add('hidden');
+                    m.style.top = '';
+                    m.style.bottom = '';
+                    m.style.marginTop = '';
+                }
+                const chevron = w.querySelector('.custom-select-chevron');
+                if (chevron) chevron.classList.remove('rotate-180');
+            });
+        };
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.custom-select-wrapper')) {
+                resetAllMenus();
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                resetAllMenus();
+            }
+        });
+        window.__customSelectFrontendClickAttached = true;
+    }
+}
+

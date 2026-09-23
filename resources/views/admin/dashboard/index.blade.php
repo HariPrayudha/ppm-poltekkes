@@ -70,7 +70,7 @@
                                     <th class="px-4 py-3 sm:px-6 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">Kode & Nama</th>
                                     <th class="px-4 py-3 sm:px-6 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">Kategori</th>
                                     <th class="px-4 py-3 sm:px-6 text-center text-xs font-semibold uppercase tracking-wider text-slate-500">Tahun</th>
-                                    <th class="px-4 py-3 sm:px-6 text-right text-xs font-semibold uppercase tracking-wider text-slate-500">Aksi</th>
+                                    <th class="px-4 py-3 sm:px-6 text-center text-xs font-semibold uppercase tracking-wider text-slate-500">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-slate-100 bg-white">
@@ -86,11 +86,13 @@
                                         <td class="px-4 py-3.5 sm:px-6 sm:py-4 text-center text-xs font-semibold text-slate-700">
                                             {{ $doc->year }}
                                         </td>
-                                        <td class="px-4 py-3.5 sm:px-6 sm:py-4 text-right">
-                                            <a href="{{ $doc->file_url }}" target="_blank" class="inline-flex items-center gap-1 rounded-lg px-2.5 py-1 text-xs font-semibold text-[#028DA9] bg-[rgba(11,181,203,0.08)] hover:bg-[rgba(11,181,203,0.15)] transition-all">
-                                                <i data-feather="eye" class="h-3 w-3"></i>
-                                                Lihat
-                                            </a>
+                                        <td class="px-4 py-3.5 sm:px-6 sm:py-4 text-center">
+                                            <div class="flex items-center justify-center">
+                                                <a href="{{ $doc->file_url }}" target="_blank" class="inline-flex items-center gap-1 rounded-lg px-2.5 py-1 text-xs font-semibold text-[#028DA9] bg-[rgba(11,181,203,0.08)] hover:bg-[rgba(11,181,203,0.15)] transition-all">
+                                                    <i data-feather="eye" class="h-3 w-3"></i>
+                                                    <span>Lihat</span>
+                                                </a>
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach
